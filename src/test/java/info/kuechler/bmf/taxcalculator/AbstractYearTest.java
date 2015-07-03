@@ -13,7 +13,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -47,9 +46,7 @@ public abstract class AbstractYearTest<T> {
     @BeforeClass
     public static final void init() throws JAXBException {
         final RequestConfig config = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(60000).build();
-        // FIXME
-        client = HttpClientBuilder.create().setProxy(new HttpHost("proxy.mms-dresden.de", 8080, "http"))
-                        .setDefaultRequestConfig(config).build();
+        client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         context = JAXBContext.newInstance(Result.class);
     }
 
