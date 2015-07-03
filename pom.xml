@@ -5,7 +5,21 @@
 	<artifactId>taxcalculator</artifactId>
 	<version>2015.0.1-SNAPSHOT</version>
 	<name>TaxCalculator</name>
+
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
+	<url>https://github.com/admiralsmaster/taxcalculator</url>
+	<inceptionYear>2015</inceptionYear>
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/admiralsmaster/taxcalculator/issues</url>
+	</issueManagement>
+	<licenses>
+		<license>
+			<distribution>manual</distribution>
+			<name>The MIT License</name>
+			<url>https://github.com/admiralsmaster/taxcalculator/blob/master/LICENSE</url>
+		</license>
+	</licenses>
 
 	<properties>
 		<project.java.version>1.6</project.java.version>
@@ -16,6 +30,67 @@
 		<project.src.directory>${project.build.directory}/generated-classes</project.src.directory>
 		<file.generated.target>${project.src.directory}/${classes.package.directory}</file.generated.target>
 	</properties>
+
+	<dependencies>
+
+		<!-- test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<!-- exclude, we use slf4j with adapter for commons logging -->
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- logging for tests -->
+		<dependency>
+			<!-- we use slf4j -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- commons-logging bridge for httpclient -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- log4j-2 adapter -->
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- log4j-2 impl -->
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<sourceDirectory>${project.src.directory}</sourceDirectory>
@@ -45,6 +120,7 @@
 				</executions>
 			</plugin>
 
+			<!-- download pseudo code XMLs -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
@@ -185,6 +261,51 @@
 				</executions>
 			</plugin>
 
+			<!-- rename name attribute (will be class name) in 2011, there are two 
+				classes with the same name attribute -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<id>replace-2011-December</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${file.download.target}/Lohnsteuer2011DecemberBig.xml</file>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>Lohnsteuer2011Big</token>
+									<value>Lohnsteuer2011DecemberBig</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-2011-November</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${file.download.target}/Lohnsteuer2011NovemberBig.xml</file>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>Lohnsteuer2011Big</token>
+									<value>Lohnsteuer2011NovemberBig</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- XSL transformation -->
 			<plugin>
 				<groupId>net.sf.xsltmp</groupId>
 				<artifactId>xslt-generator-maven-plugin</artifactId>
@@ -208,48 +329,7 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>com.google.code.maven-replacer-plugin</groupId>
-				<artifactId>replacer</artifactId>
-				<version>1.5.3</version>
-				<executions>
-					<execution>
-						<id>replace-2011-December</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-						<configuration>
-							<file>${file.generated.target}/Lohnsteuer2011DecemberBig.java</file>
-							<regex>false</regex>
-							<replacements>
-								<replacement>
-									<token>Lohnsteuer2011Big</token>
-									<value>Lohnsteuer2011DecemberBig</value>
-								</replacement>
-							</replacements>
-						</configuration>
-					</execution>
-					<execution>
-						<id>replace-2011-November</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-						<configuration>
-							<file>${file.generated.target}/Lohnsteuer2011NovemberBig.java</file>
-							<regex>false</regex>
-							<replacements>
-								<replacement>
-									<token>Lohnsteuer2011Big</token>
-									<value>Lohnsteuer2011NovemberBig</value>
-								</replacement>
-							</replacements>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
+			<!-- format code for good source view :) -->
 			<plugin>
 				<groupId>net.revelc.code</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
