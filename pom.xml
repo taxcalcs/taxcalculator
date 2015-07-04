@@ -16,10 +16,21 @@
 	<licenses>
 		<license>
 			<distribution>manual</distribution>
-			<name>The MIT License</name>
-			<url>https://github.com/admiralsmaster/taxcalculator/blob/master/LICENSE</url>
+			<name>The MIT License (MIT)</name>
+			<url>http://opensource.org/licenses/mit-license.php</url>
 		</license>
 	</licenses>
+	<developers>
+		<developer>
+			<name>Ariel Küchler</name>
+			<url>https://github.com/admiralsmaster</url>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git@github.com:admiralsmaster/taxcalculator.git</connection>
+		<developerConnection>scm:git:git@github.com:admiralsmaster/taxcalculator.git</developerConnection>
+		<url>git@github.com:admiralsmaster/taxcalculator.git</url>
+	</scm>
 
 	<properties>
 		<project.java.version>1.6</project.java.version>
@@ -104,20 +115,6 @@
 					<source>${project.java.version}</source>
 					<target>${project.java.version}</target>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- download pseudo code XMLs -->
@@ -358,4 +355,85 @@
 
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<!-- profile for release, local development is faster w/o this plugins -->
+			<id>release</id>
+
+			<!-- snapshot repository for release -->
+			<distributionManagement>
+				<snapshotRepository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+
+			<build>
+				<plugins>
+
+					<!-- create source jar -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- create javadoc jar -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.3</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- sign files -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- plugin for release -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.5</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 </project>
