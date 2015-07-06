@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2015.0.1-SNAPSHOT</version>
+	<version>2015.0.0</version>
 	<name>TaxCalculator</name>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
@@ -33,7 +33,7 @@
 	</scm>
 
 	<properties>
-		<project.java.version>1.6</project.java.version>
+		<project.java.version>1.7</project.java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<file.host>https://www.bmf-steuerrechner.de</file.host>
 		<classes.package.directory>info/kuechler/bmf/taxcalculator</classes.package.directory>
@@ -371,6 +371,36 @@
 
 			<build>
 				<plugins>
+
+					<!-- right java version, no release with higher java version -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>display-info</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>display-info</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>enforce-versions</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireJavaVersion>
+											<version>[${project.java.version},1.8)</version>
+										</requireJavaVersion>
+									</rules>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 
 					<!-- create source jar -->
 					<plugin>
