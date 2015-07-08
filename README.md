@@ -1,5 +1,6 @@
-# taxcalculator
+# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator)
 Generated code for german tax from https://www.bmf-steuerrechner.de/
+
 
 ## Usage
 
