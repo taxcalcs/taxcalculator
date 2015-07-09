@@ -1,5 +1,7 @@
 package info.kuechler.bmf.taxcalculator;
 
+import java.net.URI;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,7 @@ public class Year2015Test extends AbstractYearTest<Lohnsteuer2015Big> {
 
     @Test
     public final void test() throws Exception {
-       //run(createTestCase());
-        runFolderTestCases("/info/kuechler/bmf/taxcalculator/2015");
+        runFolderTestCases(new URI("https://www.bmf-steuerrechner.de/interface/2015.jsp"), "/info/kuechler/bmf/taxcalculator/2015");
     }
 
     @Override

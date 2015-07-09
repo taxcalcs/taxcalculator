@@ -26,7 +26,7 @@
 	<!-- 1: east germany -->
 	<!-- 0: west germany -->
 	<entry key="KRV">1</entry>
-	<!-- Kindefreibetraege in cent -->
+	<!-- Kindefreibetraege -->
 	<!-- for tax class 1 to 4 only -->
 	<entry key="ZKF">0.5</entry>
 

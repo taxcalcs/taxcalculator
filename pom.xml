@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2015.0.0</version>
+	<version>2015.1.0-SNAPSHOT</version>
 	<name>TaxCalculator</name>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
@@ -15,7 +15,7 @@
 	</issueManagement>
 	<licenses>
 		<license>
-			<distribution>manual</distribution>
+			<distribution>repo</distribution>
 			<name>The MIT License (MIT)</name>
 			<url>http://opensource.org/licenses/mit-license.php</url>
 		</license>
@@ -65,10 +65,10 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-			<scope>test</scope>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.4</version>
+		    <scope>test</scope>
 		</dependency>
 
 		<!-- logging for tests -->
