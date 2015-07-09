@@ -13,9 +13,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.config.RequestConfig.Builder;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -26,8 +29,12 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 
 /**
- * Abstract test class. Iterate tru a folder with test cases and run the test with every test case. To compare the
+ * <p>
+ * Abstract test class. Iterate through a folder with test cases and run the test with every test case. To compare the
  * result call the BMF web service to get the expected result.
+ * </p>
+ * 
+ * <pYou can set a proxy server with the 'https_proxy' property.</p>
  * 
  * @param <T>
  *            class of the calculator
@@ -45,7 +52,14 @@ public abstract class AbstractYearTest<T> {
      */
     @BeforeClass
     public static final void init() throws JAXBException {
-        final RequestConfig config = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(60000).build();
+        final Builder builder = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(60000);
+        final String proxy = System.getProperty("https_proxy");
+        if (StringUtils.isNotBlank(proxy)) {
+            builder.setProxy(HttpHost.create(proxy));
+
+        }
+        final RequestConfig config = builder.build();
+
         client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         context = JAXBContext.newInstance(Result.class);
     }
@@ -84,35 +98,50 @@ public abstract class AbstractYearTest<T> {
     abstract Logger getLogger();
 
     /**
-     * Run all tests cases in the folder.
+     * Run all tests cases in the folder. Test cases requires the name "test<index>.xml". The index starts with "1" and
+     * will be risen to the first non exists number.
      * 
+     * @param baseUri
+     *            Basic URI (w/o parameter) for request expected values.
      * @param folder
-     *            the folder (resource folder).
+     *            the folder (access as resource folder).
      * @throws Exception
      *             an error, test failed.
      */
-    protected void runFolderTestCases(final String folder) throws Exception {
+    protected void runFolderTestCases(final URI baseUri, final String folder) throws Exception {
         int i = 1;
         InputStream in = null;
-        while ((in = getClass().getResourceAsStream(folder + "/test" + i + ".xml")) != null) {
-            getLogger().info("run " + "test" + i + ".xml");
-            final Properties properties = new Properties();
-            properties.loadFromXML(in);
-            run(properties);
-            i++;
+        while (true) {
+            try {
+                in = getClass().getResourceAsStream(folder + "/test" + i + ".xml");
+                if (in == null) {
+                    break; // not the best, but we need breaking the loop and closing the stream
+                }
+                getLogger().info("run " + "test" + i + ".xml");
+                final Properties properties = new Properties();
+                properties.loadFromXML(in);
+                run(baseUri, properties);
+                i++;
+            } finally {
+                if (in != null) {
+                    in.close();
+                }
+            }
         }
     }
 
     /**
      * Run a test.
      * 
+     * @param baseUri
+     *            Basic URI (w/o parameter) for request expected values.
      * @param testCase
      *            the input properties.
      * @throws Exception
      *             an error. Test failed
      */
-    private void run(final Map<?, ?> testCase) throws Exception {
-        final Result result = getExpected(testCase);
+    private void run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+        final Result result = getExpected(baseUri, testCase);
         final T calc = createCalculator();
 
         // set input values
@@ -129,7 +158,7 @@ public abstract class AbstractYearTest<T> {
                     break;
                 }
             }
-            Assert.assertTrue("No setter found for " + elem.getName(), found || "TESTCASEID".equals(elem.getName()));
+            Assert.assertTrue("No setter found for " + elem.getName(), found || isTestCaseId(elem));
         }
 
         calculate(calc);
@@ -144,17 +173,18 @@ public abstract class AbstractYearTest<T> {
     }
 
     /**
-     * Creates the URI for calling the web service for expected result.
+     * Creates the URI for calling the web service for the expected result.
      * 
+     * @param baseUri
+     *            Basic URI (w/o parameter) for request expected values.
      * @param testCase
      *            the input properties for the parameter.
      * @return the URI
      * @throws URISyntaxException
      *             an error.
      */
-    private URI createUri(final Map<?, ?> testCase) throws URISyntaxException {
-        final URIBuilder uriBuilder = new URIBuilder().setScheme("https").setHost("www.bmf-steuerrechner.de")
-                        .setPath("/interface/2015.jsp");
+    private URI createUri(final URI baseUri, final Map<?, ?> testCase) throws URISyntaxException {
+        final URIBuilder uriBuilder = new URIBuilder(baseUri);
         for (final Map.Entry<?, ?> entry : testCase.entrySet()) {
             uriBuilder.addParameter(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
         }
@@ -164,14 +194,16 @@ public abstract class AbstractYearTest<T> {
     /**
      * Call the web service to get the expected result.
      * 
+     * @param baseUri
+     *            Basic URI (w/o parameter) for request expected values.
      * @param testCase
      *            the input properties.
      * @return the expected result.
      * @throws Exception
      *             an error
      */
-    private Result getExpected(final Map<?, ?> testCase) throws Exception {
-        final URI uri = createUri(testCase);
+    private Result getExpected(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+        final URI uri = createUri(baseUri, testCase);
         final HttpGet httpget = new HttpGet(uri);
 
         final HttpResponse response = client.execute(httpget);
@@ -196,17 +228,26 @@ public abstract class AbstractYearTest<T> {
                 in.close();
             }
         }
+
+        // Simple validation
+        for (final ResultElement resultElement : result.getInput()) {
+            Assert.assertTrue("State not ok " + resultElement, StringUtils.equals("ok", resultElement.getStatus())
+                            || isTestCaseId(resultElement));
+        }
+        Assert.assertTrue("Need at least five input values.", result.getInput().size() > 5);
+        Assert.assertTrue("Need at least five output values.", result.getOutput().size() > 5);
+
         return result;
     }
 
     /**
-     * Converts a {@link BigDecimal} in the expected class.
+     * Converts a {@link BigDecimal} in the expected class. Supports int, long and BigDecimal.
      * 
      * @param parameter
      *            the expected class.
      * @param value
      *            the input
-     * @return the converted value.
+     * @return the converted value or {@link BigDecimal}
      */
     private Object convert(Class<?> parameter, BigDecimal value) {
         if (parameter == int.class) {
@@ -238,5 +279,16 @@ public abstract class AbstractYearTest<T> {
      */
     private String getGetterName(String name) {
         return "get" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
+    }
+
+    /**
+     * Is the {@link ResultElement} the element of the test case ID?
+     * 
+     * @param resultElement
+     *            element to validate
+     * @return <code>true</code> if is the element, otherwise <code>false</code>
+     */
+    private boolean isTestCaseId(ResultElement resultElement) {
+        return "TESTCASEID".equals(resultElement.getName());
     }
 }
