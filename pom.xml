@@ -3,8 +3,38 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2015.1.0-SNAPSHOT</version>
+	<version>2015.1.0</version>
 	<name>TaxCalculator</name>
+	
+	<!-- 
+		settings for maven central and sign:
+		
+		<settings>
+			<servers>
+				<server>
+					<id>ossrh</id>
+					<username>username</username>
+					<password>password</password>
+				</server>
+			</servers>
+			<profiles>
+				<profile>
+					<id>ossrh</id>
+					<activation>
+						<activeByDefault>true</activeByDefault>
+					</activation>
+					<properties>
+						<gpg.executable>/usr/local/bin/gpg</gpg.executable>
+						<gpg.passphrase>passphrase</gpg.passphrase>
+					</properties>
+				</profile>
+			</profiles>
+		</settings>
+
+		release into maven central:
+		mvn clean deploy -P release, <autoReleaseAfterClose> have to set to "false"
+		mvn nexus-staging:release -P release
+	 -->
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
 	<url>https://github.com/admiralsmaster/taxcalculator</url>

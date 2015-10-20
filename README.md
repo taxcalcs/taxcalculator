@@ -11,14 +11,14 @@ You can download it from maven central repository:
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
-    <version>2015.0.0</version>
+    <version>2015.1.0</version>
 </dependency>
 ```
 
 ## Example
 
 ```
-Lohnsteuer2015Big tax = new Lohnsteuer2015Big();
+Lohnsteuer2015DezemberBig tax = new Lohnsteuer2015DezemberBig();
         
 tax.setLZZ(2); // monthly payment
 tax.setSTKL(1); // tax class
