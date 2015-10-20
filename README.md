@@ -1,4 +1,5 @@
-# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator)
+# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![version](https://img.shields.io/maven-central/v/info.kuechler.bmf.taxcalculator/taxcalculator.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22)
+
 Generated code for german tax from https://www.bmf-steuerrechner.de/
 
 Javadoc: http://admiralsmaster.github.io/taxcalculator/
