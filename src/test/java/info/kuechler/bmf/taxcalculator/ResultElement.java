@@ -6,8 +6,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Sub bean class for JAXB marshaling the BMF result.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResultElement {
 

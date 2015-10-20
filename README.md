@@ -41,3 +41,7 @@ tax.calculate();
 System.out.println("Lohnsteuer: " + tax.getLSTLZZ().divide(new BigDecimal("100")) + " EUR");
 System.out.println("Soli: " + tax.getSOLZLZZ().divide(new BigDecimal("100")) + " EUR");
 ```
+
+## License
+
+[MIT License](http://opensource.org/licenses/mit-license.php)
