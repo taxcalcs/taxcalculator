@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 /**
  * Test Class 2015.
  */
-public class Year2015Test extends AbstractYearTest<Lohnsteuer2015Big> {
+public class Year2015BisNovTest extends AbstractYearTest<Lohnsteuer2015Big> {
 
-    private final static Logger LOG = LoggerFactory.getLogger(Year2015Test.class);
+    private final static Logger LOG = LoggerFactory.getLogger(Year2015BisNovTest.class);
 
     @Test
     public final void test() throws Exception {
-        runFolderTestCases(new URI("https://www.bmf-steuerrechner.de/interface/2015.jsp"), "/info/kuechler/bmf/taxcalculator/2015");
+        runFolderTestCases(new URI("http://www.bmf-steuerrechner.de/interface/2015bisNov.jsp"), "/info/kuechler/bmf/taxcalculator/2015bisNov");
     }
 
     @Override
