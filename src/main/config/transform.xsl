@@ -60,12 +60,12 @@ public class <xsl:value-of select="./@name" /> {
 	
 	<!-- Getter and Setter for Input variables -->
 	<xsl:template name="inputGetterAndSetter">
-		<xsl:for-each select="./VARIABLES/INPUT"><xsl:call-template name="getter" /><xsl:call-template name="setter" /></xsl:for-each>
+		<xsl:for-each select="./VARIABLES/INPUTS/INPUT"><xsl:call-template name="getter" /><xsl:call-template name="setter" /></xsl:for-each>
 	</xsl:template>
 	
 	<!-- Getter for Output variables -->
 	<xsl:template name="outputGetter">
-		<xsl:for-each select="./VARIABLES/OUTPUT"><xsl:call-template name="getter" /></xsl:for-each>
+		<xsl:for-each select="./VARIABLES/OUTPUTS/OUTPUT"><xsl:call-template name="getter" /></xsl:for-each>
 	</xsl:template>
 	
 	<!-- a getter method-->
