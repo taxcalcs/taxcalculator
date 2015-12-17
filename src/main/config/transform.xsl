@@ -20,9 +20,9 @@ import javax.annotation.Generated;
 /**
  * Steuerberechnungsklasse.
  * 
- * Generiert aus Pseudocode von: https://www.bmf-steuerrechner.de/
+ * Generiert aus Pseudocode von: &lt;a href="https://www.bmf-steuerrechner.de"&gt;bmf-steuerrechner&lt;a&gt;
  */
-@Generated(value="info.kuechler.bmf.taxcalculator", date="<xsl:value-of select="date:date-time()"/>", comments="Generated from pseudo code https://www.bmf-steuerrechner.de/")
+@Generated(value="info.kuechler.bmf.taxcalculator", date="<xsl:value-of select="date:date-time()"/>", comments="Generated from pseudo code https://www.bmf-steuerrechner.de")
 public class <xsl:value-of select="./@name" /> {
 		<xsl:apply-templates select="./VARIABLES" />
 		<xsl:apply-templates select="./CONSTANTS" />
@@ -72,7 +72,9 @@ public class <xsl:value-of select="./@name" /> {
 	<xsl:template name="getter">
 	/**
 	 * Getter for <xsl:value-of select="./@name" />.
-	 *
+	 * <xsl:text>&lt;p&gt;</xsl:text>
+	 * <xsl:value-of select="preceding-sibling::comment()[1]"/>
+	 * <xsl:text>&lt;p&gt;</xsl:text>
 	 * @return the value
 	 */
 	public <xsl:value-of select="./@type" /> get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />() {
@@ -84,7 +86,9 @@ public class <xsl:value-of select="./@name" /> {
     <xsl:template name="setter">
     /**
      * Setter for <xsl:value-of select="./@name" />.
-     *
+     * <xsl:text>&lt;p&gt;</xsl:text>
+     * <xsl:value-of select="preceding-sibling::comment()[1]"/>
+     * <xsl:text>&lt;p&gt;</xsl:text>
      * @param <xsl:value-of select="./@name" /> input value 
      */
 	public void set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />(final <xsl:value-of select="./@type" /><xsl:value-of select="' '" /><xsl:value-of select="./@name" />) {
