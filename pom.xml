@@ -154,6 +154,18 @@
 				<version>1.0</version>
 				<executions>
 					<execution>
+						<id>download-2016</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>download-single</goal>
+						</goals>
+						<configuration>
+							<url>${file.host}</url>
+							<fromFile>pruefdaten/Lohnsteuer2016.xml</fromFile>
+							<toFile>${file.download.target}/Lohnsteuer2016Big.xml</toFile>
+						</configuration>
+					</execution>
+					<execution>
 						<id>download-2015-December</id>
 						<phase>generate-sources</phase>
 						<goals>
