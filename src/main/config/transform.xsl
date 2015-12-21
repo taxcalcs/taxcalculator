@@ -20,7 +20,7 @@ import javax.annotation.Generated;
 /**
  * Steuerberechnungsklasse.
  * 
- * Generiert aus Pseudocode von: &lt;a href="https://www.bmf-steuerrechner.de"&gt;bmf-steuerrechner&lt;a&gt;
+ * Generiert aus Pseudocode von: &lt;a href="https://www.bmf-steuerrechner.de"&gt;bmf-steuerrechner&lt;/a&gt;
  */
 @Generated(value="info.kuechler.bmf.taxcalculator", date="<xsl:value-of select="date:date-time()"/>", comments="Generated from pseudo code https://www.bmf-steuerrechner.de")
 public class <xsl:value-of select="./@name" /> {
