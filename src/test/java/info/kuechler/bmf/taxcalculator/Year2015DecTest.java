@@ -15,7 +15,7 @@ public class Year2015DecTest extends AbstractYearTest<Lohnsteuer2015DezemberBig>
 
     @Test
     public final void test() throws Exception {
-        runFolderTestCases(new URI("http://www.bmf-steuerrechner.de/interface/2015Dez.jsp"), "/info/kuechler/bmf/taxcalculator/2015Dec");
+        runFolderTestCases(new URI("http://www.bmf-steuerrechner.de/interface/2015Dez.jsp"), "/info/kuechler/bmf/taxcalculator/2015");
     }
 
     @Override
