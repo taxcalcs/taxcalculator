@@ -2,33 +2,31 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties version="1.0">
 	<!-- TESTCASEID -->
-	<entry key="TESTCASEID">2015.5</entry>
+	<entry key="TESTCASEID">2010.1</entry>
 
 	<!-- payment time: monthly -->
 	<entry key="LZZ">2</entry>
 	<!-- Steuerklasse -->
 	<entry key="STKL">1</entry>
 	<!-- Freibeträge -->
-	<entry key="LZZFREIB">10000</entry>
+	<entry key="LZZFREIB">0</entry>
 	<!-- Income in cent -->
-	<entry key="RE4">495300</entry>
+	<entry key="RE4">100000</entry>
 	<!-- Saxony: 1 -->
-	<entry key="PVS">1</entry>
+	<entry key="PVS">0</entry>
 	<!-- Additional care insurance for employee: birth > 1940, older than 23, 
 		no kids -->
-	<entry key="PVZ">1</entry>
+	<entry key="PVZ">0</entry>
 	<!-- Church tax number: 0 = no church, > 0 church -->
-	<entry key="R">1</entry>
-	<!-- Additional med insurance: 0.90 means 0.9 percent -->
-	<entry key="KVZ">0.90</entry>
+	<entry key="R">0</entry>
 	<!-- pension fund -->
 	<!-- 2: no -->
 	<!-- 1: east germany -->
 	<!-- 0: west germany -->
-	<entry key="KRV">1</entry>
+	<entry key="KRV">0</entry>
 	<!-- Kindefreibetraege -->
 	<!-- for tax class 1 to 4 only -->
-	<entry key="ZKF">0.5</entry>
+	<entry key="ZKF">0</entry>
 
 	<!-- In JRE4 enthaltene Versorgungsbezuege in Cents (ggf. 0) -->
 	<entry key="VBEZ">0</entry>

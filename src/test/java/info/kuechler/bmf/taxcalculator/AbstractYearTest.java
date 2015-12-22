@@ -2,6 +2,8 @@ package info.kuechler.bmf.taxcalculator;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -165,10 +167,43 @@ public abstract class AbstractYearTest<T> {
 
         // compare output values
         for (final ResultElement elem : result.getOutput()) {
-            final Method getter = calc.getClass().getMethod(getGetterName(elem.getName()));
-            final Object r = getter.invoke(calc);
-            getLogger().debug("Output " + elem.getName() + " = " + r);
+            final Object r = getValue(calc, elem.getName());
+            getLogger().debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
             Assert.assertEquals(r, elem.getValue());
+        }
+    }
+
+    /**
+     * Extract a value by name from an object. The access will be try via getter
+     * and reflections.
+     * 
+     * @param calc
+     *            object
+     * @param elemName
+     *            element name to search
+     * @return value
+     * @throws NoSuchFieldException
+     *             Exception during access
+     * @throws SecurityException
+     *             Exception during access
+     * @throws IllegalArgumentException
+     *             Exception during access
+     * @throws IllegalAccessException
+     *             Exception during access
+     */
+    private Object getValue(final T calc, final String elemName)
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        try {
+            final Method getter = calc.getClass().getMethod(getGetterName(elemName));
+            return getter.invoke(calc);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            getLogger().trace("Extract internal field {} tru reflection.", elemName);
+            // API sends internal values
+            final Field field = calc.getClass().getDeclaredField(elemName);
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+            return field.get(calc);
         }
     }
 
