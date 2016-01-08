@@ -1,5 +1,10 @@
 package info.kuechler.bmf.taxcalculator;
 
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createGetterName;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createSetterName;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getFirstParameterType;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getParameterCount;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -36,7 +41,8 @@ import org.slf4j.Logger;
  * result call the BMF web service to get the expected result.
  * </p>
  * 
- * <pYou can set a proxy server with the 'https_proxy' property.</p>
+ * <pYou can set a proxy server with the 'https_proxy' property.
+ * </p>
  * 
  * @param <T>
  *            class of the calculator
@@ -117,7 +123,8 @@ public abstract class AbstractYearTest<T> {
             try {
                 in = getClass().getResourceAsStream(folder + "/test" + i + ".xml");
                 if (in == null) {
-                    break; // not the best, but we need breaking the loop and closing the stream
+                    break; // not the best, but we need breaking the loop and
+                           // closing the stream
                 }
                 getLogger().info("run " + "test" + i + ".xml");
                 final Properties properties = new Properties();
@@ -149,10 +156,10 @@ public abstract class AbstractYearTest<T> {
         // set input values
         for (final ResultElement elem : result.getInput()) {
             boolean found = false;
-            final String setterName = getSetterName(elem.getName());
+            final String setterName = createSetterName(elem.getName());
             for (final Method method : calc.getClass().getMethods()) {
-                if (setterName.equals(method.getName()) && method.getParameterTypes().length == 1) {
-                    final Class<?> parameterClass = method.getParameterTypes()[0];
+                if (setterName.equals(method.getName()) && getParameterCount(method) == 1) {
+                    final Class<?> parameterClass = getFirstParameterType(method);
                     final Object parameter = convert(parameterClass, elem.getValue());
                     method.invoke(calc, parameter);
                     getLogger().debug("Input " + elem.getName() + " = " + parameter);
@@ -174,8 +181,7 @@ public abstract class AbstractYearTest<T> {
     }
 
     /**
-     * Extract a value by name from an object. The access will be try via getter
-     * and reflections.
+     * Extract a value by name from an object. The access will be try via getter and reflections.
      * 
      * @param calc
      *            object
@@ -194,7 +200,7 @@ public abstract class AbstractYearTest<T> {
     private Object getValue(final T calc, final String elemName)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         try {
-            final Method getter = calc.getClass().getMethod(getGetterName(elemName));
+            final Method getter = calc.getClass().getMethod(createGetterName(elemName));
             return getter.invoke(calc);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             getLogger().trace("Extract internal field {} tru reflection.", elemName);
@@ -243,9 +249,10 @@ public abstract class AbstractYearTest<T> {
 
         final HttpResponse response = client.execute(httpget);
         Assert.assertTrue("Method failed: " + response.getStatusLine(),
-                        response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
+                response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
 
-        // BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        // BufferedReader in = new BufferedReader(new
+        // InputStreamReader(response.getEntity().getContent()));
         // String l;
         // while ((l = in.readLine()) != null) {
         // System.out.println(l);
@@ -266,8 +273,8 @@ public abstract class AbstractYearTest<T> {
 
         // Simple validation
         for (final ResultElement resultElement : result.getInput()) {
-            Assert.assertTrue("State not ok " + resultElement, StringUtils.equals("ok", resultElement.getStatus())
-                            || isTestCaseId(resultElement));
+            Assert.assertTrue("State not ok " + resultElement,
+                    StringUtils.equals("ok", resultElement.getStatus()) || isTestCaseId(resultElement));
         }
         Assert.assertTrue("Need at least five input values.", result.getInput().size() > 5);
         Assert.assertTrue("Need at least five output values.", result.getOutput().size() > 5);
@@ -292,28 +299,6 @@ public abstract class AbstractYearTest<T> {
             return value.longValue();
         }
         return value;
-    }
-
-    /**
-     * Creates the setter method name for an property.
-     * 
-     * @param name
-     *            the property name.
-     * @return the setter name
-     */
-    private String getSetterName(String name) {
-        return "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
-    }
-
-    /**
-     * Creates the getter method name for an property.
-     * 
-     * @param name
-     *            the property name.
-     * @return the getter name
-     */
-    private String getGetterName(String name) {
-        return "get" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
     }
 
     /**
