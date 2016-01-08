@@ -68,8 +68,8 @@
 		<file.host>https://www.bmf-steuerrechner.de</file.host>
 		<classes.package.directory>info/kuechler/bmf/taxcalculator</classes.package.directory>
 		<file.download.target>${project.build.directory}/download-files</file.download.target>
-		<project.src.directory>${project.build.directory}/generated-classes</project.src.directory>
-		<file.generated.target>${project.src.directory}/${classes.package.directory}</file.generated.target>
+		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
+		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
 	</properties>
 
 	<dependencies>
@@ -134,9 +134,26 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${project.src.directory}</sourceDirectory>
-
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.10</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.generated.directory}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -394,7 +411,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<directories>
-								<directory>${project.build.sourceDirectory}</directory>
+								<directory>${project.generated.directory}</directory>
 							</directories>
 							<compilerCompliance>${project.java.version}</compilerCompliance>
 							<compilerSource>${project.java.version}</compilerSource>
