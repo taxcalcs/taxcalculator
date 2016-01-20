@@ -37,6 +37,8 @@ public class Reader {
      * 
      * @param key
      *            the property name, is case insensitive
+     * @param <T>
+     *            Type of the result object
      * @return the value
      * @throws ReadWriteException
      *             Error while read the values.

@@ -64,6 +64,8 @@ public class Writer {
      *            the property name, is case insensitive
      * @param value
      *            the value to set.
+     * @param <T>
+     *            the result type
      * @return the {@link Writer} object itself.
      * @throws ReadWriteException
      *             Error while set the values.
@@ -89,6 +91,8 @@ public class Writer {
      * 
      * @param values
      *            the values to set.
+     * @param <T>
+     *            the result type
      * @return the current {@link Writer} object itself
      * @throws ReadWriteException
      *             Error while setting the values.
