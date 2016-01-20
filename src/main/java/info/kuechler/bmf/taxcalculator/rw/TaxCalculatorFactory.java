@@ -38,4 +38,29 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
         final Class<?> clazz = Class.forName("info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big");
         return clazz;
     }
+    
+    /**
+     * Returns the year you to use with {@link TaxCalculatorFactory#create(String)}.
+     * 
+     * @param month
+     *            1..12 for the month, with 0 you can choose the key from the end of year
+     * @param year
+     *            the year, have to be >= 2006
+     * @return the key
+     */
+    public String getYearKey(final int month, final int year) {
+        if (year < 2006 || month > 12 || month < 0) {
+            throw new IllegalArgumentException("Month have to be between 0 and 12, year >= 2006");
+        }
+        if (year == 2011) {
+            if (month == 12 || month == 0) {
+                return "2011December";
+            }
+            return "2011November";
+        }
+        if (year == 2015 && (month == 12 || month == 0)) {
+            return "2015Dezember";
+        }
+        return Integer.toString(year);
+    }
 }
