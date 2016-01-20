@@ -45,7 +45,7 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
      * @param month
      *            1..12 for the month, with 0 you can choose the key from the end of year
      * @param year
-     *            the year, have to be >= 2006
+     *            the year, have to be &gt;= 2006
      * @return the key
      */
     public String getYearKey(final int month, final int year) {
