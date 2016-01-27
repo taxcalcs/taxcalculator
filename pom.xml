@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2016.1.0</version>
+	<version>2016.1.1</version>
 	<name>TaxCalculator</name>
 	
 	<!-- 
