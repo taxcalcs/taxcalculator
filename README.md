@@ -1,4 +1,4 @@
-# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![version](https://img.shields.io/maven-central/v/info.kuechler.bmf.taxcalculator/taxcalculator.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22)
+# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![Codacy Badge](https://api.codacy.com/project/badge/grade/7170c566b7024b55ab256165c4fd4bec)](https://www.codacy.com/app/github-ariel/taxcalculator) [![version](https://img.shields.io/maven-central/v/info.kuechler.bmf.taxcalculator/taxcalculator.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22) 
 
 Generated code for german tax from https://www.bmf-steuerrechner.de/
 
