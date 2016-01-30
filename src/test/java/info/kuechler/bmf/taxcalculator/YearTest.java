@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
@@ -33,24 +35,74 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * Abstract test class. Iterate through a folder with test cases and run the test with every test case. To compare the
- * result call the BMF web service to get the expected result.
+ * Test class. Iterate through a folder with test cases and run the test with every test case. To compare the result
+ * call the BMF web service to get the expected result.
  * </p>
  * 
  * <pYou can set a proxy server with the 'https_proxy' property.
  * </p>
  * 
- * @param <T>
- *            class of the calculator
  */
-public abstract class AbstractYearTest<T> {
+@RunWith(Parameterized.class)
+public class YearTest {
 
     private static CloseableHttpClient client;
     private static JAXBContext context;
+
+    private final static Logger LOG = LoggerFactory.getLogger(YearTest.class);
+
+    @Parameters
+    public static Collection<String[]> data() {
+        return Arrays.asList(new String[][] {
+                { "http://www.bmf-steuerrechner.de/interface/2006.jsp", "/info/kuechler/bmf/taxcalculator/2006",
+                        "Lohnsteuer2006Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2007.jsp", "/info/kuechler/bmf/taxcalculator/2006",
+                        "Lohnsteuer2007Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2008.jsp", "/info/kuechler/bmf/taxcalculator/2008",
+                        "Lohnsteuer2008Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2009.jsp", "/info/kuechler/bmf/taxcalculator/2008",
+                        "Lohnsteuer2009Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2010.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2010Big" },
+
+                { "http://www.bmf-steuerrechner.de/interface/2011bisNov.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2011NovemberBig" },
+                { "http://www.bmf-steuerrechner.de/interface/2011Dez.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2011DecemberBig" },
+
+                { "http://www.bmf-steuerrechner.de/interface/2012.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2012Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2013.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2013Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2014.jsp", "/info/kuechler/bmf/taxcalculator/2010",
+                        "Lohnsteuer2014Big" },
+
+                { "http://www.bmf-steuerrechner.de/interface/2015bisNov.jsp", "/info/kuechler/bmf/taxcalculator/2015",
+                        "Lohnsteuer2015Big" },
+                { "http://www.bmf-steuerrechner.de/interface/2015Dez.jsp", "/info/kuechler/bmf/taxcalculator/2015",
+                        "Lohnsteuer2015DezemberBig" }
+                //
+        });
+    }
+
+    @Parameter(value = 0)
+    public String url;
+
+    @Parameter(value = 1)
+    public String testFolder;
+
+    @Parameter(value = 2)
+    public String className;
 
     /**
      * Initialize.
@@ -83,27 +135,19 @@ public abstract class AbstractYearTest<T> {
         client.close();
     }
 
-    /**
-     * Calculate the result.
-     * 
-     * @param calc
-     *            the initialized calculate object
-     */
-    abstract void calculate(final T calc);
+    @Test
+    public final void test() throws Exception {
+        runFolderTestCases(new URI(url), testFolder);
+    }
 
     /**
      * Create the calculator w/o initialization. Needs return a (new) uninitialized instance at every call.
      * 
      * @return the calculator.
      */
-    abstract T createCalculator();
-
-    /**
-     * Get the logger.
-     * 
-     * @return the logger.
-     */
-    abstract Logger getLogger();
+    private Object createCalculator() throws Exception {
+        return Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
+    }
 
     /**
      * Run all tests cases in the folder. Test cases requires the name "test<index>.xml". The index starts with "1" and
@@ -116,7 +160,7 @@ public abstract class AbstractYearTest<T> {
      * @throws Exception
      *             an error, test failed.
      */
-    protected void runFolderTestCases(final URI baseUri, final String folder) throws Exception {
+    private void runFolderTestCases(final URI baseUri, final String folder) throws Exception {
         int i = 1;
         InputStream in = null;
         while (true) {
@@ -126,7 +170,7 @@ public abstract class AbstractYearTest<T> {
                     break; // not the best, but we need breaking the loop and
                            // closing the stream
                 }
-                getLogger().info("run " + "test" + i + ".xml");
+                LOG.info("run " + "test" + i + ".xml");
                 final Properties properties = new Properties();
                 properties.loadFromXML(in);
                 run(baseUri, properties);
@@ -151,7 +195,7 @@ public abstract class AbstractYearTest<T> {
      */
     private void run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
         final Result result = getExpected(baseUri, testCase);
-        final T calc = createCalculator();
+        final Object calc = createCalculator();
 
         // set input values
         for (final ResultElement elem : result.getInput()) {
@@ -162,7 +206,7 @@ public abstract class AbstractYearTest<T> {
                     final Class<?> parameterClass = getFirstParameterType(method);
                     final Object parameter = convert(parameterClass, elem.getValue());
                     method.invoke(calc, parameter);
-                    getLogger().debug("Input " + elem.getName() + " = " + parameter);
+                    LOG.debug("Input " + elem.getName() + " = " + parameter);
                     found = true;
                     break;
                 }
@@ -170,12 +214,13 @@ public abstract class AbstractYearTest<T> {
             Assert.assertTrue("No setter found for " + elem.getName(), found || isTestCaseId(elem));
         }
 
-        calculate(calc);
+        final Method method = calc.getClass().getMethod("calculate");
+        method.invoke(calc);
 
         // compare output values
         for (final ResultElement elem : result.getOutput()) {
             final Object r = getValue(calc, elem.getName());
-            getLogger().debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
+            LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
             Assert.assertEquals(r, elem.getValue());
         }
     }
@@ -197,13 +242,13 @@ public abstract class AbstractYearTest<T> {
      * @throws IllegalAccessException
      *             Exception during access
      */
-    private Object getValue(final T calc, final String elemName)
+    private Object getValue(final Object calc, final String elemName)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         try {
             final Method getter = calc.getClass().getMethod(createGetterName(elemName));
             return getter.invoke(calc);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            getLogger().trace("Extract internal field {} tru reflection.", elemName);
+            LOG.trace("Extract internal field {} tru reflection.", elemName);
             // API sends internal values
             final Field field = calc.getClass().getDeclaredField(elemName);
             if (!field.isAccessible()) {
