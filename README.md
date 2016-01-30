@@ -18,6 +18,33 @@ You can download it from maven central repository:
 
 ## Example
 
+### With Reader / Writer
+
+```
+final TaxCalculatorFactory factory = new TaxCalculatorFactory();
+final Writer writer = factory.create(factory.getYearKey(0, 2015));
+writer.setAllToZero();
+// 1. monthly payment
+// 2. tax class
+// 3. income in cent
+writer.set("LZZ", 2).set("STKL", 1).set("RE4", new BigDecimal("223456"));
+// 4. a half child :)
+// 5. additional med insurance [percent]
+writer.set("ZKF", new BigDecimal("0.5")).set("KVZ", new BigDecimal("0.90"));
+// 6. pensions fund: east germany
+writer.set("KRV", 1);
+
+final Reader reader = writer.calculate();
+
+final BigDecimal lst = reader.get("LSTLZZ");
+final BigDecimal soli = reader.get("SOLZLZZ");
+
+System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
+System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
+```
+
+### Direct with generated classes
+
 ```
 Lohnsteuer2015DezemberBig tax = new Lohnsteuer2015DezemberBig();
         
