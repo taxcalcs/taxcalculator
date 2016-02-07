@@ -56,11 +56,20 @@ import org.slf4j.LoggerFactory;
 @RunWith(Parameterized.class)
 public class YearTest {
 
+    private final static Logger LOG = LoggerFactory.getLogger(YearTest.class);
+    
     private static CloseableHttpClient client;
     private static JAXBContext context;
 
-    private final static Logger LOG = LoggerFactory.getLogger(YearTest.class);
+    @Parameter(value = 0)
+    public String url;
 
+    @Parameter(value = 1)
+    public String testFolder;
+
+    @Parameter(value = 2)
+    public String className;
+    
     @Parameters
     public static Collection<String[]> data() {
         return Arrays.asList(new String[][] {
@@ -94,15 +103,6 @@ public class YearTest {
                 //
         });
     }
-
-    @Parameter(value = 0)
-    public String url;
-
-    @Parameter(value = 1)
-    public String testFolder;
-
-    @Parameter(value = 2)
-    public String className;
 
     /**
      * Initialize.
