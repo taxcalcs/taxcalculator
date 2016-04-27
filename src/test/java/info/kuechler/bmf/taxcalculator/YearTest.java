@@ -99,7 +99,10 @@ public class YearTest {
                 { "http://www.bmf-steuerrechner.de/interface/2015bisNov.jsp", "/info/kuechler/bmf/taxcalculator/2015",
                         "Lohnsteuer2015Big" },
                 { "http://www.bmf-steuerrechner.de/interface/2015Dez.jsp", "/info/kuechler/bmf/taxcalculator/2015",
-                        "Lohnsteuer2015DezemberBig" }
+                        "Lohnsteuer2015DezemberBig" },
+                        
+                { "https://www.bmf-steuerrechner.de/interface/2016V1.jsp", "/info/kuechler/bmf/taxcalculator/2015",
+                        "Lohnsteuer2016Big" }
                 //
         });
     }
