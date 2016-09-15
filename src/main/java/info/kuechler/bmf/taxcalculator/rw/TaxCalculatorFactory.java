@@ -3,25 +3,25 @@ package info.kuechler.bmf.taxcalculator.rw;
 /**
  * Implementation for a ReadWriteFactory for the BMF tax calculator.
  * <p>
- * Example: <code>
- *     final TaxCalculatorFactory factory = new TaxCalculatorFactory();
- *     final Writer input = factory.create("2015Dezember").setAllToZero();
- *     
- *     // set values
- *     input.set("KVZ", new BigDecimal("0.90"));
- *     // ...
- *     
- *     // calculate
- *     final Reader output = input.calculate();
- *     
- *     // read
- *     System.out.println("LSTLZZ " + output.get("LSTLZZ"));
+ * Example: <code><br>
+ *     final TaxCalculatorFactory factory = new TaxCalculatorFactory();<br>
+ *     final Writer input = factory.create("2015Dezember").setAllToZero();<br>
+ *     <br>
+ *     // set values<br>
+ *     input.set("KVZ", new BigDecimal("0.90"));<br>
+ *     // ...<br>
+ *     <br>
+ *     // calculate<br>
+ *     final Reader output = input.calculate();<br>
+ *     <br>
+ *     // read<br>
+ *     System.out.println("LSTLZZ " + output.get("LSTLZZ"));<br>
  * </code>
  */
 public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 
     /**
-     * Constructor.
+     * Constructor. Use "calculate" as <code>calculate</code> method.
      */
     public TaxCalculatorFactory() {
         super("calculate");
@@ -30,8 +30,10 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
     /**
      * {@inheritDoc}
      * 
+     * <p>
      * Creates a object from following class:
      * <code>"info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big"</code>
+     * </p>
      */
     @Override
     protected Class<?> getCalculatorClass(final String yearKey) throws ClassNotFoundException {

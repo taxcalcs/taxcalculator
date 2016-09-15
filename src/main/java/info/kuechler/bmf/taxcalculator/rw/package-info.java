@@ -4,7 +4,7 @@
  * see {@link info.kuechler.bmf.taxcalculator.rw.TaxCalculatorFactory}.
  * </p>
  * <p>
- * Hint: This system use reflection to call methods by name.
+ * Hint: This system use reflection to call methods by name. Found methods are cached.
  * </p>
  */
 package info.kuechler.bmf.taxcalculator.rw;
