@@ -50,7 +50,7 @@ public class Reader {
         }
         try {
             @SuppressWarnings("unchecked")
-            T invoke = (T) method.invoke(object);
+            final T invoke = (T) method.invoke(object);
             return invoke;
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new ReadWriteException("Cannot read property: " + key, e);

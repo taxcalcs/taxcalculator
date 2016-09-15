@@ -119,7 +119,6 @@ public class YearTest {
         final String proxy = System.getProperty("https_proxy");
         if (StringUtils.isNotBlank(proxy)) {
             builder.setProxy(HttpHost.create(proxy));
-
         }
         final RequestConfig config = builder.build();
 
