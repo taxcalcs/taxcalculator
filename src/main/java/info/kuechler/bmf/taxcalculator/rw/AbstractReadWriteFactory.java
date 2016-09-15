@@ -119,8 +119,8 @@ public abstract class AbstractReadWriteFactory {
      * @param key
      *            the class key
      * @return the method
-     * @throws ReadWriteException
-     * @see {@link #calcCalculateMethod(Class)}
+     * @throws ReadWriteException an error
+     * @see #calcCalculateMethod(Class)
      */
     protected Method getCalculateMethod(final Class<?> clazz, final String key) throws ReadWriteException {
         final String mapKey = key + '-' + "calculate-" + calculateMethodName;
@@ -138,8 +138,8 @@ public abstract class AbstractReadWriteFactory {
      * @param clazz
      *            the class
      * @return the method
-     * @throws ReadWriteException
-     * @see {@link #getCalculateMethod(Class, String)}
+     * @throws ReadWriteException an error
+     * @see #getCalculateMethod(Class, String)
      */
     protected Map<String, Method> calcCalculateMethod(Class<?> clazz) throws ReadWriteException {
         final Map<String, Method> methodCollection;
@@ -154,6 +154,9 @@ public abstract class AbstractReadWriteFactory {
 
     /**
      * Creates a new synchronized {@link Map}.
+     * 
+     * @param <K> key type
+     * @param <V> value type
      * 
      * @return the new {@link Map}
      */
