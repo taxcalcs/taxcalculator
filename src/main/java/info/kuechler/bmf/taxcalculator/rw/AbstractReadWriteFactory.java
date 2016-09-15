@@ -47,7 +47,7 @@ public abstract class AbstractReadWriteFactory {
     protected abstract Class<?> getCalculatorClass(final String classKey) throws ClassNotFoundException;
 
     /**
-     * Create a {@link Writer}. The key is used to create a
+     * Create a {@link Writer}. The key is used to create a instance and detect all methods (calculate, getter, setter).
      * 
      * @param classKey
      *            the key to reference the class. The method {@link #getCalculatorClass(String)} is called with this
@@ -62,7 +62,7 @@ public abstract class AbstractReadWriteFactory {
             final Class<?> clazz = getCalculatorClass(classKey);
             final Object taxCalculator = clazz.newInstance();
             return new Writer(getCalculateMethod(clazz, classKey), getSetter(classKey, clazz),
-                    getGetter(classKey, clazz), taxCalculator);
+                            getGetter(classKey, clazz), taxCalculator);
         } catch (ClassNotFoundException e) {
             throw new ReadWriteException("Class not found for key: " + classKey, e);
         } catch (InstantiationException | IllegalAccessException e) {
@@ -110,7 +110,19 @@ public abstract class AbstractReadWriteFactory {
         }
     }
 
-    private Method getCalculateMethod(final Class<?> clazz, final String key) throws ReadWriteException {
+    /**
+     * Returns the <code>calculate</code> method. Use cache and use {@link #calcCalculateMethod(Class)} to find not
+     * cached method.
+     * 
+     * @param clazz
+     *            the class
+     * @param key
+     *            the class key
+     * @return the method
+     * @throws ReadWriteException
+     * @see {@link #calcCalculateMethod(Class)}
+     */
+    protected Method getCalculateMethod(final Class<?> clazz, final String key) throws ReadWriteException {
         final String mapKey = key + '-' + "calculate-" + calculateMethodName;
         if (!methodCache.containsKey(mapKey)) {
             final Map<String, Method> methodCollection = calcCalculateMethod(clazz);
@@ -120,11 +132,20 @@ public abstract class AbstractReadWriteFactory {
         return methodCache.get(mapKey).get(calculateMethodName);
     }
 
-    private Map<String, Method> calcCalculateMethod(Class<?> clazz) throws ReadWriteException {
+    /**
+     * Get the <code>calculate</code> method from the class. Not cached.
+     * 
+     * @param clazz
+     *            the class
+     * @return the method
+     * @throws ReadWriteException
+     * @see {@link #getCalculateMethod(Class, String)}
+     */
+    protected Map<String, Method> calcCalculateMethod(Class<?> clazz) throws ReadWriteException {
         final Map<String, Method> methodCollection;
         try {
             methodCollection = Collections.singletonMap(calculateMethodName,
-                    clazz.getDeclaredMethod(calculateMethodName));
+                            clazz.getDeclaredMethod(calculateMethodName));
         } catch (NoSuchMethodException | SecurityException e) {
             throw new ReadWriteException("Cannot detect calculate method for class referenced by key.", e);
         }
@@ -136,20 +157,54 @@ public abstract class AbstractReadWriteFactory {
      * 
      * @return the new {@link Map}
      */
-    private <K, V> Map<K, V> newSyncMap() {
+    protected <K, V> Map<K, V> newSyncMap() {
         return new ConcurrentHashMap<>();
     }
 
-    private Map<String, Method> getGetter(final String classKey, final Class<?> clazz) {
+    /**
+     * Get all getter methods from the class. Use the cache.
+     * 
+     * @param classKey
+     *            the class key
+     * @param clazz
+     *            the class
+     * @return {@link Map} of getter (key=property key (upper case), value= {@link Method})
+     */
+    protected Map<String, Method> getGetter(final String classKey, final Class<?> clazz) {
         return getMethods(clazz, classKey, "get", 0);
     }
 
-    private Map<String, Method> getSetter(final String classKey, final Class<?> clazz) {
+    /**
+     * Get all setter methods from the class. Use the cache.
+     * 
+     * @param classKey
+     *            the class key
+     * @param clazz
+     *            the class
+     * @return {@link Map} of getter (key=property key (upper case), value= {@link Method})
+     */
+    protected Map<String, Method> getSetter(final String classKey, final Class<?> clazz) {
         return getMethods(clazz, classKey, "set", 1);
     }
 
-    private Map<String, Method> getMethods(final Class<?> clazz, final String key, final String methodTypePrefix,
-            final int parameterCount) {
+    /**
+     * 
+     * Search methods which expected prefix and parameter count on a class. Use a cache and use
+     * {@link #calcMethods(Class, String, int)} to find not cached entries.
+     * 
+     * @param clazz
+     *            the class
+     * @param key
+     *            the class key
+     * @param methodTypePrefix
+     *            expected method prefix like "get" or "set"
+     * @param parameterCount
+     *            expected count of parameter
+     * @return the {@link Map} with methods which is expected (key=property key (upper case), value= {@link Method})
+     * @see #calcMethods(Class, String, int)
+     */
+    protected Map<String, Method> getMethods(final Class<?> clazz, final String key, final String methodTypePrefix,
+                    final int parameterCount) {
         final String mapKey = key + '-' + methodTypePrefix + '-' + parameterCount;
         if (!methodCache.containsKey(mapKey)) {
             final Map<String, Method> methodCollection = calcMethods(clazz, methodTypePrefix, parameterCount);
@@ -159,8 +214,20 @@ public abstract class AbstractReadWriteFactory {
         return methodCache.get(mapKey);
     }
 
-    private Map<String, Method> calcMethods(final Class<?> clazz, final String methodTypePrefix,
-            final int parameterCount) {
+    /**
+     * Search methods which expected prefix and parameter count on a class. Not cached.
+     * 
+     * @param clazz
+     *            the class
+     * @param methodTypePrefix
+     *            expected method prefix like "get" or "set"
+     * @param parameterCount
+     *            expected count of parameter
+     * @return the {@link Map} with methods which is expected (key=property key (upper case), value= {@link Method})
+     * @see #getMethods(Class, String, String, int)
+     */
+    protected Map<String, Method> calcMethods(final Class<?> clazz, final String methodTypePrefix,
+                    final int parameterCount) {
         final Map<String, Method> methodCollection = newSyncMap();
         for (final Method method : clazz.getMethods()) {
             final String name = method.getName();
