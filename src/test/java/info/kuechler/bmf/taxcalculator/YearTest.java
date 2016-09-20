@@ -1,5 +1,6 @@
 package info.kuechler.bmf.taxcalculator;
 
+import static info.kuechler.bmf.taxapi.TaxApiFactory.getUrl;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createGetterName;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createSetterName;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getFirstParameterType;
@@ -43,6 +44,11 @@ import org.junit.runners.Parameterized.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import info.kuechler.bmf.taxapi.Ausgabe;
+import info.kuechler.bmf.taxapi.Eingabe;
+import info.kuechler.bmf.taxapi.Lohnsteuer;
+import info.kuechler.bmf.taxapi.TaxApiFactory;
+
 /**
  * <p>
  * Test class. Iterate through a folder with test cases and run the test with every test case. To compare the result
@@ -57,7 +63,7 @@ import org.slf4j.LoggerFactory;
 public class YearTest {
 
     private final static Logger LOG = LoggerFactory.getLogger(YearTest.class);
-    
+
     private static CloseableHttpClient client;
     private static JAXBContext context;
 
@@ -69,40 +75,27 @@ public class YearTest {
 
     @Parameter(value = 2)
     public String className;
-    
+
     @Parameters
     public static Collection<String[]> data() {
-        return Arrays.asList(new String[][] {
-                { "http://www.bmf-steuerrechner.de/interface/2006.jsp", "/info/kuechler/bmf/taxcalculator/2006",
-                        "Lohnsteuer2006Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2007.jsp", "/info/kuechler/bmf/taxcalculator/2006",
-                        "Lohnsteuer2007Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2008.jsp", "/info/kuechler/bmf/taxcalculator/2008",
-                        "Lohnsteuer2008Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2009.jsp", "/info/kuechler/bmf/taxcalculator/2008",
-                        "Lohnsteuer2009Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2010.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2010Big" },
+        return Arrays.asList(new String[][] { //
+                { getUrl(0, 2006), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2006Big" },
+                { getUrl(0, 2007), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2007Big" },
+                { getUrl(0, 2008), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2008Big" },
+                { getUrl(0, 2009), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2009Big" },
+                { getUrl(0, 2010), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2010Big" },
 
-                { "http://www.bmf-steuerrechner.de/interface/2011bisNov.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2011NovemberBig" },
-                { "http://www.bmf-steuerrechner.de/interface/2011Dez.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2011DecemberBig" },
+                { getUrl(1, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011NovemberBig" },
+                { getUrl(0, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011DecemberBig" },
 
-                { "http://www.bmf-steuerrechner.de/interface/2012.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2012Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2013.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2013Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2014.jsp", "/info/kuechler/bmf/taxcalculator/2010",
-                        "Lohnsteuer2014Big" },
+                { getUrl(0, 2012), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2012Big" },
+                { getUrl(0, 2013), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2013Big" },
+                { getUrl(0, 2014), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2014Big" },
 
-                { "http://www.bmf-steuerrechner.de/interface/2015bisNov.jsp", "/info/kuechler/bmf/taxcalculator/2015",
-                        "Lohnsteuer2015Big" },
-                { "http://www.bmf-steuerrechner.de/interface/2015Dez.jsp", "/info/kuechler/bmf/taxcalculator/2015",
-                        "Lohnsteuer2015DezemberBig" },
-                        
-                { "https://www.bmf-steuerrechner.de/interface/2016V1.jsp", "/info/kuechler/bmf/taxcalculator/2015",
-                        "Lohnsteuer2016Big" }
+                { getUrl(4, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015Big" },
+                { getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig" },
+
+                { getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big" }
                 //
         });
     }
@@ -123,7 +116,7 @@ public class YearTest {
         final RequestConfig config = builder.build();
 
         client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
-        context = JAXBContext.newInstance(Result.class);
+        context = JAXBContext.newInstance(Lohnsteuer.class);
     }
 
     /**
@@ -196,11 +189,11 @@ public class YearTest {
      *             an error. Test failed
      */
     private void run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
-        final Result result = getExpected(baseUri, testCase);
+        final Lohnsteuer result = getExpected(baseUri, testCase);
         final Object calc = createCalculator();
 
         // set input values
-        for (final ResultElement elem : result.getInput()) {
+        for (final Eingabe elem : result.getEingaben()) {
             boolean found = false;
             final String setterName = createSetterName(elem.getName());
             for (final Method method : calc.getClass().getMethods()) {
@@ -220,7 +213,7 @@ public class YearTest {
         method.invoke(calc);
 
         // compare output values
-        for (final ResultElement elem : result.getOutput()) {
+        for (final Ausgabe elem : result.getAusgaben()) {
             final Object r = getValue(calc, elem.getName());
             LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
             Assert.assertEquals(r, elem.getValue());
@@ -290,7 +283,7 @@ public class YearTest {
      * @throws Exception
      *             an error
      */
-    private Result getExpected(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+    private Lohnsteuer getExpected(final URI baseUri, final Map<?, ?> testCase) throws Exception {
         final URI uri = createUri(baseUri, testCase);
         final HttpGet httpget = new HttpGet(uri);
 
@@ -305,13 +298,13 @@ public class YearTest {
         // System.out.println(l);
         // }
         //
-        Result result = null;
+        Lohnsteuer result = null;
 
         InputStream in = null;
         try {
             final Unmarshaller unmarshaller = context.createUnmarshaller();
             in = response.getEntity().getContent();
-            result = (Result) unmarshaller.unmarshal(in);
+            result = (Lohnsteuer) unmarshaller.unmarshal(in);
         } finally {
             if (in != null) {
                 in.close();
@@ -319,12 +312,12 @@ public class YearTest {
         }
 
         // Simple validation
-        for (final ResultElement resultElement : result.getInput()) {
+        for (final Eingabe resultElement : result.getEingaben()) {
             Assert.assertTrue("State not ok " + resultElement,
                     StringUtils.equals("ok", resultElement.getStatus()) || isTestCaseId(resultElement));
         }
-        Assert.assertTrue("Need at least five input values.", result.getInput().size() > 5);
-        Assert.assertTrue("Need at least five output values.", result.getOutput().size() > 5);
+        Assert.assertTrue("Need at least five input values.", result.getEingaben().size() > 5);
+        Assert.assertTrue("Need at least five output values.", result.getAusgaben().size() > 5);
 
         return result;
     }
@@ -355,7 +348,7 @@ public class YearTest {
      *            element to validate
      * @return <code>true</code> if is the element, otherwise <code>false</code>
      */
-    private boolean isTestCaseId(ResultElement resultElement) {
+    private boolean isTestCaseId(Eingabe resultElement) {
         return "TESTCASEID".equals(resultElement.getName());
     }
 }
