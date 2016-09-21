@@ -42,6 +42,7 @@ public class FactoryTest {
         LOG.debug("\nOutputs");
         for (final String in : factory.getOutputs("2015Dezember")) {
             LOG.debug(in);
+            Assert.assertNotEquals("'CLASS' getter found.", "CLASS", in);
         }
     }
     

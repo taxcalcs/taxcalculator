@@ -232,12 +232,22 @@ public abstract class AbstractReadWriteFactory {
     protected Map<String, Method> calcMethods(final Class<?> clazz, final String methodTypePrefix,
                     final int parameterCount) {
         final Map<String, Method> methodCollection = newSyncMap();
+        final Set<String> filterMethods = getIgnoredMethods();
         for (final Method method : clazz.getMethods()) {
             final String name = method.getName();
-            if (isMethod(methodTypePrefix, name) && getParameterCount(method) == parameterCount) {
+            if (isMethod(methodTypePrefix, name) && getParameterCount(method) == parameterCount && !filterMethods.contains(name)) {
                 methodCollection.put(toCaseInsensiviteProperty(getPropertyName(name)), method);
             }
         }
         return methodCollection;
+    }
+    
+    /**
+     * Returns the methods which are ignored.
+     * 
+     * @return {@link Set}
+     */
+    protected Set<String> getIgnoredMethods() {
+        return Collections.singleton("getClass");
     }
 }
