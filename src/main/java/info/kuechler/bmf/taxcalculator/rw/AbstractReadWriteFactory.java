@@ -6,7 +6,9 @@ import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.isMethod;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensiviteProperty;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -62,7 +64,7 @@ public abstract class AbstractReadWriteFactory {
             final Class<?> clazz = getCalculatorClass(classKey);
             final Object taxCalculator = clazz.newInstance();
             return new Writer(getCalculateMethod(clazz, classKey), getSetter(classKey, clazz),
-                            getGetter(classKey, clazz), taxCalculator);
+                    getGetter(classKey, clazz), taxCalculator);
         } catch (ClassNotFoundException e) {
             throw new ReadWriteException("Class not found for key: " + classKey, e);
         } catch (InstantiationException | IllegalAccessException e) {
@@ -90,6 +92,26 @@ public abstract class AbstractReadWriteFactory {
     }
 
     /**
+     * Get all input fields from a class with the type. Should be {@link BigDecimal}, int or double.
+     * 
+     * @param classKey
+     *            the key to reference the class. The method {@link #getCalculatorClass(String)} is called with this
+     *            key.
+     * @return {@link Map} with name and type. Names are case insensitive.
+     * @throws ReadWriteException
+     *             class cannot detect
+     * @since 2016.2.0
+     */
+    public Map<String, Class<?>> getInputsWithType(final String classKey) throws ReadWriteException {
+        try {
+            final Class<?> clazz = getCalculatorClass(classKey);
+            return convertIntoFirstParameterMap(getSetter(classKey, clazz));
+        } catch (ClassNotFoundException e) {
+            throw new ReadWriteException("Class not found for key: " + classKey, e);
+        }
+    }
+
+    /**
      * Get all output fields from a class.
      * 
      * @param classKey
@@ -111,6 +133,30 @@ public abstract class AbstractReadWriteFactory {
     }
 
     /**
+     * Get all output fields from a class. Should be {@link BigDecimal}, int or double.
+     * 
+     * @param classKey
+     *            the key to reference the class. The method {@link #getCalculatorClass(String)} is called with this
+     *            key.
+     * @return a {@link Map} of output names and type. Names are case insensitive.
+     * @throws ReadWriteException
+     *             class cannot detect
+     * @since 2016.2.0
+     */
+    public Map<String, Class<?>> getOutputsWithType(final String classKey) throws ReadWriteException {
+        try {
+            final Class<?> clazz = getCalculatorClass(classKey);
+            final Map<String, Method> result = new HashMap<>(getGetter(classKey, clazz));
+            for (final String setter : getSetter(classKey, clazz).keySet()) {
+                result.remove(setter);
+            }
+            return convertIntoReturnTypeMap(result);
+        } catch (ClassNotFoundException e) {
+            throw new ReadWriteException("Class not found for key: " + classKey, e);
+        }
+    }
+
+    /**
      * Returns the <code>calculate</code> method. Use cache and use {@link #calcCalculateMethod(Class)} to find not
      * cached method.
      * 
@@ -119,7 +165,8 @@ public abstract class AbstractReadWriteFactory {
      * @param key
      *            the class key
      * @return the method
-     * @throws ReadWriteException an error
+     * @throws ReadWriteException
+     *             an error
      * @see #calcCalculateMethod(Class)
      */
     protected Method getCalculateMethod(final Class<?> clazz, final String key) throws ReadWriteException {
@@ -138,14 +185,15 @@ public abstract class AbstractReadWriteFactory {
      * @param clazz
      *            the class
      * @return the method
-     * @throws ReadWriteException an error
+     * @throws ReadWriteException
+     *             an error
      * @see #getCalculateMethod(Class, String)
      */
     protected Map<String, Method> calcCalculateMethod(Class<?> clazz) throws ReadWriteException {
         final Map<String, Method> methodCollection;
         try {
             methodCollection = Collections.singletonMap(calculateMethodName,
-                            clazz.getDeclaredMethod(calculateMethodName));
+                    clazz.getDeclaredMethod(calculateMethodName));
         } catch (NoSuchMethodException | SecurityException e) {
             throw new ReadWriteException("Cannot detect calculate method for class referenced by key.", e);
         }
@@ -155,8 +203,10 @@ public abstract class AbstractReadWriteFactory {
     /**
      * Creates a new synchronized {@link Map}.
      * 
-     * @param <K> key type
-     * @param <V> value type
+     * @param <K>
+     *            key type
+     * @param <V>
+     *            value type
      * 
      * @return the new {@link Map}
      */
@@ -207,7 +257,7 @@ public abstract class AbstractReadWriteFactory {
      * @see #calcMethods(Class, String, int)
      */
     protected Map<String, Method> getMethods(final Class<?> clazz, final String key, final String methodTypePrefix,
-                    final int parameterCount) {
+            final int parameterCount) {
         final String mapKey = key + '-' + methodTypePrefix + '-' + parameterCount;
         if (!methodCache.containsKey(mapKey)) {
             final Map<String, Method> methodCollection = calcMethods(clazz, methodTypePrefix, parameterCount);
@@ -230,18 +280,19 @@ public abstract class AbstractReadWriteFactory {
      * @see #getMethods(Class, String, String, int)
      */
     protected Map<String, Method> calcMethods(final Class<?> clazz, final String methodTypePrefix,
-                    final int parameterCount) {
+            final int parameterCount) {
         final Map<String, Method> methodCollection = newSyncMap();
         final Set<String> filterMethods = getIgnoredMethods();
         for (final Method method : clazz.getMethods()) {
             final String name = method.getName();
-            if (isMethod(methodTypePrefix, name) && getParameterCount(method) == parameterCount && !filterMethods.contains(name)) {
+            if (isMethod(methodTypePrefix, name) && getParameterCount(method) == parameterCount
+                    && !filterMethods.contains(name)) {
                 methodCollection.put(toCaseInsensiviteProperty(getPropertyName(name)), method);
             }
         }
         return methodCollection;
     }
-    
+
     /**
      * Returns the methods which are ignored.
      * 
@@ -249,5 +300,36 @@ public abstract class AbstractReadWriteFactory {
      */
     protected Set<String> getIgnoredMethods() {
         return Collections.singleton("getClass");
+    }
+
+    /**
+     * Converts a {@link Map} with property name and method into a {@link Map} with property key and return type.
+     * 
+     * @param input
+     *            {@link Map} with property name and method
+     * @return {@link Map} with property key and return type
+     */
+    protected Map<String, Class<?>> convertIntoReturnTypeMap(final Map<String, Method> input) {
+        final Map<String, Class<?>> result = new HashMap<>();
+        for (final Map.Entry<String, Method> entry : input.entrySet()) {
+            result.put(entry.getKey(), entry.getValue().getReturnType());
+        }
+        return result;
+    }
+
+    /**
+     * Converts a {@link Map} with property name and method into a {@link Map} with property key and type of the first
+     * parameter.
+     * 
+     * @param input
+     *            {@link Map} with property name and method
+     * @return {@link Map} with property key and and type of the first parameter
+     */
+    protected Map<String, Class<?>> convertIntoFirstParameterMap(final Map<String, Method> input) {
+        final Map<String, Class<?>> result = new HashMap<>();
+        for (final Map.Entry<String, Method> entry : input.entrySet()) {
+            result.put(entry.getKey(), entry.getValue().getParameterTypes()[0]);
+        }
+        return result;
     }
 }
