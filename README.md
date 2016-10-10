@@ -4,6 +4,8 @@ Generated code for german tax from https://www.bmf-steuerrechner.de/
 
 Javadoc: http://admiralsmaster.github.io/taxcalculator/
 
+For an API to use the test interfaces see [taxapi](https://github.com/admiralsmaster/taxapi/), for an own test server see [taxserver](https://github.com/admiralsmaster/taxserver).
+
 ## Usage
 
 You can download it from maven central repository:
