@@ -10,7 +10,7 @@ For an API to use the test interfaces see [taxapi](https://github.com/admiralsma
 
 You can download it from maven central repository:
 
-```
+```xml
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
@@ -22,7 +22,7 @@ You can download it from maven central repository:
 
 ### With Reader / Writer
 
-```
+```java
 final TaxCalculatorFactory factory = new TaxCalculatorFactory();
 final Writer writer = factory.create(factory.getYearKey(0, 2015));
 writer.setAllToZero();
@@ -47,7 +47,7 @@ System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
 
 ### Direct with generated classes
 
-```
+```java
 Lohnsteuer2015DezemberBig tax = new Lohnsteuer2015DezemberBig();
         
 tax.setLZZ(2); // monthly payment
