@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
 import info.kuechler.bmf.taxapi.Ausgabe;
 import info.kuechler.bmf.taxapi.Eingabe;
 import info.kuechler.bmf.taxapi.Lohnsteuer;
-import info.kuechler.bmf.taxapi.TaxApiFactory;
 
 /**
  * <p>
@@ -95,7 +94,8 @@ public class YearTest {
                 { getUrl(4, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015Big" },
                 { getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig" },
 
-                { getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big" }
+                { getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big" },
+                { getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big" }
                 //
         });
     }
