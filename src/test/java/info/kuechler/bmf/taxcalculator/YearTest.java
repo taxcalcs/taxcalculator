@@ -54,7 +54,7 @@ import info.kuechler.bmf.taxapi.Lohnsteuer;
  * call the BMF web service to get the expected result.
  * </p>
  * 
- * <pYou can set a proxy server with the 'https_proxy' property.
+ * <p>You can set a proxy server with the 'https_proxy' property.
  * </p>
  * 
  */

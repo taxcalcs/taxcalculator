@@ -15,7 +15,7 @@ public class FactoryTest {
     /**
      * Simple Test for general features.
      * 
-     * @throws ReadWriteException
+     * @throws ReadWriteException error
      */
     @Test
     public final void test() throws ReadWriteException {
@@ -100,7 +100,7 @@ public class FactoryTest {
     /**
      * Test {@link AbstractReadWriteFactory#getInputsWithType(String)}.
      * 
-     * @throws ReadWriteException
+     * @throws ReadWriteException error
      */
     @Test
     public final void testGetInputsWithType() throws ReadWriteException {
@@ -116,7 +116,7 @@ public class FactoryTest {
     /**
      * Test {@link AbstractReadWriteFactory#getOutputsWithType(String)}.
      * 
-     * @throws ReadWriteException
+     * @throws ReadWriteException error
      */
     @Test
     public final void testGetOutputsWithType() throws ReadWriteException {
