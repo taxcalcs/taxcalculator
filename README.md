@@ -6,7 +6,7 @@ Project: http://admiralsmaster.github.io/taxcalculator/
 
 Javadoc: http://admiralsmaster.github.io/taxcalculator/apidocs/
 
-For an API to use the test interfaces see [taxapi](https://github.com/admiralsmaster/taxapi/), for an own test server see [taxserver](https://github.com/admiralsmaster/taxserver).
+For an API to use the test interfaces see [taxapi](https://github.com/admiralsmaster/taxapi/).
 
 ## Usage
 
