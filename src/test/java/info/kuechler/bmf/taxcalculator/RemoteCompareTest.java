@@ -130,11 +130,6 @@ public class RemoteCompareTest {
         client.close();
     }
 
-    @Test
-    public final void test() throws Exception {
-        runFolderTestCases(new URI(url), testFolder);
-    }
-
     /**
      * Create the calculator w/o initialization. Needs return a (new) uninitialized instance at every call.
      * 
@@ -155,12 +150,13 @@ public class RemoteCompareTest {
      * @throws Exception
      *             an error, test failed.
      */
-    private void runFolderTestCases(final URI baseUri, final String folder) throws Exception {
+    @Test
+    public final void runFolderTestCases() throws Exception {
         int i = 1;
         InputStream in = null;
         while (true) {
             try {
-                in = getClass().getResourceAsStream(folder + "/test" + i + ".xml");
+                in = getClass().getResourceAsStream(testFolder + "/test" + i + ".xml");
                 if (in == null) {
                     break; // not the best, but we need breaking the loop and
                            // closing the stream
@@ -168,7 +164,7 @@ public class RemoteCompareTest {
                 LOG.info("run " + "test" + i + ".xml");
                 final Properties properties = new Properties();
                 properties.loadFromXML(in);
-                run(baseUri, properties);
+                Assert.assertTrue(run(new URI(url), properties));
                 i++;
             } finally {
                 if (in != null) {
@@ -188,7 +184,7 @@ public class RemoteCompareTest {
      * @throws Exception
      *             an error. Test failed
      */
-    private void run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+    private boolean run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
         final Lohnsteuer result = getExpected(baseUri, testCase);
         final Object calc = createCalculator();
 
@@ -218,6 +214,7 @@ public class RemoteCompareTest {
             LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
             Assert.assertEquals(r, elem.getValue());
         }
+        return true;
     }
 
     /**

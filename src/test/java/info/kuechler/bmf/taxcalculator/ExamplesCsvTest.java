@@ -30,13 +30,13 @@ interface WriterConfigurer {
 }
 
 /**
- * Test classes with examples CSV files.
- * Test data from <a href="https://www.bmf-steuerrechner.de/interface/pap.jsp">PAP</a>
+ * Test classes with examples CSV files. Test data from
+ * <a href="https://www.bmf-steuerrechner.de/interface/pap.jsp">PAP</a>
  */
 @RunWith(Parameterized.class)
 public class ExamplesCsvTest {
     private final static Logger LOG = LoggerFactory.getLogger(ExamplesCsvTest.class);
-    
+
     public static final CSVFormat FORMAT = CSVFormat.DEFAULT.withDelimiter(';');
 
     private static final WriterConfigurer CONF_SPECIAL = new WriterConfigurer() {
@@ -219,7 +219,8 @@ public class ExamplesCsvTest {
             return 5;
         case "VI":
             return 6;
+        default:
+            throw new IllegalArgumentException(clazz);
         }
-        throw new IllegalArgumentException(clazz);
     }
 }

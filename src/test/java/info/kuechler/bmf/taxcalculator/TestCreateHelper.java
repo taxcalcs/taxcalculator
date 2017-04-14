@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -47,14 +48,15 @@ public class TestCreateHelper {
                 }
             }
         }
+        Assert.assertTrue(no > 0);
     }
 
     private Object convert(String value) throws ParseException {
-        value = value.trim();
-        if (isGermanInt(value)) {
-            return new BigDecimal(NUM_FORMAT.parse(value).intValue());
+        final String newValue = value.trim();
+        if (isGermanInt(newValue)) {
+            return new BigDecimal(NUM_FORMAT.parse(newValue).intValue());
         }
-        return value;
+        return newValue;
     }
 
     private boolean isGermanInt(String value) {
@@ -89,5 +91,6 @@ public class TestCreateHelper {
                 print.println();
             }
         }
+        Assert.assertTrue(size > 0);
     }
 }
