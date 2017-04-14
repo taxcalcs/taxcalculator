@@ -59,9 +59,9 @@ import info.kuechler.bmf.taxapi.Lohnsteuer;
  * 
  */
 @RunWith(Parameterized.class)
-public class YearTest {
+public class RemoteCompareTest {
 
-    private final static Logger LOG = LoggerFactory.getLogger(YearTest.class);
+    private final static Logger LOG = LoggerFactory.getLogger(RemoteCompareTest.class);
 
     private static CloseableHttpClient client;
     private static JAXBContext context;
