@@ -20,13 +20,15 @@ You can download it from maven central repository:
 </dependency>
 ```
 
+Versions are backwards compatible. You can use the latest version and can use the calculations since 2006.
+
 ## Example
 
 ### With Reader / Writer
 
 ```java
 final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-final Writer writer = factory.create(factory.getYearKey(0, 2015));
+final Writer writer = factory.create(factory.getYearKey(0, 2017));
 writer.setAllToZero();
 // 1. monthly payment
 // 2. tax class
@@ -34,7 +36,7 @@ writer.setAllToZero();
 writer.set("LZZ", 2).set("STKL", 1).set("RE4", new BigDecimal("223456"));
 // 4. a half child :)
 // 5. additional med insurance [percent]
-writer.set("ZKF", new BigDecimal("0.5")).set("KVZ", new BigDecimal("0.90"));
+writer.set("ZKF", new BigDecimal("0.5")).set("KVZ", new BigDecimal("1.10"));
 // 6. pensions fund: east germany
 writer.set("KRV", 1);
 
@@ -50,7 +52,7 @@ System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
 ### Direct with generated classes
 
 ```java
-Lohnsteuer2015DezemberBig tax = new Lohnsteuer2015DezemberBig();
+Lohnsteuer2017Big tax = new Lohnsteuer2017Big();
         
 tax.setLZZ(2); // monthly payment
 tax.setSTKL(1); // tax class
@@ -60,7 +62,7 @@ tax.setPVS(0); // not in saxony
 tax.setPVZ(0); // Additional care insurance for employee: birth > 1940, older than 23, no kids
 tax.setR(0); // no church
 tax.setZKF(new BigDecimal("0.5")); // a half child :)
-tax.setKVZ(new BigDecimal("0.90")); // additional med insurance [percent]
+tax.setKVZ(new BigDecimal("1.10")); // additional med insurance [percent]
 tax.setKRV(1); // pensions fund: east germany
   
 tax.setVBEZ(BigDecimal.ZERO);
