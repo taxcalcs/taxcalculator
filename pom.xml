@@ -45,7 +45,6 @@
 	</issueManagement>
 	<licenses>
 		<license>
-			<distribution>repo</distribution>
 			<name>The MIT License (MIT)</name>
 			<url>http://opensource.org/licenses/mit-license.php</url>
 		</license>
@@ -57,9 +56,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git@github.com:admiralsmaster/taxcalculator.git</connection>
-		<developerConnection>scm:git:git@github.com:admiralsmaster/taxcalculator.git</developerConnection>
-		<url>git@github.com:admiralsmaster/taxcalculator.git</url>
+		<connection>scm:git:git://github.com/admiralsmaster/taxcalculator.git</connection>
+		<developerConnection>scm:git:ssh://github.com:admiralsmaster/taxcalculator.git</developerConnection>
+		<url>http://github.com/admiralsmaster/taxcalculator/tree/master</url>
 	</scm>
 
 	<properties>
