@@ -1,6 +1,6 @@
 package info.kuechler.bmf.taxcalculator.rw;
 
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensiviteProperty;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensitiveProperty;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -44,7 +44,7 @@ public class Reader {
      *             Error while read the values.
      */
     public <T> T get(final String key) throws ReadWriteException {
-        final Method method = getter.get(toCaseInsensiviteProperty(key));
+        final Method method = getter.get(toCaseInsensitiveProperty(key));
         if (method == null) {
             throw new ReadWriteException("Getter for property not found: " + key);
         }

@@ -1,7 +1,7 @@
 package info.kuechler.bmf.taxcalculator.rw;
 
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getFirstParameterType;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensiviteProperty;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensitiveProperty;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -71,7 +71,7 @@ public class Writer {
      *             Error while set the values.
      */
     public <T> Writer set(final String key, final T value) throws ReadWriteException {
-        final Method method = setter.get(toCaseInsensiviteProperty(key));
+        final Method method = setter.get(toCaseInsensitiveProperty(key));
         if (method == null) {
             throw new ReadWriteException("Setter for property not found: " + key);
         }

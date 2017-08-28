@@ -1,9 +1,11 @@
 package info.kuechler.bmf.taxcalculator.rw;
 
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.METHOD_PREFIX_GET;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.METHOD_PREFIX_SET;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getParameterCount;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getPropertyName;
 import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.isMethod;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensiviteProperty;
+import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensitiveProperty;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -20,9 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * An example can be found on implementation class {@link TaxCalculatorFactory}.
  */
 public abstract class AbstractReadWriteFactory {
-    private final Map<String /* methodType-key */, Map<String /*
-                                                               * property in upper case
-                                                               */, Method>> methodCache;
+    private final Map<String /* methodType-key */, Map<String /* property in upper case */, Method>> methodCache;
     private final String calculateMethodName;
 
     /**
@@ -224,7 +224,7 @@ public abstract class AbstractReadWriteFactory {
      * @return {@link Map} of getter (key=property key (upper case), value= {@link Method})
      */
     protected Map<String, Method> getGetter(final String classKey, final Class<?> clazz) {
-        return getMethods(clazz, classKey, "get", 0);
+        return getMethods(clazz, classKey, METHOD_PREFIX_GET, 0);
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class AbstractReadWriteFactory {
      * @return {@link Map} of getter (key=property key (upper case), value= {@link Method})
      */
     protected Map<String, Method> getSetter(final String classKey, final Class<?> clazz) {
-        return getMethods(clazz, classKey, "set", 1);
+        return getMethods(clazz, classKey, METHOD_PREFIX_SET, 1);
     }
 
     /**
@@ -250,7 +250,8 @@ public abstract class AbstractReadWriteFactory {
      * @param key
      *            the class key
      * @param methodTypePrefix
-     *            expected method prefix like "get" or "set"
+	 *            expected method prefix like {@value SetterGetterUtil#METHOD_PREFIX_GET} or
+	 *            {@value SetterGetterUtil#METHOD_PREFIX_SET}
      * @param parameterCount
      *            expected count of parameter
      * @return the {@link Map} with methods which is expected (key=property key (upper case), value= {@link Method})
@@ -272,8 +273,9 @@ public abstract class AbstractReadWriteFactory {
      * 
      * @param clazz
      *            the class
-     * @param methodTypePrefix
-     *            expected method prefix like "get" or "set"
+	 * @param methodTypePrefix
+	 *            expected method prefix like {@value SetterGetterUtil#METHOD_PREFIX_GET} or
+	 *            {@value SetterGetterUtil#METHOD_PREFIX_SET}
      * @param parameterCount
      *            expected count of parameter
      * @return the {@link Map} with methods which is expected (key=property key (upper case), value= {@link Method})
@@ -287,7 +289,7 @@ public abstract class AbstractReadWriteFactory {
             final String name = method.getName();
             if (isMethod(methodTypePrefix, name) && getParameterCount(method) == parameterCount
                     && !filterMethods.contains(name)) {
-                methodCollection.put(toCaseInsensiviteProperty(getPropertyName(name)), method);
+                methodCollection.put(toCaseInsensitiveProperty(getPropertyName(name)), method);
             }
         }
         return methodCollection;
