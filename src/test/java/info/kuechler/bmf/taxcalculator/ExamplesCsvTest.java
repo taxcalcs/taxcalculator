@@ -37,7 +37,7 @@ interface WriterConfigurer {
 public class ExamplesCsvTest {
     private final static Logger LOG = LoggerFactory.getLogger(ExamplesCsvTest.class);
 
-    public static final CSVFormat FORMAT = CSVFormat.DEFAULT.withDelimiter(';');
+    public static final CSVFormat FORMAT = CSVFormat.DEFAULT;
 
     private static final WriterConfigurer CONF_SPECIAL = new WriterConfigurer() {
 
