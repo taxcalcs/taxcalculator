@@ -5,7 +5,10 @@ import java.util.Locale;
 
 /**
  * Helper class for getter, setter and methods.
+ * 
+ * @deprecated will be removed in 2019 version
  */
+@Deprecated
 public class SetterGetterUtil {
 	
 	/**

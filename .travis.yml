@@ -1,7 +1,20 @@
 ---
+dist: trusty
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - oracle-java9-installer
+
 language: java
 jdk:
-  - openjdk7
-  - oraclejdk7
   - oraclejdk8
+  - openjdk8
+  - oraclejdk9
+
+matrix:
+  allow_failures:
+    - jdk: oraclejdk9
+    
 script: mvn clean install

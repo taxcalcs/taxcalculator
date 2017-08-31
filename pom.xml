@@ -62,7 +62,7 @@
 	</scm>
 
 	<properties>
-		<project.java.version>1.7</project.java.version>
+		<project.java.version>1.8</project.java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<file.host>https://www.bmf-steuerrechner.de</file.host>
 		<classes.package.directory>info/kuechler/bmf/taxcalculator</classes.package.directory>

@@ -1,16 +1,9 @@
 package info.kuechler.bmf.taxcalculator;
 
 import static info.kuechler.bmf.taxapi.TaxApiFactory.getUrl;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createGetterName;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.createSetterName;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getFirstParameterType;
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.getParameterCount;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -135,8 +129,8 @@ public class RemoteCompareTest {
      * 
      * @return the calculator.
      */
-    private Object createCalculator() throws Exception {
-        return Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
+    private Calculator createCalculator() throws Exception {
+        return (Calculator) Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
     }
 
     /**
@@ -184,71 +178,36 @@ public class RemoteCompareTest {
      * @throws Exception
      *             an error. Test failed
      */
-    private boolean run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
-        final Lohnsteuer result = getExpected(baseUri, testCase);
-        final Object calc = createCalculator();
+	private boolean run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+		final Lohnsteuer result = getExpected(baseUri, testCase);
+		final Calculator calc = createCalculator();
+		final Accessor accessor = calc.getAccessor();
+		final Map<String, Class<?>> types = accessor.getInputsWithType();
 
-        // set input values
-        for (final Eingabe elem : result.getEingaben()) {
-            boolean found = false;
-            final String setterName = createSetterName(elem.getName());
-            for (final Method method : calc.getClass().getMethods()) {
-                if (setterName.equals(method.getName()) && getParameterCount(method) == 1) {
-                    final Class<?> parameterClass = getFirstParameterType(method);
-                    final Object parameter = convert(parameterClass, elem.getValue());
-                    method.invoke(calc, parameter);
-                    LOG.debug("Input " + elem.getName() + " = " + parameter);
-                    found = true;
-                    break;
-                }
-            }
-            Assert.assertTrue("No setter found for " + elem.getName(), found || isTestCaseId(elem));
-        }
+		// set input values
+		for (final Eingabe elem : result.getEingaben()) {
+			if (!isTestCaseId(elem)) {
+				final Class<?> type = types.get(elem.getName());
+				accessor.set(elem.getName(), convert(type, elem.getValue()));
+				LOG.debug("Input " + elem.getName() + " = " + elem.getValue());
+			}
+		}
 
-        final Method method = calc.getClass().getMethod("calculate");
-        method.invoke(calc);
+		calc.calculate();
 
-        // compare output values
-        for (final Ausgabe elem : result.getAusgaben()) {
-            final Object r = getValue(calc, elem.getName());
-            LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
-            Assert.assertEquals(r, elem.getValue());
-        }
-        return true;
-    }
-
-    /**
-     * Extract a value by name from an object. The access will be try via getter and reflections.
-     * 
-     * @param calc
-     *            object
-     * @param elemName
-     *            element name to search
-     * @return value
-     * @throws NoSuchFieldException
-     *             Exception during access
-     * @throws SecurityException
-     *             Exception during access
-     * @throws IllegalArgumentException
-     *             Exception during access
-     * @throws IllegalAccessException
-     *             Exception during access
-     */
-    private Object getValue(final Object calc, final String elemName)
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        try {
-            final Method getter = calc.getClass().getMethod(createGetterName(elemName));
-            return getter.invoke(calc);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            LOG.trace("Extract internal field {} tru reflection.", elemName);
-            // API sends internal values
-            final Field field = calc.getClass().getDeclaredField(elemName);
-            if (!field.isAccessible()) {
-                field.setAccessible(true);
-            }
-            return field.get(calc);
-        }
-    }
+		// compare output values
+		final Set<String> outs = accessor.getOutputsWithType().keySet();
+		for (final Ausgabe elem : result.getAusgaben()) {
+			if (outs.contains(elem.getName())) {
+				final Object r = accessor.get(elem.getName());
+				LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
+				Assert.assertEquals(r, elem.getValue());
+			} else {
+				LOG.debug("Unknown result " + elem.getName() + " maybe an internal field");
+			}
+		}
+		return true;
+	}
 
     /**
      * Creates the URI for calling the web service for the expected result.
@@ -330,10 +289,10 @@ public class RemoteCompareTest {
      */
     private Object convert(Class<?> parameter, BigDecimal value) {
         if (parameter == int.class) {
-            return value.intValue();
+            return Integer.valueOf(value.intValue());
         }
         if (parameter == long.class) {
-            return value.longValue();
+            return Double.valueOf(value.longValue());
         }
         return value;
     }

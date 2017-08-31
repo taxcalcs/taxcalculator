@@ -20,7 +20,7 @@ public class FactoryTest {
     @Test
     public final void test() throws ReadWriteException {
         final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-        final Writer input = factory.create("2015Dezember").setAllToZero();
+        final Writer input = factory.create(factory.getYearKey(0, 2015)).setAllToZero();
 
         final Map<String, Object> values = new HashMap<>();
         values.put("STKL", 1);
@@ -46,7 +46,7 @@ public class FactoryTest {
             Assert.assertNotEquals("'CLASS' getter found.", "CLASS", in);
         }
     }
-
+    
     /**
      * Test {@link TaxCalculatorFactory#getYearKey(int, int)}.
      */
@@ -101,7 +101,7 @@ public class FactoryTest {
     }
 
     /**
-     * Test {@link AbstractReadWriteFactory#getInputsWithType(String)}.
+     * Test {@link TaxCalculatorFactory#getInputsWithType(String)}.
      * 
      * @throws ReadWriteException error
      */
@@ -117,7 +117,7 @@ public class FactoryTest {
     }
 
     /**
-     * Test {@link AbstractReadWriteFactory#getOutputsWithType(String)}.
+     * Test {@link TaxCalculatorFactory#getOutputsWithType(String)}.
      * 
      * @throws ReadWriteException error
      */
