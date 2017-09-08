@@ -100,7 +100,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public int getInt(final String key) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		return getterIntMap.get(key).applyAsInt(calculator);
 	}
@@ -111,7 +111,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public BigDecimal getBigDecimal(final String key) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		return getterBigDecimalMap.get(key).apply(calculator);
 	}
@@ -122,7 +122,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public double getDouble(final String key) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		return getterDoubleMap.get(key).applyAsDouble(calculator);
 	}
@@ -133,7 +133,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public void setInt(final String key, final int value) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		setterIntMap.get(key).accept(calculator, value);
 	}
@@ -144,7 +144,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public void setBigDecimal(final String key, final BigDecimal value) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		setterBigDecimalMap.get(key).accept(calculator, value);
 	}
@@ -155,7 +155,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public void setDouble(final String key, final double value) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		setterDoubleMap.get(key).accept(calculator, value);
 	}
@@ -166,11 +166,11 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public <V> void set(final String key, final V value) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		final Class<?> type = inputs.get(key);
 		if (type == null) {
-			throw new NullPointerException("Key unknown: " + key);
+			throw new IllegalArgumentException("Key unknown: " + key);
 		} else if (type == BigDecimal.class) {
 			setBigDecimal(key, (BigDecimal) value);
 		} else if (type == int.class) {
@@ -178,7 +178,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 		} else if (type == double.class) {
 			setDouble(key, ((Double) value).doubleValue());
 		} else {
-			throw new NullPointerException("Key type unknown: " + key);
+			throw new IllegalArgumentException("Key type unknown: " + key);
 		}
 	}
 
@@ -189,11 +189,11 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@Override
 	public <V> V get(final String key) {
 		if (key == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("key is null");
 		}
 		final Class<?> type = outputs.get(key);
 		if (type == null) {
-			throw new NullPointerException("Key unknown: " + key);
+			throw new IllegalArgumentException("Key unknown: " + key);
 		}
 		if (type == BigDecimal.class) {
 			return (V) getBigDecimal(key);
@@ -204,7 +204,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 		if (type == double.class) {
 			return (V) Double.valueOf(getDouble(key));
 		}
-		throw new NullPointerException("Key type unknown: " + key);
+		throw new IllegalArgumentException("Key type unknown: " + key);
 	}
 
 	/**

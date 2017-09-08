@@ -24,7 +24,7 @@ public class PerformanceTestHelper {
 		final long startAll = System.nanoTime();
 		for (int i = 0, l1 = loop1; i < l1; i++) {
 			final long start = System.nanoTime();
-			for (int j = 0, l2 = loop2; j < l2; j++) {
+			for (int j = 0; j < loop2; j++) {
 				final Writer input = TaxCalculatorFactory.create(0, 2015);
 
 				final Map<String, Object> values = new HashMap<>();
@@ -63,7 +63,7 @@ public class PerformanceTestHelper {
 			executor.submit(() -> {
 				try {
 					final long start = System.nanoTime();
-					for (int j = 0, l2 = loop2; j < l2; j++) {
+					for (int j = 0; j < loop2; j++) {
 						final Writer input = TaxCalculatorFactory.create(0, 2015);
 
 						final Map<String, Object> values = new HashMap<>();
@@ -80,13 +80,17 @@ public class PerformanceTestHelper {
 					final long end = System.nanoTime();
 					System.out.println("Run: " + (end - start) / 1000000 + " ms");
 				} catch (ReadWriteException e) {
-					throw new RuntimeException(e);
+					throw new IllegalStateException(e);
 				}
 			});
 		}
-		executor.shutdown();
-		executor.awaitTermination(10, TimeUnit.MINUTES);
-		final long endAll = System.nanoTime();
-		System.out.println("Run all: " + (endAll - startAll) / 1000000 + " ms");
+		try {
+			executor.shutdown();
+			executor.awaitTermination(10, TimeUnit.MINUTES);
+			final long endAll = System.nanoTime();
+			System.out.println("Run all: " + (endAll - startAll) / 1000000 + " ms");
+		} catch (InterruptedException e) {
+			Assert.fail("Timeout");
+		}
 	}
 }
