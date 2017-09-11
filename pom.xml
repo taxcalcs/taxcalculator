@@ -45,7 +45,7 @@
 	</issueManagement>
 	<licenses>
 		<license>
-			<name>The MIT License (MIT)</name>
+			<name>The MIT License</name>
 			<url>http://opensource.org/licenses/mit-license.php</url>
 		</license>
 	</licenses>
@@ -55,6 +55,12 @@
 			<url>https://github.com/admiralsmaster</url>
 		</developer>
 	</developers>
+	<contributors>
+		<contributor>
+			<name>Thomas Darimont</name>
+			<url>https://github.com/thomasdarimont</url>
+		</contributor>
+	</contributors>
 	<scm>
 		<connection>scm:git:git://github.com/admiralsmaster/taxcalculator.git</connection>
 		<developerConnection>scm:git:ssh://github.com:admiralsmaster/taxcalculator.git</developerConnection>
@@ -445,6 +451,12 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			
+			<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-site-plugin</artifactId>
+    			<version>3.6</version>
 			</plugin>
 
 		</plugins>
