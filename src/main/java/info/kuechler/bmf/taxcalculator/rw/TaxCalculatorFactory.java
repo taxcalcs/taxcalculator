@@ -28,20 +28,20 @@ import info.kuechler.bmf.taxcalculator.Calculator;
 @SuppressWarnings("deprecation")
 public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * Creates a object from following class:
-     * <code>"info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big"</code>
-     * </p>
-     */
-    @SuppressWarnings("unchecked")
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * <p>
+	 * Creates a object from following class:
+	 * <code>"info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big"</code>
+	 * </p>
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
-    protected Class<Calculator> getCalculatorClass(final String yearKey) throws ClassNotFoundException {
-        return (Class<Calculator>) Class.forName("info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big");
-    }
-    
+	protected Class<Calculator> getCalculatorClass(final String yearKey) throws ClassNotFoundException {
+		return (Class<Calculator>) Class.forName("info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big");
+	}
+
 	/**
 	 * Creates an {@link Writer} directly. This method set all values to her
 	 * initial values (0). There is no need to call
@@ -54,6 +54,7 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *            the year, have to be &gt;= 2006
 	 * @return {@link Writer}
 	 * @throws ReadWriteException
+	 *             an error
 	 * @since 2018.0.0
 	 * @see Writer#setAllToZero()
 	 */
@@ -61,8 +62,8 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 		final TaxCalculatorFactory factory = new TaxCalculatorFactory();
 		return factory.create(factory.getYearKey(month, year)).setAllToZero();
 	}
-    
-    /**
+
+	/**
 	 * Returns the yearKey to use with
 	 * {@link TaxCalculatorFactory#create(String)} and the other methods.
 	 * 
@@ -73,23 +74,23 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *            the year, have to be &gt;= 2006
 	 * @return the key
 	 */
-    public String getYearKey(final int month, final int year) {
-        if (year < 2006 || month > 12 || month < 0) {
-            throw new IllegalArgumentException("Month have to be between 0 and 12, year >= 2006");
-        }
-        if (year == 2011) {
-            if (month == 12 || month == 0) {
-                return "2011December";
-            }
-            return "2011November";
-        }
-        if (year == 2015 && (month == 12 || month == 0)) {
-            return "2015Dezember";
-        }
-        return Integer.toString(year);
-    }
-    
-    /**
+	public String getYearKey(final int month, final int year) {
+		if (year < 2006 || month > 12 || month < 0) {
+			throw new IllegalArgumentException("Month have to be between 0 and 12, year >= 2006");
+		}
+		if (year == 2011) {
+			if (month == 12 || month == 0) {
+				return "2011December";
+			}
+			return "2011November";
+		}
+		if (year == 2015 && (month == 12 || month == 0)) {
+			return "2015Dezember";
+		}
+		return Integer.toString(year);
+	}
+
+	/**
 	 * Create an instance of the calculate class.
 	 * 
 	 * @param yearKey
@@ -128,10 +129,10 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 		// (I use a ConcurrentHashMap for caching)
 		return createCalculator(yearKey).getAccessor();
 	}
-	
+
 	/**
 	 * Create a {@link Writer}. The key is used to create a instance and detect
-	 * all methods (calculate, getter, setter). The 
+	 * all methods (calculate, getter, setter). The
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method

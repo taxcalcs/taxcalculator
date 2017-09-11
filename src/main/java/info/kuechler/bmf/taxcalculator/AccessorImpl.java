@@ -35,7 +35,28 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	private final Map<String, String> outputTypes;
 
 	/**
-	 * Use {@link #newMap()} to create input maps.
+	 * Constructor. Use {@link #newMap()} to create input maps.
+	 * 
+	 * @param getterIntMap
+	 *            the map with getter functions to get int values
+	 * @param getterBigDecimalMap
+	 *            the map with getter functions to get {@link BigDecimal} values
+	 * @param getterDoubleMap
+	 *            the map with getter functions to get double values
+	 * @param setterIntMap
+	 *            the map with setter functions to set int values
+	 * @param setterBigDecimalMap
+	 *            the map with setter functions to set {@link BigDecimal} values
+	 * @param setterDoubleMap
+	 *            the map with setter functions to set double values
+	 * @param calculator
+	 *            the {@link Calculator} instance for reading and writing values
+	 * @param inputs
+	 *            the input keys with types
+	 * @param outputs
+	 *            the output keys with types
+	 * @param outputTypes
+	 *            the special types for output keys
 	 */
 	public AccessorImpl(
 			//
@@ -71,7 +92,10 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	/**
 	 * Creates a new {@link Map} for constructor input.
 	 * 
-	 * @return
+	 * @param <V>
+	 *            the value type
+	 * 
+	 * @return a new created {@link Map}
 	 */
 	public static <V> Map<String, V> newMap() {
 		return new TreeMap<String, V>(String.CASE_INSENSITIVE_ORDER);
@@ -79,6 +103,9 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 
 	/**
 	 * Copies a {@link Map} into a new {@link Map}.
+	 * 
+	 * @param <V>
+	 *            the value type
 	 * 
 	 * @param map
 	 *            the map to copy

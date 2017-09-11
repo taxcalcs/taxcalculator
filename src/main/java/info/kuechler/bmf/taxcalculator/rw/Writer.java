@@ -17,50 +17,50 @@ import info.kuechler.bmf.taxcalculator.Calculator;
  */
 public class Writer {
 
-    private final Calculator calculator;
-    private final Accessor accessor;
+	private final Calculator calculator;
+	private final Accessor accessor;
 
-    /**
-     * Constructor.
-     * 
-     * @param calculator
-     *            the calculate class.
-     */
-    protected Writer(final Calculator calculator) {
-        this.calculator = calculator;
-        this.accessor = calculator.getAccessor();
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param calculator
+	 *            the calculate class.
+	 */
+	protected Writer(final Calculator calculator) {
+		this.calculator = calculator;
+		this.accessor = calculator.getAccessor();
+	}
 
-    /**
-     * Initialize all values with zero.
-     * 
-     * @return the {@link Writer} object itself.
-     * @throws ReadWriteException
-     *             Error while setting the values.
-     */
+	/**
+	 * Initialize all values with zero.
+	 * 
+	 * @return the {@link Writer} object itself.
+	 * @throws ReadWriteException
+	 *             Error while setting the values.
+	 */
 	public Writer setAllToZero() throws ReadWriteException {
 		accessor.setAllToZero();
 		return this;
 	}
 
-    /**
-     * Set a value. The type of the value have to be correct.
-     * 
-     * @param key
-     *            the property name, is case insensitive
-     * @param value
-     *            the value to set.
-     * @param <T>
-     *            the result type
-     * @return the {@link Writer} object itself.
-     * @throws ReadWriteException
-     *             Error while set the values.
-     */
+	/**
+	 * Set a value. The type of the value have to be correct.
+	 * 
+	 * @param key
+	 *            the property name, is case insensitive
+	 * @param value
+	 *            the value to set.
+	 * @param <T>
+	 *            the result type
+	 * @return the {@link Writer} object itself.
+	 * @throws ReadWriteException
+	 *             Error while set the values.
+	 */
 	public <T> Writer set(final String key, final T value) throws ReadWriteException {
 		accessor.set(key, value);
 		return this;
 	}
-	
+
 	/**
 	 * Set a value.
 	 * 
@@ -77,7 +77,7 @@ public class Writer {
 		accessor.setBigDecimal(key, value);
 		return this;
 	}
-	
+
 	/**
 	 * Set a value.
 	 * 
@@ -94,7 +94,7 @@ public class Writer {
 		accessor.setInt(key, value);
 		return this;
 	}
-	
+
 	/**
 	 * Set a value.
 	 * 
@@ -112,18 +112,16 @@ public class Writer {
 		return this;
 	}
 
-    /**
-     * Set all the values from the Map.
-     * 
-     * @param values
-     *            the values to set.
-     * @param <T>
-     *            the result type
-     * @return the current {@link Writer} object itself
-     * @throws ReadWriteException
-     *             Error while setting the values.
-     * @see #set(String, Object)
-     */
+	/**
+	 * Set all the values from the Map.
+	 * 
+	 * @param values
+	 *            the values to set.
+	 * @return the current {@link Writer} object itself
+	 * @throws ReadWriteException
+	 *             Error while setting the values.
+	 * @see #set(String, Object)
+	 */
 	public Writer setAll(final Map<String, ?> values) throws ReadWriteException {
 		for (final Map.Entry<String, ?> e : values.entrySet()) {
 			accessor.set(e.getKey(), e.getValue());
@@ -131,13 +129,13 @@ public class Writer {
 		return this;
 	}
 
-    /**
-     * Call the calculation method.
-     * 
-     * @return The {@link Reader} object to access the output values.
-     */
-    public Reader calculate() {
-       calculator.calculate();
-       return new Reader(calculator);
-    }
+	/**
+	 * Call the calculation method.
+	 * 
+	 * @return The {@link Reader} object to access the output values.
+	 */
+	public Reader calculate() {
+		calculator.calculate();
+		return new Reader(calculator);
+	}
 }

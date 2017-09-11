@@ -8,6 +8,8 @@ package info.kuechler.bmf.taxcalculator;
 public interface Calculator {
 	/**
 	 * Calculate the tax.
+	 * 
+	 * @since 2018.0.0
 	 */
 	void calculate();
 
@@ -15,6 +17,8 @@ public interface Calculator {
 	 * Gets an {@link Accessor} for simple use of getter and setter.
 	 * 
 	 * @return {@link Accessor}
+	 * 
+	 * @since 2018.0.0
 	 */
 	Accessor getAccessor();
 }

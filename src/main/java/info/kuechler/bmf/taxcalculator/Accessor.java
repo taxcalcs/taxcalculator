@@ -46,6 +46,10 @@ public interface Accessor {
 	/**
 	 * Get a value.
 	 * 
+	 * @param <V>
+	 *            return object class, can be {@link Integer}, {@link Double} or
+	 *            {@link BigDecimal}.
+	 * 
 	 * @param key
 	 *            the key, case insensitive
 	 * @return the value, {@link Integer}, {@link Double} or {@link BigDecimal}
@@ -92,6 +96,10 @@ public interface Accessor {
 
 	/**
 	 * Set a value with unknown type.
+	 * 
+	 * @param <V>
+	 *            value object class, can be {@link Integer}, {@link Double} or
+	 *            {@link BigDecimal}.
 	 * 
 	 * @param key
 	 *            the key, case insensitive

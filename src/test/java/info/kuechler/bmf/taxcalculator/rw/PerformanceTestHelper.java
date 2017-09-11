@@ -51,6 +51,7 @@ public class PerformanceTestHelper {
 	 * @throws ReadWriteException
 	 *             error
 	 * @throws InterruptedException
+	 *             ExecutorService stop timeout
 	 */
 	@Test
 	@Ignore("for simple performance test only")
@@ -59,7 +60,7 @@ public class PerformanceTestHelper {
 		final int loop2 = 1000000;
 		final ExecutorService executor = Executors.newFixedThreadPool(loop1);
 		final long startAll = System.nanoTime();
-		for (int i = 0, l1 = loop1; i < l1; i++) {
+		for (int i = 0; i < loop1; i++) {
 			executor.submit(() -> {
 				try {
 					final long start = System.nanoTime();
