@@ -3,33 +3,7 @@ package info.kuechler.bmf.taxcalculator.rw;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import info.kuechler.bmf.taxcalculator.Accessor;
-import info.kuechler.bmf.taxcalculator.Calculator;
-
-/**
- * Class to set input values in tax calculator classes.
- * 
- * <p>
- * To create this class use the {@link TaxCalculatorFactory} class.
- * </p>
- * 
- * @see TaxCalculatorFactory#create(String)
- */
-public class Writer {
-
-	private final Calculator calculator;
-	private final Accessor accessor;
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param calculator
-	 *            the calculate class.
-	 */
-	protected Writer(final Calculator calculator) {
-		this.calculator = calculator;
-		this.accessor = calculator.getAccessor();
-	}
+public interface Writer {
 
 	/**
 	 * Initialize all values with zero.
@@ -38,10 +12,7 @@ public class Writer {
 	 * @throws ReadWriteException
 	 *             Error while setting the values.
 	 */
-	public Writer setAllToZero() throws ReadWriteException {
-		accessor.setAllToZero();
-		return this;
-	}
+	Writer setAllToZero() throws ReadWriteException;
 
 	/**
 	 * Set a value. The type of the value have to be correct.
@@ -50,16 +21,13 @@ public class Writer {
 	 *            the property name, is case insensitive
 	 * @param value
 	 *            the value to set.
-	 * @param <T>
+	 * @param <V>
 	 *            the result type
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 */
-	public <T> Writer set(final String key, final T value) throws ReadWriteException {
-		accessor.set(key, value);
-		return this;
-	}
+	<V> Writer set(String key, V value) throws ReadWriteException;
 
 	/**
 	 * Set a value.
@@ -73,10 +41,7 @@ public class Writer {
 	 *             Error while set the values.
 	 * @since 2018.0.0
 	 */
-	public Writer set(final String key, final BigDecimal value) throws ReadWriteException {
-		accessor.setBigDecimal(key, value);
-		return this;
-	}
+	Writer set(String key, BigDecimal value) throws ReadWriteException;
 
 	/**
 	 * Set a value.
@@ -90,10 +55,7 @@ public class Writer {
 	 *             Error while set the values.
 	 * @since 2018.0.0
 	 */
-	public Writer set(final String key, final int value) throws ReadWriteException {
-		accessor.setInt(key, value);
-		return this;
-	}
+	Writer set(String key, int value) throws ReadWriteException;
 
 	/**
 	 * Set a value.
@@ -107,10 +69,7 @@ public class Writer {
 	 *             Error while set the values.
 	 * @since 2018.0.0
 	 */
-	public Writer set(final String key, final double value) throws ReadWriteException {
-		accessor.setDouble(key, value);
-		return this;
-	}
+	Writer set(String key, double value) throws ReadWriteException;
 
 	/**
 	 * Set all the values from the Map.
@@ -122,20 +81,15 @@ public class Writer {
 	 *             Error while setting the values.
 	 * @see #set(String, Object)
 	 */
-	public Writer setAll(final Map<String, ?> values) throws ReadWriteException {
-		for (final Map.Entry<String, ?> e : values.entrySet()) {
-			accessor.set(e.getKey(), e.getValue());
-		}
-		return this;
-	}
+	Writer setAll(Map<String, ?> values) throws ReadWriteException;
 
 	/**
 	 * Call the calculation method.
 	 * 
 	 * @return The {@link Reader} object to access the output values.
+	 * @throws ReadWriteException
+	 *             error during creates Reader
 	 */
-	public Reader calculate() {
-		calculator.calculate();
-		return new Reader(calculator);
-	}
+	Reader calculate() throws ReadWriteException;
+
 }

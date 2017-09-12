@@ -13,8 +13,4 @@ jdk:
   - openjdk8
   - oraclejdk9
 
-matrix:
-  allow_failures:
-    - jdk: oraclejdk9
-    
 script: mvn clean install

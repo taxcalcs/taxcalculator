@@ -13,13 +13,13 @@
 	 * @see #build(<xsl:value-of select="$class" />)
 	 * @since 2018.0.0
 	 */	
-	private static final class AccessorBuilder {
+	private static final class AccessorBuilder&lt;T extends <xsl:value-of select="$class" />&gt; {
 		
 		/**
 		 * Holder for lazy singleton instance.
 		 */
 		private static final class Holder {
-        	private static final AccessorBuilder INSTANCE = new AccessorBuilder();
+        	private static final AccessorBuilder&lt;<xsl:value-of select="$class" />&gt; INSTANCE = new AccessorBuilder&lt;&gt;();
       	}
       	
       	/** private constructor for singleton */
@@ -32,17 +32,17 @@
 		 *            the calculator for accessor access.
 		 * @return the accessor
 		 */
-		public static Accessor build(final <xsl:value-of select="$class" /> calculator) {
-			final AccessorBuilder i = Holder.INSTANCE;
+		public static Accessor&lt;<xsl:value-of select="./@name" />&gt; build(final <xsl:value-of select="$class" /> calculator) {
+			final AccessorBuilder&lt;<xsl:value-of select="$class" />&gt; i = Holder.INSTANCE;
 			return new AccessorImpl&lt;<xsl:value-of select="$class" />&gt;(i.GETTER_INT_MAP, i.GETTER_BD_MAP, i.GETTER_DOUBLE_MAP, i.SETTER_INT_MAP, i.SETTER_BD_MAP, i.SETTER_DOUBLE_MAP, calculator, i.INPUTS, i.OUTPUTS, i.OUTPUT_TYPES);
 		}
 		
 		/**
 		  * Getter methods which returns int.
 		  */
-		private final Map&lt;String,ToIntFunction&lt;<xsl:value-of select="$class" />&gt;&gt; GETTER_INT_MAP;
+		private final Map&lt;String,ToIntFunction&lt;T&gt;&gt; GETTER_INT_MAP;
 		{
-			final Map&lt;String,ToIntFunction&lt;<xsl:value-of select="$class" />&gt;&gt; tmp = newMap();
+			final Map&lt;String,ToIntFunction&lt;T&gt;&gt; tmp = newMap();
 			// getter from output fields
 			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="int"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			// getter from input fields
@@ -54,9 +54,9 @@
 		/**
 		  * Getter methods which returns {@link BigDecimal}.
 		  */
-		private final Map&lt;String,Function&lt;<xsl:value-of select="$class" />,BigDecimal&gt;&gt; GETTER_BD_MAP;
+		private final Map&lt;String,Function&lt;T,BigDecimal&gt;&gt; GETTER_BD_MAP;
 		{
-		 	final Map&lt;String,Function&lt;<xsl:value-of select="$class" />,BigDecimal&gt;&gt; tmp = newMap();
+		 	final Map&lt;String,Function&lt;T,BigDecimal&gt;&gt; tmp = newMap();
 			// getter from output fields
 			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="BigDecimal"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			// getter from input fields
@@ -68,9 +68,9 @@
 		/**
 		  * Getter methods which returns double.
 		  */
-		private final Map&lt;String,ToDoubleFunction&lt;<xsl:value-of select="$class" />&gt;&gt; GETTER_DOUBLE_MAP;
+		private final Map&lt;String,ToDoubleFunction&lt;T&gt;&gt; GETTER_DOUBLE_MAP;
 		{
-			final Map&lt;String,ToDoubleFunction&lt;<xsl:value-of select="$class" />&gt;&gt; tmp = newMap();
+			final Map&lt;String,ToDoubleFunction&lt;T&gt;&gt; tmp = newMap();
 			// getter from output fields
 			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="double"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			// getter from input fields
@@ -82,9 +82,9 @@
 		/**
 		  * Setter methods which returns int.
 		  */
-		private final Map&lt;String,ObjIntConsumer&lt;<xsl:value-of select="$class" />&gt;&gt; SETTER_INT_MAP;
+		private final Map&lt;String,ObjIntConsumer&lt;T&gt;&gt; SETTER_INT_MAP;
 		{
-			final Map&lt;String,ObjIntConsumer&lt;<xsl:value-of select="$class" />&gt;&gt; tmp = newMap();
+			final Map&lt;String,ObjIntConsumer&lt;T&gt;&gt; tmp = newMap();
 			// setter from input fields
 			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="int"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			//
@@ -94,9 +94,9 @@
 		/**
 		  * Setter methods which returns {@link BigDecimal}.
 		  */
-		private final Map&lt;String,BiConsumer&lt;<xsl:value-of select="$class" />,BigDecimal&gt;&gt; SETTER_BD_MAP;
+		private final Map&lt;String,BiConsumer&lt;T,BigDecimal&gt;&gt; SETTER_BD_MAP;
 		{
-			final Map&lt;String,BiConsumer&lt;<xsl:value-of select="$class" />,BigDecimal&gt;&gt; tmp = newMap();
+			final Map&lt;String,BiConsumer&lt;T,BigDecimal&gt;&gt; tmp = newMap();
 			// setter from input fields
 			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="BigDecimal"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			//
@@ -106,9 +106,9 @@
 		/**
 		  * Setter methods which returns double.
 		  */
-		private final Map&lt;String,ObjDoubleConsumer&lt;<xsl:value-of select="$class" />&gt;&gt; SETTER_DOUBLE_MAP;
+		private final Map&lt;String,ObjDoubleConsumer&lt;T&gt;&gt; SETTER_DOUBLE_MAP;
 		{
-			final Map&lt;String,ObjDoubleConsumer&lt;<xsl:value-of select="$class" />&gt;&gt; tmp = newMap();
+			final Map&lt;String,ObjDoubleConsumer&lt;T&gt;&gt; tmp = newMap();
 			// setter from input fields
 			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="double"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
 			//

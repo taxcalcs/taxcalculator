@@ -129,8 +129,9 @@ public class RemoteCompareTest {
      * 
      * @return the calculator.
      */
-    private Calculator createCalculator() throws Exception {
-        return (Calculator) Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
+    @SuppressWarnings("unchecked")
+	private <T extends Calculator<T>> T createCalculator() throws Exception {
+        return (T) Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
     }
 
     /**
@@ -176,8 +177,8 @@ public class RemoteCompareTest {
      */
 	private boolean run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
 		final Lohnsteuer result = getExpected(baseUri, testCase);
-		final Calculator calc = createCalculator();
-		final Accessor accessor = calc.getAccessor();
+		final Calculator<?> calc = createCalculator();
+		final Accessor<?> accessor = calc.getAccessor();
 		final Map<String, Class<?>> types = accessor.getInputsWithType();
 
 		// set input values

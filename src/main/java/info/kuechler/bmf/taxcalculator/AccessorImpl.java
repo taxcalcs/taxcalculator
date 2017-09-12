@@ -20,7 +20,7 @@ import java.util.function.ToIntFunction;
  * @param <T>
  *            the {@link Calculator} implementation
  */
-public class AccessorImpl<T extends Calculator> implements Accessor {
+public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	private final Map<String, ToIntFunction<T>> getterIntMap;
 	private final Map<String, Function<T, BigDecimal>> getterBigDecimalMap;
 	private final Map<String, ToDoubleFunction<T>> getterDoubleMap;
@@ -126,10 +126,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public int getInt(final String key) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		return getterIntMap.get(key).applyAsInt(calculator);
+		checkKey(key);
+		return checkMapResult(getterIntMap.get(key)).applyAsInt(calculator);
 	}
 
 	/**
@@ -137,10 +135,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public BigDecimal getBigDecimal(final String key) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		return getterBigDecimalMap.get(key).apply(calculator);
+		checkKey(key);
+		return checkMapResult(getterBigDecimalMap.get(key)).apply(calculator);
 	}
 
 	/**
@@ -148,10 +144,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public double getDouble(final String key) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		return getterDoubleMap.get(key).applyAsDouble(calculator);
+		checkKey(key);
+		return checkMapResult(getterDoubleMap.get(key)).applyAsDouble(calculator);
 	}
 
 	/**
@@ -159,10 +153,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public void setInt(final String key, final int value) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		setterIntMap.get(key).accept(calculator, value);
+		checkKey(key);
+		checkMapResult(setterIntMap.get(key)).accept(calculator, value);
 	}
 
 	/**
@@ -170,10 +162,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public void setBigDecimal(final String key, final BigDecimal value) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		setterBigDecimalMap.get(key).accept(calculator, value);
+		checkKey(key);
+		checkMapResult(setterBigDecimalMap.get(key)).accept(calculator, value);
 	}
 
 	/**
@@ -181,10 +171,8 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public void setDouble(final String key, final double value) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
-		setterDoubleMap.get(key).accept(calculator, value);
+		checkKey(key);
+		checkMapResult(setterDoubleMap.get(key)).accept(calculator, value);
 	}
 
 	/**
@@ -192,9 +180,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public <V> void set(final String key, final V value) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
+		checkKey(key);
 		final Class<?> type = inputs.get(key);
 		if (type == null) {
 			throw new IllegalArgumentException("Key unknown: " + key);
@@ -215,9 +201,7 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V> V get(final String key) {
-		if (key == null) {
-			throw new IllegalArgumentException("key is null");
-		}
+		checkKey(key);
 		final Class<?> type = outputs.get(key);
 		if (type == null) {
 			throw new IllegalArgumentException("Key unknown: " + key);
@@ -265,6 +249,47 @@ public class AccessorImpl<T extends Calculator> implements Accessor {
 	 */
 	@Override
 	public String getOutputSpecialType(final String key) {
-		return outputTypes.get(key);
+		return checkMapResult(outputTypes.get(key));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public T getCalculator() {
+		return calculator;
+	}
+
+	/**
+	 * Checks the result of calling {@link Map#get(Object)} of non
+	 * <code>null</code>.
+	 *
+	 * @param <V>
+	 *            type of the value
+	 * @param parameter
+	 *            the values
+	 * @return the original value
+	 * @throws IllegalArgumentException
+	 *             if parameter is <code>null</code>
+	 */
+	protected <V> V checkMapResult(final V parameter) {
+		if (parameter == null) {
+			throw new IllegalArgumentException("Key unknown");
+		}
+		return parameter;
+	}
+
+	/**
+	 * Checks the key value is not <code>null</code>.
+	 * 
+	 * @param key
+	 *            the key value
+	 * @throws IllegalArgumentException
+	 *             if key is <code>null</code>.
+	 */
+	protected void checkKey(final String key) {
+		if (key == null) {
+			throw new IllegalArgumentException("key is null");
+		}
 	}
 }

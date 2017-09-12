@@ -37,7 +37,7 @@ import javax.annotation.Generated;
  */
 @SuppressWarnings("unused")
 @Generated(value="info.kuechler.bmf.taxcalculator", date="<xsl:value-of select="date:date-time()"/>", comments="Generated from pseudo code https://www.bmf-steuerrechner.de")
-public class <xsl:value-of select="./@name" /> implements Calculator {
+public class <xsl:value-of select="./@name" /> implements Calculator&lt;<xsl:value-of select="./@name" />&gt; {
 		<xsl:apply-templates select="./VARIABLES" />
 		<xsl:apply-templates select="./CONSTANTS" />
 		<xsl:apply-templates select="./METHODS" />
@@ -117,13 +117,13 @@ public class <xsl:value-of select="./@name" /> implements Calculator {
 		 *
 		 * @since 2018.0.0
 		 */
-		private final Accessor accessor = AccessorBuilder.build(this);
+		private final Accessor&lt;<xsl:value-of select="./@name" />&gt; accessor = AccessorBuilder.build(this);
 			
 		/**
 	     * {@inheritDoc}
 	     */
 		@Override
-		public Accessor getAccessor() {
+		public Accessor&lt;<xsl:value-of select="./@name" />&gt; getAccessor() {
 			return accessor;
 		}
 		

@@ -25,7 +25,7 @@ public class PerformanceTestHelper {
 		for (int i = 0, l1 = loop1; i < l1; i++) {
 			final long start = System.nanoTime();
 			for (int j = 0; j < loop2; j++) {
-				final Writer input = TaxCalculatorFactory.create(0, 2015);
+				final Writer input = TaxCalculatorFactory.createWriter(0, 2015);
 
 				final Map<String, Object> values = new HashMap<>();
 				values.put("STKL", 1);
@@ -65,7 +65,7 @@ public class PerformanceTestHelper {
 				try {
 					final long start = System.nanoTime();
 					for (int j = 0; j < loop2; j++) {
-						final Writer input = TaxCalculatorFactory.create(0, 2015);
+						final Writer input = TaxCalculatorFactory.createWriter(0, 2015);
 
 						final Map<String, Object> values = new HashMap<>();
 						values.put("STKL", 1);

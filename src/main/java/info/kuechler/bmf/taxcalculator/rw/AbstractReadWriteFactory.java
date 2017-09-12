@@ -12,7 +12,8 @@ import info.kuechler.bmf.taxcalculator.Calculator;
  * <p>
  * An example can be found on implementation class {@link TaxCalculatorFactory}.
  * 
- * @deprecated will be removed in 2019 version, all methods are moved into the {@link TaxCalculatorFactory}.
+ * @deprecated will be removed in 2019 version, all methods are moved into the
+ *             {@link TaxCalculatorFactory}.
  */
 @Deprecated
 public abstract class AbstractReadWriteFactory {
@@ -21,17 +22,22 @@ public abstract class AbstractReadWriteFactory {
 	 * This method have to be return the class object for the class referenced
 	 * by your key. You send your (whatever) key and returns a class object.
 	 * 
+	 * @param <T>
+	 *            type of calculator
 	 * @param yearKey
 	 *            the key to reference the class
 	 * @return the class object
 	 * @throws ClassNotFoundException
 	 *             class does not exists
 	 */
-	protected abstract Class<Calculator> getCalculatorClass(final String yearKey) throws ClassNotFoundException;
+	protected abstract <T extends Calculator<T>> Class<T> getCalculatorClass(final String yearKey)
+			throws ClassNotFoundException;
 
 	/**
 	 * Create an instance of the calculate class.
-	 * 
+	 *
+	 * @param <T>
+	 *            type of calculator
 	 * @param yearKey
 	 *            the key to reference the class
 	 * @return an instance of the class
@@ -39,11 +45,13 @@ public abstract class AbstractReadWriteFactory {
 	 *             class does not exists or other issues during creation
 	 * @since 2018.0.0
 	 */
-	public abstract Calculator createCalculator(final String yearKey) throws ReadWriteException;
-	
+	protected abstract <T extends Calculator<T>> T createCalculator(final String yearKey) throws ReadWriteException;
+
 	/**
 	 * Get an {@link Accessor} by key.
-	 * 
+	 *
+	 * @param <T>
+	 *            type of calculator
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
@@ -53,12 +61,16 @@ public abstract class AbstractReadWriteFactory {
 	 * 
 	 * @since 2018.0.0
 	 */
-	public abstract Accessor createAccessor(final String yearKey) throws ReadWriteException;
-	
+	protected abstract <T extends Calculator<T>> Accessor<T> createAccessor(final String yearKey)
+			throws ReadWriteException;
+
 	/**
-	 * Create a {@link Writer}. The key is used to create a instance and detect
-	 * all methods (calculate, getter, setter).
+	 * Create a {@link Writer}. The key is used to create a clean
+	 * {@link Calculator} instance and detect all methods (calculate, getter,
+	 * setter).
 	 * 
+	 * @param <T>
+	 *            type of calculator
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
@@ -66,12 +78,13 @@ public abstract class AbstractReadWriteFactory {
 	 * @throws ReadWriteException
 	 *             error during create a {@link Writer}
 	 */
-	public Writer create(final String yearKey) throws ReadWriteException {
-		return new Writer(createCalculator(yearKey));
+	public <T extends Calculator<T>> Writer create(final String yearKey) throws ReadWriteException {
+		final T calculator = createCalculator(yearKey);
+		return new WriterImpl<>(calculator);
 	}
 
 	/**
-	 * Get all input fields from a class.
+	 * Get all input fields from a {@link Calculator} class.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -85,8 +98,8 @@ public abstract class AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all input fields from a class with the type. Should be
-	 * {@link BigDecimal}, int or double.
+	 * Get all input fields from a {@link Calculator} class with the type.
+	 * Should be {@link BigDecimal}, int or double.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -101,7 +114,7 @@ public abstract class AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all output fields from a class.
+	 * Get all output fields from a {@link Calculator} class.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -115,8 +128,8 @@ public abstract class AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all output fields from a class. Should be {@link BigDecimal}, int or
-	 * double.
+	 * Get all output fields from a {@link Calculator} class. Should be
+	 * {@link BigDecimal}, int or double.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method

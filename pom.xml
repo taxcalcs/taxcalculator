@@ -63,6 +63,7 @@
 
 	<properties>
 		<project.java.version>1.8</project.java.version>
+		<project.java.version.plusone>1.9</project.java.version.plusone>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<file.host>https://www.bmf-steuerrechner.de</file.host>
 		<classes.package.directory>info/kuechler/bmf/taxcalculator</classes.package.directory>
@@ -446,6 +447,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- higher version to use maven-fluido-skin:1.6 for maven site -->
+			<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-site-plugin</artifactId>
+    			<version>3.6</version>
+			</plugin>
 
 		</plugins>
 	</build>
@@ -471,16 +479,45 @@
 					<reportSet>
 						<id>aggregate</id>
 						<inherited>false</inherited>
-						<reports>
-							<report>aggregate</report>
-						</reports>
 					</reportSet>
 				</reportSets>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
 
 	<profiles>
+		<profile>
+			<!-- profile for jdk9 -->
+			<id>jdk9</id>
+			<activation>
+				<jdk>9</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-surefire-plugin</artifactId>
+					    <version>2.20</version>
+						<executions>
+							<execution>
+								<id>default-test</id>
+								<phase>test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<argLine>--add-modules java.xml.bind</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
 		<profile>
 			<!-- profile for release, local development is faster w/o this plugins -->
 			<id>release</id>
@@ -518,7 +555,7 @@
 								<configuration>
 									<rules>
 										<requireJavaVersion>
-											<version>[${project.java.version},1.8)</version>
+											<version>[${project.java.version},${project.java.version.plusone})</version>
 										</requireJavaVersion>
 									</rules>
 								</configuration>
