@@ -134,9 +134,9 @@ public interface Accessor<T extends Calculator<T>> {
 	 * 
 	 * <p>
 	 * <strong> Be sure that you are already using the correct type or choose a
-	 * type so that the value can be converted without loss. </strong> To get
-	 * correct target types see {@link #getInputsWithType()}. Conversion rules
-	 * see table:
+	 * type so that the value can be converted without loss. </strong> For
+	 * correct target type see {@link #getInputsWithType()}.
+	 * </p>
 	 * </p>
 	 * 
 	 * <table border="1">
