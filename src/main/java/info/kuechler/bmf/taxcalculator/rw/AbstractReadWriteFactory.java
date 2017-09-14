@@ -98,8 +98,9 @@ public abstract class AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all input fields from a {@link Calculator} class with the type.
-	 * Should be {@link BigDecimal}, int or double.
+	 * Get all input fields from a {@link Calculator} class with the type. The
+	 * type can be {@link BigDecimal}, {@code int.class} or
+	 * {@code double.class}.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -128,8 +129,8 @@ public abstract class AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all output fields from a {@link Calculator} class. Should be
-	 * {@link BigDecimal}, int or double.
+	 * Get all output fields from a {@link Calculator} class. The type can be
+	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method

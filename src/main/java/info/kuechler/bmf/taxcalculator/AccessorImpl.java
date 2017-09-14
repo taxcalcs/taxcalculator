@@ -1,9 +1,12 @@
 package info.kuechler.bmf.taxcalculator;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.ObjDoubleConsumer;
@@ -184,12 +187,14 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 		final Class<?> type = inputs.get(key);
 		if (type == null) {
 			throw new IllegalArgumentException("Key unknown: " + key);
+		} else if (!(value instanceof Number)) {
+			throw new IllegalArgumentException("Value have to be a Number: " + value);
 		} else if (type == BigDecimal.class) {
-			setBigDecimal(key, (BigDecimal) value);
+			setBigDecimal(key, toBigDecimal((Number) value));
 		} else if (type == int.class) {
-			setInt(key, ((Integer) value).intValue());
+			setInt(key, ((Number) value).intValue());
 		} else if (type == double.class) {
-			setDouble(key, ((Double) value).doubleValue());
+			setDouble(key, ((Number) value).doubleValue());
 		} else {
 			throw new IllegalArgumentException("Key type unknown: " + key);
 		}
@@ -261,8 +266,7 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	}
 
 	/**
-	 * Checks the result of calling {@link Map#get(Object)} of non
-	 * <code>null</code>.
+	 * Checks the result of calling {@link Map#get(Object)} of non {@code null}.
 	 *
 	 * @param <V>
 	 *            type of the value
@@ -270,7 +274,7 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	 *            the values
 	 * @return the original value
 	 * @throws IllegalArgumentException
-	 *             if parameter is <code>null</code>
+	 *             if parameter is {@code null}
 	 */
 	protected <V> V checkMapResult(final V parameter) {
 		if (parameter == null) {
@@ -280,16 +284,43 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	}
 
 	/**
-	 * Checks the key value is not <code>null</code>.
+	 * Checks the key value is not {@code null}.
 	 * 
 	 * @param key
 	 *            the key value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>.
+	 *             if key is {@code null}.
 	 */
 	protected void checkKey(final String key) {
 		if (key == null) {
 			throw new IllegalArgumentException("key is null");
 		}
+	}
+
+	/**
+	 * Converts a {@link Number} into a {@link BigDecimal}.
+	 * 
+	 * @param value
+	 *            the source value
+	 * @return the result {@link BigDecimal}
+	 */
+	protected BigDecimal toBigDecimal(final Number value) {
+		if (value instanceof BigDecimal) {
+			return (BigDecimal) value;
+		}
+		if (value instanceof BigInteger) {
+			return new BigDecimal((BigInteger) value);
+		}
+		if (value instanceof Integer || value instanceof Byte || value instanceof Short
+				|| value instanceof AtomicInteger) {
+			return new BigDecimal(((Number) value).intValue());
+		}
+		if (value instanceof Long || value instanceof AtomicLong) {
+			return new BigDecimal(((Long) value).longValue());
+		}
+		if (value instanceof Double || value instanceof Float) {
+			return new BigDecimal(((Number) value).doubleValue());
+		}
+		throw new IllegalArgumentException("Type unknown: " + value.getClass());
 	}
 }

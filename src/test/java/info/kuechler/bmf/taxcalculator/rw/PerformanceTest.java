@@ -8,26 +8,26 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test class which contains ignored tests for performance checks.
+ * Test class which contains tests for performance checks.
  */
-public class PerformanceTestHelper {
+public class PerformanceTest {
+
+	private static final int LOOP = 10;
+
+	private static final int SUB_LOOP = 100000;
 
 	@Test
-	@Ignore("for simple performance test only")
 	public final void testPerformance() throws ReadWriteException, InterruptedException {
-		final int loop1 = 10;
-		final int loop2 = 1000000;
 		final long startAll = System.nanoTime();
-		for (int i = 0, l1 = loop1; i < l1; i++) {
+		for (int i = 0; i < LOOP; i++) {
 			final long start = System.nanoTime();
-			for (int j = 0; j < loop2; j++) {
-				final Writer input = TaxCalculatorFactory.createWriter(0, 2015);
+			for (int j = 0; j < SUB_LOOP; j++) {
+				final Writer input = TaxCalculatorFactory.createWithWriter(0, 2015);
 
-				final Map<String, Object> values = new HashMap<>();
+				final Map<String, Number> values = new HashMap<>();
 				values.put("STKL", 1);
 				values.put("LZZ", 1);
 				values.put("RE4", new BigDecimal("2500000"));
@@ -54,20 +54,17 @@ public class PerformanceTestHelper {
 	 *             ExecutorService stop timeout
 	 */
 	@Test
-	@Ignore("for simple performance test only")
 	public final void testPerformanceParallel() throws ReadWriteException, InterruptedException {
-		final int loop1 = 10;
-		final int loop2 = 1000000;
-		final ExecutorService executor = Executors.newFixedThreadPool(loop1);
+		final ExecutorService executor = Executors.newFixedThreadPool(LOOP);
 		final long startAll = System.nanoTime();
-		for (int i = 0; i < loop1; i++) {
+		for (int i = 0; i < LOOP; i++) {
 			executor.submit(() -> {
 				try {
 					final long start = System.nanoTime();
-					for (int j = 0; j < loop2; j++) {
-						final Writer input = TaxCalculatorFactory.createWriter(0, 2015);
+					for (int j = 0; j < SUB_LOOP; j++) {
+						final Writer input = TaxCalculatorFactory.createWithWriter(0, 2015);
 
-						final Map<String, Object> values = new HashMap<>();
+						final Map<String, Number> values = new HashMap<>();
 						values.put("STKL", 1);
 						values.put("LZZ", 1);
 						values.put("RE4", new BigDecimal("2500000"));
@@ -87,7 +84,7 @@ public class PerformanceTestHelper {
 		}
 		try {
 			executor.shutdown();
-			executor.awaitTermination(10, TimeUnit.MINUTES);
+			executor.awaitTermination(1, TimeUnit.MINUTES);
 			final long endAll = System.nanoTime();
 			System.out.println("Run all: " + (endAll - startAll) / 1000000 + " ms");
 		} catch (InterruptedException e) {

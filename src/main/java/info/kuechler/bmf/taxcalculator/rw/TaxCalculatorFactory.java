@@ -28,9 +28,14 @@ import info.kuechler.bmf.taxcalculator.Calculator;
 public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 
 	/**
-	 * Creates an {@link Writer} directly. This method set all values to her
-	 * initial values (0). There is no need to call
-	 * {@link Writer#setAllToZero()} again.
+	 * Instance for static methods usage.
+	 */
+	private static final TaxCalculatorFactory SINGLETON = new TaxCalculatorFactory();
+
+	/**
+	 * Creates an {@link Writer}. The {@link Writer} contains a clean
+	 * {@link Calculator} instance. This method set all values to her initial
+	 * values (0). There is no need to call {@link Writer#setAllToZero()} again.
 	 * 
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
@@ -39,20 +44,25 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *            the year, have to be &gt;= 2006
 	 * @return {@link Writer}
 	 * @throws ReadWriteException
-	 *             an error
+	 *             year or month are out of range or calculate class cannot
+	 *             detect
 	 * @since 2018.0.0
 	 * @see Writer#setAllToZero()
 	 */
-	public static Writer createWriter(final int month, final int year) throws ReadWriteException {
-		final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-		return factory.create(factory.getYearKey(month, year)).setAllToZero();
+	public static Writer createWithWriter(final int month, final int year) throws ReadWriteException {
+		final TaxCalculatorFactory factory = SINGLETON;
+		try {
+			return factory.create(factory.getYearKey(month, year)).setAllToZero();
+		} catch (IllegalArgumentException e) {
+			throw new ReadWriteException("year or month are out of range", e);
+		}
 	}
 
 	/**
 	 * Get an {@link Accessor} by month and year. The {@link Accessor} contains
 	 * a clean {@link Calculator} instance. This method set all values to her
 	 * initial values (0). There is no need to call
-	 * {@link Writer#setAllToZero()} again.
+	 * {@link Accessor#setAllToZero()} again.
 	 * 
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
@@ -61,15 +71,20 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *            the year, have to be &gt;= 2006
 	 * @return the {@link Accessor}
 	 * @throws ReadWriteException
-	 *             class cannot detect
+	 *             year or month are out of range or calculate class cannot
+	 *             detect
 	 * 
 	 * @since 2018.0.0
 	 */
-	public static Accessor<?> createAccessor(final int month, final int year) throws ReadWriteException {
-		final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-		final Accessor<?> accessor = factory.createAccessor(factory.getYearKey(month, year));
-		accessor.setAllToZero();
-		return accessor;
+	public static Accessor<?> createWithAccessor(final int month, final int year) throws ReadWriteException {
+		final TaxCalculatorFactory factory = SINGLETON;
+		try {
+			final Accessor<?> accessor = factory.createAccessor(factory.getYearKey(month, year));
+			accessor.setAllToZero();
+			return accessor;
+		} catch (IllegalArgumentException e) {
+			throw new ReadWriteException("year or month are out of range", e);
+		}
 	}
 
 	/**
@@ -84,21 +99,76 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *            the year, have to be &gt;= 2006
 	 * @return an instance of the class
 	 * @throws ReadWriteException
-	 *             class does not exists or other issues during creation
+	 *             year or month are out of range or calculate class cannot
+	 *             detect
 	 * @since 2018.0.0
 	 */
 	public static Calculator<?> createCalculator(final int month, final int year) throws ReadWriteException {
-		final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-		final Calculator<?> calculator = factory.createCalculator(factory.getYearKey(month, year));
-		calculator.getAccessor().setAllToZero();
-		return calculator;
+		final TaxCalculatorFactory factory = SINGLETON;
+		try {
+			final Calculator<?> calculator = factory.createCalculator(factory.getYearKey(month, year));
+			calculator.getAccessor().setAllToZero();
+			return calculator;
+		} catch (IllegalArgumentException e) {
+			throw new ReadWriteException("year or month are out of range", e);
+		}
+	}
+
+	/**
+	 * Get all output fields from a {@link Calculator} class. The type can be
+	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
+	 * 
+	 * @param month
+	 *            1..12 for the month, with 0 you can choose the key from the
+	 *            end of year
+	 * @param year
+	 *            the year, have to be &gt;= 2006
+	 * @return a {@link Map} of output names and type. Names are case
+	 *         insensitive.
+	 * @throws ReadWriteException
+	 *             year or month are out of range or calculate class cannot
+	 *             detect
+	 * @since 2018.0.0
+	 */
+	public static Map<String, Class<?>> getOutputs(final int month, final int year) throws ReadWriteException {
+		final TaxCalculatorFactory factory = SINGLETON;
+		try {
+			return factory.getOutputsWithType(factory.getYearKey(month, year));
+		} catch (IllegalArgumentException e) {
+			throw new ReadWriteException("year or month are out of range", e);
+		}
+	}
+
+	/**
+	 * Get all input fields from a {@link Calculator} class with the type. The
+	 * type can be {@link BigDecimal}, {@code int.class} or
+	 * {@code double.class}.
+	 *
+	 * @param month
+	 *            1..12 for the month, with 0 you can choose the key from the
+	 *            end of year
+	 * @param year
+	 *            the year, have to be &gt;= 2006
+	 * @return {@link Map} with name and type. Names are case insensitive.
+	 * @throws ReadWriteException
+	 *             year or month are out of range or calculate class cannot
+	 *             detect
+	 * @since 2018.0.0
+	 */
+	public static Map<String, Class<?>> getInputs(final int month, final int year) throws ReadWriteException {
+		final TaxCalculatorFactory factory = SINGLETON;
+		try {
+			return factory.getInputsWithType(factory.getYearKey(month, year));
+		} catch (IllegalArgumentException e) {
+			throw new ReadWriteException("year or month are out of range", e);
+		}
 	}
 
 	/**
 	 * Returns the yearKey to use with
-	 * {@link TaxCalculatorFactory#create(String)} and the other methods. Please
-	 * do not fix the key in your application. The key may be changed in future
-	 * versions.
+	 * {@link TaxCalculatorFactory#create(String)} and the other methods with
+	 * year key. Please do not fix the key in your application. The key may be
+	 * changed in future versions.
 	 * 
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
@@ -106,6 +176,8 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * @param year
 	 *            the year, have to be &gt;= 2006
 	 * @return the key
+	 * @throws IllegalArgumentException
+	 *             if year or month are out of range
 	 */
 	public String getYearKey(final int month, final int year) {
 		if (year < 2006 || month > 12 || month < 0) {
@@ -126,6 +198,9 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	/**
 	 * Create a {@link Writer}. The key is used to create a clean
 	 * {@link Calculator} instance.
+	 * <p>
+	 * Use preferably the method {@link #createWithWriter(int, int)}.
+	 * </p>
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -140,7 +215,11 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all input fields from a {@link Calculator} class.
+	 * Get all input fields from a {@link Calculator} class. Returns a
+	 * modifiable copy of the {@link Set}.
+	 * <p>
+	 * Use preferably the method {@link #getInputs(int, int)}.
+	 * </p>
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -154,8 +233,16 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all input fields from a {@link Calculator} class with the type.
-	 * Should be {@link BigDecimal}.class, int.class or double.class.
+	 * Get all input fields from a {@link Calculator} class with the type. The
+	 * type can be {@link BigDecimal}, {@code int.class} or
+	 * {@code double.class}.
+	 * 
+	 * <p>
+	 * Returns a modifiable copy of the {@link Map}.
+	 * </p>
+	 * <p>
+	 * Use preferably the method {@link #getInputs(int, int)}.
+	 * </p>
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -170,7 +257,11 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all output fields from a {@link Calculator} class.
+	 * Get all output fields from a {@link Calculator} class. Returns a
+	 * modifiable copy of the {@link Set}.
+	 * <p>
+	 * Use preferably the method {@link #getOutputs(int, int)}.
+	 * </p>
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -184,8 +275,15 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	}
 
 	/**
-	 * Get all output fields from a {@link Calculator} class. Should be
-	 * {@link BigDecimal}, int or double.
+	 * Get all output fields from a {@link Calculator} class. The type can be
+	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
+	 * 
+	 * <p>
+	 * Returns a modifiable copy of the {@link Map}.
+	 * </p>
+	 * <p>
+	 * Use preferably the method {@link #getOutputs(int, int)}.
+	 * </p>
 	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
@@ -205,7 +303,7 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * 
 	 * <p>
 	 * Creates a object from following class:
-	 * <code>"info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big"</code>
+	 * {@code "info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big"}
 	 * </p>
 	 */
 	@SuppressWarnings("unchecked")
@@ -249,9 +347,6 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * @since 2018.0.0
 	 */
 	protected <T extends Calculator<T>> Accessor<T> createAccessor(final String yearKey) throws ReadWriteException {
-		// I try to cache the Accessor object but this is slower than creating a
-		// calculator object at every call
-		// (I use a ConcurrentHashMap for caching)
 		final T calculator = createCalculator(yearKey);
 		return calculator.getAccessor();
 	}

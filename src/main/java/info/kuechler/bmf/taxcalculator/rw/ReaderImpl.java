@@ -1,14 +1,15 @@
 package info.kuechler.bmf.taxcalculator.rw;
 
+import static info.kuechler.bmf.taxcalculator.AccessorImpl.newMap;
+
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 import info.kuechler.bmf.taxcalculator.Accessor;
 import info.kuechler.bmf.taxcalculator.Calculator;
 
 /**
- * Class to read values in tax calculator classes.
+ * Class to read values from the tax calculator classes.
  * 
  * <p>
  * Creates from the calculate method from {@link Writer}.
@@ -82,11 +83,9 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Map<String, ?> getAll(final Iterable<String> keys) throws ReadWriteException {
+	public Map<String, Number> getAll(final Iterable<String> keys) throws ReadWriteException {
 		try {
-			// keys are specified as parameter, no need to use a case
-			// insensitive result map
-			final Map<String, ?> result = new HashMap<>();
+			final Map<String, Number> result = newMap();
 			for (final String key : keys) {
 				result.put(key, accessor.get(key));
 			}

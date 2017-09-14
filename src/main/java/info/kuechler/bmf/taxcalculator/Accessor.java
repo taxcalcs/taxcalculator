@@ -8,8 +8,7 @@ import java.util.Map;
  * <p>
  * Type of an input or output value can be found inside the {@link Map}s
  * {@link #getInputsWithType()} and {@link #getOutputsWithType()}. Possible
- * types are <code>int.class</code>, <code>double.class</code> or
- * {@link BigDecimal}.
+ * types are {@code int.class}, {@code double.class} or {@link BigDecimal}.
  * </p>
  * <p>
  * There are four method to set values: {@link #set(String, Object)},
@@ -49,7 +48,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            the key, case insensitive
 	 * @return the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	int getInt(final String key);
 
@@ -60,7 +59,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            the key, case insensitive
 	 * @return the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	BigDecimal getBigDecimal(final String key);
 
@@ -71,7 +70,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            the key, case insensitive
 	 * @return the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	double getDouble(final String key);
 
@@ -86,7 +85,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            the key, case insensitive
 	 * @return the value, {@link Integer}, {@link Double} or {@link BigDecimal}
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code> or key unknown
+	 *             if key is {@code null} or key unknown
 	 */
 	<V> V get(final String key);
 
@@ -98,7 +97,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	void setInt(final String key, final int value);
 
@@ -110,7 +109,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	void setBigDecimal(final String key, final BigDecimal value);
 
@@ -122,24 +121,31 @@ public interface Accessor<T extends Calculator<T>> {
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code>, wrong type or key unknown
+	 *             if key is {@code null}, wrong type or key unknown
 	 */
 	void setDouble(final String key, final double value);
 
 	/**
-	 * Set a value with unknown type.
+	 * Set a value. The value will be convert into {@link BigDecimal},
+	 * {@code int} or {@code double}.
+	 * 
+	 * <p>
+	 * <strong> Be sure that you are already using the correct type or choose a
+	 * type so that the value can be converted without loss. </strong> For
+	 * correct target type see {@link #getInputsWithType()}.
+	 * </p>
 	 * 
 	 * @param <V>
-	 *            value object class, can be {@link Integer}, {@link Double} or
-	 *            {@link BigDecimal}.
+	 *            value object class
 	 * 
 	 * @param key
 	 *            the key, case insensitive
 	 * @param value
-	 *            the value, {@link Integer}, {@link Double} or
-	 *            {@link BigDecimal}
+	 *            the value
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code> or key unknown
+	 *             if key is {@code null} or key unknown
+	 * @throws NullPointerException
+	 *             if value is {@code null}
 	 */
 	<V> void set(final String key, final V value);
 
@@ -149,16 +155,23 @@ public interface Accessor<T extends Calculator<T>> {
 	void setAllToZero();
 
 	/**
-	 * Get all inputs with type {@link Class}. Returns a copy of the original
-	 * {@link Map}.
+	 * Get all inputs with type {@link Class}. The type can be
+	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
+	 * 
+	 * <p>
+	 * Returns a copy of the original {@link Map}.
+	 * </p>
 	 * 
 	 * @return {@link Map}
 	 */
 	Map<String, Class<?>> getInputsWithType();
 
 	/**
-	 * Get all outputs with type {@link Class}. Returns a copy of the original
-	 * {@link Map}.
+	 * Get all outputs with type. The type can be {@link BigDecimal},
+	 * {@code int.class} or {@code double.class}.
+	 * <p>
+	 * Returns a copy of the original {@link Map}.
+	 * </p>
 	 * 
 	 * @return {@link Map}
 	 */
@@ -171,7 +184,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            key, case insensitive
 	 * @return the key
 	 * @throws IllegalArgumentException
-	 *             if key is <code>null</code> or key unknown
+	 *             if key is {@code null} or key unknown
 	 */
 	String getOutputSpecialType(final String key);
 

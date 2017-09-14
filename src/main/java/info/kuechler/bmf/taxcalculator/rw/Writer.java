@@ -3,6 +3,8 @@ package info.kuechler.bmf.taxcalculator.rw;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import info.kuechler.bmf.taxcalculator.Accessor;
+
 public interface Writer {
 
 	/**
@@ -15,14 +17,17 @@ public interface Writer {
 	Writer setAllToZero() throws ReadWriteException;
 
 	/**
-	 * Set a value. The type of the value have to be correct.
+	 * Set a value.
+	 * <p>
+	 * See {@link Accessor#set(String, Object)} for value type hints.
+	 * </p>
 	 * 
 	 * @param key
 	 *            the property name, is case insensitive
 	 * @param value
 	 *            the value to set.
 	 * @param <V>
-	 *            the result type
+	 *            the type to set
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
@@ -73,6 +78,10 @@ public interface Writer {
 
 	/**
 	 * Set all the values from the Map.
+	 * 
+	 * <p>
+	 * See {@link Accessor#set(String, Object)} for value type hints.
+	 * </p>
 	 * 
 	 * @param values
 	 *            the values to set.
