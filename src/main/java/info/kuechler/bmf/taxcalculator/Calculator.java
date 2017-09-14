@@ -7,8 +7,11 @@ package info.kuechler.bmf.taxcalculator;
  */
 public interface Calculator<T extends Calculator<T>> {
 	/**
-	 * Calculate the tax. Use all input values, calculate the tax and set the
-	 * output values.
+	 * Calculate the tax.
+	 * <p>
+	 * set all input values -&gt; {@link #calculate()} the tax -&gt; read the
+	 * output values
+	 * </p>
 	 * 
 	 * @since 2018.0.0
 	 */

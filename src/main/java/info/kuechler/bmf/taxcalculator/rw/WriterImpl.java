@@ -13,7 +13,7 @@ import info.kuechler.bmf.taxcalculator.Calculator;
  * To create this class use the {@link TaxCalculatorFactory} class.
  * </p>
  * 
- * @see TaxCalculatorFactory#create(String)
+ * @see TaxCalculatorFactory#createWithWriter(int, int)
  */
 public class WriterImpl<T extends Calculator<T>> implements Writer {
 

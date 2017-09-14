@@ -6,7 +6,8 @@ import java.util.Map;
 public interface Reader {
 
 	/**
-	 * Reads a value.
+	 * Reads a value. Can be {@link Integer}, {@link Double} or
+	 * {@link BigDecimal}.
 	 * 
 	 * @param key
 	 *            the property name, is case insensitive
@@ -15,6 +16,7 @@ public interface Reader {
 	 * @return the value
 	 * @throws ReadWriteException
 	 *             Error while read the value.
+	 * @see #getAll(Iterable)
 	 */
 	<V> V get(String key) throws ReadWriteException;
 
@@ -55,11 +57,8 @@ public interface Reader {
 	double getDouble(String key) throws ReadWriteException;
 
 	/**
-	 * Read values and returns the results as a {@link Map}.
-	 * <p>
-	 * The result keys are not case insensitive. The keys are the same like in
-	 * the input {@link Iterable}.
-	 * </p>
+	 * Read values and returns the results as a {@link Map}. Values can be
+	 * {@link Integer}, {@link Double} or {@link BigDecimal}.
 	 * 
 	 * @param keys
 	 *            the property names, is case insensitive
@@ -68,6 +67,6 @@ public interface Reader {
 	 *             Error while read the values.
 	 * @since 2018.0.0
 	 */
-	Map<String, ?> getAll(Iterable<String> keys) throws ReadWriteException;
+	Map<String, Number> getAll(Iterable<String> keys) throws ReadWriteException;
 
 }
