@@ -53,7 +53,7 @@ public class FactoryTest {
 	 */
 	@Test
 	public final void testAccessor() throws ReadWriteException {
-		final Accessor<?> accessor = TaxCalculatorFactory.createWithAccessor(0, 2015);
+		final Accessor<String, ?> accessor = TaxCalculatorFactory.createWithAccessor(0, 2015);
 
 		accessor.set("STKL", 1);
 		accessor.set("LZZ", 1);

@@ -2,6 +2,7 @@ package info.kuechler.bmf.taxcalculator;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -16,14 +17,20 @@ import java.util.function.ToIntFunction;
 
 /**
  * Implementation of {@link Accessor}. To handle case insensitive keys use
- * {@link #newMap()} for parameter {@link Map}s for constructor.
+ * {@link #createValueMap()} for parameter {@link Map}s for constructor.
  * 
  * @since 2018.0.0
  *
  * @param <T>
  *            the {@link Calculator} implementation
  */
-public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
+public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T> {
+
+	/**
+	 * The key {@link Comparator} to handle case insensitive keys.
+	 */
+	private static final Comparator<String> KEY_COMPARATOR = String.CASE_INSENSITIVE_ORDER;
+
 	private final Map<String, ToIntFunction<T>> getterIntMap;
 	private final Map<String, Function<T, BigDecimal>> getterBigDecimalMap;
 	private final Map<String, ToDoubleFunction<T>> getterDoubleMap;
@@ -38,20 +45,20 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	private final Map<String, String> outputTypes;
 
 	/**
-	 * Constructor. Use {@link #newMap()} to create input maps.
+	 * Constructor. Use {@link #createValueMap()} to create input maps.
 	 * 
 	 * @param getterIntMap
-	 *            the map with getter functions to get int values
+	 *            the map with getter functions to get {@code int} values
 	 * @param getterBigDecimalMap
 	 *            the map with getter functions to get {@link BigDecimal} values
 	 * @param getterDoubleMap
-	 *            the map with getter functions to get double values
+	 *            the map with getter functions to get {@code double} values
 	 * @param setterIntMap
-	 *            the map with setter functions to set int values
+	 *            the map with setter functions to set {@code int} values
 	 * @param setterBigDecimalMap
 	 *            the map with setter functions to set {@link BigDecimal} values
 	 * @param setterDoubleMap
-	 *            the map with setter functions to set double values
+	 *            the map with setter functions to set {@code double} values
 	 * @param calculator
 	 *            the {@link Calculator} instance for reading and writing values
 	 * @param inputs
@@ -93,7 +100,16 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	}
 
 	/**
-	 * Creates a new {@link Map} for constructor input.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <V> Map<String, V> createValueMap() {
+		return newMap();
+	}
+
+	/**
+	 * Creates a new {@link Map} for constructor input. Static way to use before
+	 * the constructor.
 	 * 
 	 * @param <V>
 	 *            the value type
@@ -101,7 +117,7 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	 * @return a new created {@link Map}
 	 */
 	public static <V> Map<String, V> newMap() {
-		return new TreeMap<String, V>(String.CASE_INSENSITIVE_ORDER);
+		return new TreeMap<String, V>(KEY_COMPARATOR);
 	}
 
 	/**
@@ -114,12 +130,12 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<T> {
 	 *            the map to copy
 	 * @return the new map
 	 */
-	public static <V> Map<String, V> copyMap(final Map<String, V> map) {
+	public <V> Map<String, V> copyMap(final Map<String, V> map) {
 		if (map instanceof SortedMap) {
 			// fast: use same Comparator and linear adding time
 			return new TreeMap<String, V>((SortedMap<String, V>) map);
 		}
-		final Map<String, V> newMap = newMap();
+		final Map<String, V> newMap = createValueMap();
 		map.putAll(map);
 		return newMap;
 	}

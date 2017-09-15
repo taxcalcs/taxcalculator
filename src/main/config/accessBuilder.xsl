@@ -32,7 +32,7 @@
 		 *            the calculator for accessor access.
 		 * @return the accessor
 		 */
-		public static Accessor&lt;<xsl:value-of select="./@name" />&gt; build(final <xsl:value-of select="$class" /> calculator) {
+		public static Accessor&lt;String, <xsl:value-of select="./@name" />&gt; build(final <xsl:value-of select="$class" /> calculator) {
 			final AccessorBuilder&lt;<xsl:value-of select="$class" />&gt; i = Holder.INSTANCE;
 			return new AccessorImpl&lt;<xsl:value-of select="$class" />&gt;(i.GETTER_INT_MAP, i.GETTER_BD_MAP, i.GETTER_DOUBLE_MAP, i.SETTER_INT_MAP, i.SETTER_BD_MAP, i.SETTER_DOUBLE_MAP, calculator, i.INPUTS, i.OUTPUTS, i.OUTPUT_TYPES);
 		}

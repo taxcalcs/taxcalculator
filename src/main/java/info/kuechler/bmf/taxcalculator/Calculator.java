@@ -24,5 +24,5 @@ public interface Calculator<T extends Calculator<T>> {
 	 * 
 	 * @since 2018.0.0
 	 */
-	Accessor<T> getAccessor();
+	Accessor<String, T> getAccessor();
 }

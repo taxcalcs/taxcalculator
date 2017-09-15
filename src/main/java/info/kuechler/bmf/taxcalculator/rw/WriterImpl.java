@@ -17,7 +17,7 @@ import info.kuechler.bmf.taxcalculator.Calculator;
  */
 public class WriterImpl<T extends Calculator<T>> implements Writer {
 
-	private final Accessor<T> accessor;
+	private final Accessor<String, T> accessor;
 
 	/**
 	 * Constructor.

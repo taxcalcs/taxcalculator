@@ -4,7 +4,15 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import info.kuechler.bmf.taxcalculator.Accessor;
+import info.kuechler.bmf.taxcalculator.Calculator;
 
+/**
+ * Writer to set values in a {@link Calculator} class.
+ * <p>
+ * Fix key type is {@link String}.
+ * </p>
+ *
+ */
 public interface Writer {
 
 	/**
@@ -19,7 +27,7 @@ public interface Writer {
 	/**
 	 * Set a value.
 	 * <p>
-	 * See {@link Accessor#set(String, Object)} for value type hints.
+	 * See {@link Accessor#set(Object, Object)} for value type hints.
 	 * </p>
 	 * 
 	 * @param key
@@ -80,7 +88,7 @@ public interface Writer {
 	 * Set all the values from the Map.
 	 * 
 	 * <p>
-	 * See {@link Accessor#set(String, Object)} for value type hints.
+	 * See {@link Accessor#set(Object, Object)} for value type hints.
 	 * </p>
 	 * 
 	 * @param values
@@ -93,7 +101,7 @@ public interface Writer {
 	Writer setAll(Map<String, ?> values) throws ReadWriteException;
 
 	/**
-	 * Call the calculation method.
+	 * Call the calculation method from the {@link Calculator} class.
 	 * 
 	 * @return The {@link Reader} object to access the output values.
 	 * @throws ReadWriteException

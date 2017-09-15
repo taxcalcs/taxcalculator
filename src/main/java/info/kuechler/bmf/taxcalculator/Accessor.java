@@ -2,80 +2,83 @@ package info.kuechler.bmf.taxcalculator;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Accessor interface to simple handle of setter and getter.
- * <p>
- * Type of an input or output value can be found inside the {@link Map}s
- * {@link #getInputsWithType()} and {@link #getOutputsWithType()}. Possible
- * types are {@code int.class}, {@code double.class} or {@link BigDecimal}.
- * </p>
- * <p>
- * There are four method to set values: {@link #set(String, Object)},
- * {@link #setInt(String, int)}, {@link #setDouble(String, double)} and
- * {@link #setBigDecimal(String, BigDecimal)}.
- * </p>
- * <p>
- * There are four methods to get values: {@link #get(String)},
- * {@link #getInt(String)}, {@link #getDouble(String)} and
- * {@link #getBigDecimal(String)}.
- * </p>
- * <p>
- * There are two methods to get the types: {@link #getInputsWithType()} and
+ * 
+ * <ul>
+ * <li>There are four method to set values: {@link #set(Object, Object)},
+ * {@link #setInt(Object, int)}, {@link #setDouble(Object, double)} and
+ * {@link #setBigDecimal(Object, BigDecimal)}.</li>
+ * <li>There are four methods to get values: {@link #get(Object)},
+ * {@link #getInt(Object)}, {@link #getDouble(Object)} and
+ * {@link #getBigDecimal(Object)}.</li>
+ * <li>There are two methods to get the types: {@link #getInputsWithType()} and
  * {@link #getOutputsWithType()}. Calling the methods do not change the
- * instance.
- * </p>
- * <p>
- * There is a method to reset all values: {@link #setAllToZero()}.
- * </p>
- * <p>
- * There is a method method to get the original {@link Calculator} instance:
- * {@link #getCalculator()}.
- * </p>
- * <p>
- * There is a method to get the special type for output values:
- * {@link #getOutputSpecialType(String)}.
- * </p>
+ * instance.</li>
+ * <li>There is a method to reset all values: {@link #setAllToZero()}.</li>
+ * <li>There is a method method to get the original {@link Calculator} instance:
+ * {@link #getCalculator()}.</li>
+ * <li>There is a method to get the special type for output values:
+ * {@link #getOutputSpecialType(Object)}.</li>
+ * </ul>
+ * 
+ * @param <K>
+ *            the key type
+ * @param <T>
+ *            the {@link Calculator} type
  * 
  * @since 2018.0.0
  */
-public interface Accessor<T extends Calculator<T>> {
+public interface Accessor<K, T extends Calculator<T>> {
+
+	/**
+	 * Creates a new {@link Map} for {@link Accessor} data. I.e. you can use the
+	 * same key {@link Comparator} like the original {@link Map}s.
+	 * 
+	 * @param <V>
+	 *            the value type
+	 * 
+	 * @return a new created {@link Map}
+	 */
+	<V> Map<K, V> createValueMap();
 
 	/**
 	 * Get an int value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @return the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	int getInt(final String key);
+	int getInt(final K key);
 
 	/**
 	 * Get a {@link BigDecimal} value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @return the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	BigDecimal getBigDecimal(final String key);
+	BigDecimal getBigDecimal(final K key);
 
 	/**
 	 * Get a double value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @return the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	double getDouble(final String key);
+	double getDouble(final K key);
 
 	/**
 	 * Get a value.
@@ -85,48 +88,48 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            {@link BigDecimal}.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @return the value, {@link Integer}, {@link Double} or {@link BigDecimal}
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null} or key unknown
 	 */
-	<V> V get(final String key);
+	<V> V get(final K key);
 
 	/**
-	 * Set an int value.
+	 * Set an {@code int} value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	void setInt(final String key, final int value);
+	void setInt(final K key, final int value);
 
 	/**
 	 * Set a {@link BigDecimal} value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	void setBigDecimal(final String key, final BigDecimal value);
+	void setBigDecimal(final K key, final BigDecimal value);
 
 	/**
-	 * Set a double value.
+	 * Set a {@code double} value.
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null}, wrong type or key unknown
 	 */
-	void setDouble(final String key, final double value);
+	void setDouble(final K key, final double value);
 
 	/**
 	 * Set a value. The value will be convert into {@link BigDecimal},
@@ -137,9 +140,9 @@ public interface Accessor<T extends Calculator<T>> {
 	 * type so that the value can be converted without loss. </strong> For
 	 * correct target type see {@link #getInputsWithType()}.
 	 * </p>
-	 * </p>
 	 * 
 	 * <table border="1">
+	 * <caption>Conversion</caption>
 	 * <tr>
 	 * <td><strong>Target Type</strong></td>
 	 * <td><strong>Source Type</strong></td>
@@ -200,7 +203,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 *            value object class
 	 * 
 	 * @param key
-	 *            the key, case insensitive
+	 *            the key
 	 * @param value
 	 *            the value
 	 * @throws IllegalArgumentException
@@ -208,7 +211,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 * @throws NullPointerException
 	 *             if value is {@code null}
 	 */
-	<V> void set(final String key, final V value);
+	<V> void set(final K key, final V value);
 
 	/**
 	 * Set all values to 0, 0.0 or {@link BigDecimal#ZERO}.
@@ -225,7 +228,7 @@ public interface Accessor<T extends Calculator<T>> {
 	 * 
 	 * @return {@link Map}
 	 */
-	Map<String, Class<?>> getInputsWithType();
+	Map<K, Class<?>> getInputsWithType();
 
 	/**
 	 * Get all outputs with type. The type can be {@link BigDecimal},
@@ -236,18 +239,18 @@ public interface Accessor<T extends Calculator<T>> {
 	 * 
 	 * @return {@link Map}
 	 */
-	Map<String, Class<?>> getOutputsWithType();
+	Map<K, Class<?>> getOutputsWithType();
 
 	/**
 	 * Get the special type, like "STANDARD" or "DBA"
 	 * 
 	 * @param key
-	 *            key, case insensitive
+	 *            key
 	 * @return the key
 	 * @throws IllegalArgumentException
 	 *             if key is {@code null} or key unknown
 	 */
-	String getOutputSpecialType(final String key);
+	String getOutputSpecialType(final K key);
 
 	/**
 	 * Get the based {@link Calculator} instance.

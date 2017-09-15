@@ -76,10 +76,10 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * 
 	 * @since 2018.0.0
 	 */
-	public static Accessor<?> createWithAccessor(final int month, final int year) throws ReadWriteException {
+	public static Accessor<String, ?> createWithAccessor(final int month, final int year) throws ReadWriteException {
 		final TaxCalculatorFactory factory = SINGLETON;
 		try {
-			final Accessor<?> accessor = factory.createAccessor(factory.getYearKey(month, year));
+			final Accessor<String, ?> accessor = factory.createAccessor(factory.getYearKey(month, year));
 			accessor.setAllToZero();
 			return accessor;
 		} catch (IllegalArgumentException e) {
@@ -346,7 +346,8 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * 
 	 * @since 2018.0.0
 	 */
-	protected <T extends Calculator<T>> Accessor<T> createAccessor(final String yearKey) throws ReadWriteException {
+	protected <T extends Calculator<T>> Accessor<String, T> createAccessor(final String yearKey)
+			throws ReadWriteException {
 		final T calculator = createCalculator(yearKey);
 		return calculator.getAccessor();
 	}

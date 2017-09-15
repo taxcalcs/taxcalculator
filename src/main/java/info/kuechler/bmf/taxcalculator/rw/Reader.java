@@ -3,6 +3,14 @@ package info.kuechler.bmf.taxcalculator.rw;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import info.kuechler.bmf.taxcalculator.Calculator;
+
+/**
+ * Reader to read values from {@link Calculator} class.
+ * <p>
+ * Fix key type is {@link String}.
+ * </p>
+ */
 public interface Reader {
 
 	/**
@@ -62,11 +70,10 @@ public interface Reader {
 	 * 
 	 * @param keys
 	 *            the property names, is case insensitive
-	 * @return a map with values
+	 * @return a {@link Map} with values.
 	 * @throws ReadWriteException
 	 *             Error while read the values.
 	 * @since 2018.0.0
 	 */
 	Map<String, Number> getAll(Iterable<String> keys) throws ReadWriteException;
-
 }

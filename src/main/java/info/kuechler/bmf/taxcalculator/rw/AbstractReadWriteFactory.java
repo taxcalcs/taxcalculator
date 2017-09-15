@@ -61,7 +61,7 @@ public abstract class AbstractReadWriteFactory {
 	 * 
 	 * @since 2018.0.0
 	 */
-	protected abstract <T extends Calculator<T>> Accessor<T> createAccessor(final String yearKey)
+	protected abstract <T extends Calculator<T>> Accessor<String, T> createAccessor(final String yearKey)
 			throws ReadWriteException;
 
 	/**

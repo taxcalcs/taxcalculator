@@ -117,13 +117,13 @@ public class <xsl:value-of select="./@name" /> implements Calculator&lt;<xsl:val
 		 *
 		 * @since 2018.0.0
 		 */
-		private final Accessor&lt;<xsl:value-of select="./@name" />&gt; accessor = AccessorBuilder.build(this);
+		private final Accessor&lt;String, <xsl:value-of select="./@name" />&gt; accessor = AccessorBuilder.build(this);
 			
 		/**
 	     * {@inheritDoc}
 	     */
 		@Override
-		public Accessor&lt;<xsl:value-of select="./@name" />&gt; getAccessor() {
+		public Accessor&lt;String, <xsl:value-of select="./@name" />&gt; getAccessor() {
 			return accessor;
 		}
 		
