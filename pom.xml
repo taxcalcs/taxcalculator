@@ -458,6 +458,17 @@
     			<artifactId>maven-site-plugin</artifactId>
     			<version>3.6</version>
 			</plugin>
+			
+			<plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                   <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>info.kuechler.bmf.taxcalculator</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 
 		</plugins>
 	</build>
