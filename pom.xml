@@ -45,7 +45,7 @@
 	</issueManagement>
 	<licenses>
 		<license>
-			<name>The MIT License (MIT)</name>
+			<name>The MIT License</name>
 			<url>http://opensource.org/licenses/mit-license.php</url>
 		</license>
 	</licenses>
@@ -55,6 +55,12 @@
 			<url>https://github.com/admiralsmaster</url>
 		</developer>
 	</developers>
+	<contributors>
+		<contributor>
+			<name>Thomas Darimont</name>
+			<url>https://github.com/thomasdarimont</url>
+		</contributor>
+	</contributors>
 	<scm>
 		<connection>scm:git:git://github.com/admiralsmaster/taxcalculator.git</connection>
 		<developerConnection>scm:git:ssh://github.com:admiralsmaster/taxcalculator.git</developerConnection>
@@ -450,10 +456,23 @@
 			
 			<!-- higher version to use maven-fluido-skin:1.6 for maven site -->
 			<plugin>
-    			<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-site-plugin</artifactId>
-    			<version>3.6</version>
+	    			<groupId>org.apache.maven.plugins</groupId>
+	    			<artifactId>maven-site-plugin</artifactId>
+	    			<version>3.6</version>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <version>3.0.2</version>
+                <configuration>
+                   <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>info.kuechler.bmf.taxcalculator</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 
 		</plugins>
 	</build>

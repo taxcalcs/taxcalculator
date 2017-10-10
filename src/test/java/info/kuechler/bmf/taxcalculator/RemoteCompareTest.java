@@ -137,37 +137,36 @@ public class RemoteCompareTest {
 		return (T) Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
 	}
 
-	/**
-	 * Run all tests cases in the folder. Test cases requires the name
-	 * "test&lt;index&gt;.xml". The index starts with "1" and will be risen to
-	 * the first non exists number.
-	 * 
-	 * @throws Exception
-	 *             an error, test failed.
-	 */
-	@Test
-	public final void runFolderTestCases() throws Exception {
-		int i = 1;
-		InputStream in = null;
-		while (true) {
-			try {
-				in = getClass().getResourceAsStream(testFolder + "/test" + i + ".xml");
-				if (in == null) {
-					break; // not the best, but we need breaking the loop and
-							// closing the stream
-				}
-				LOG.info("run " + "test" + i + ".xml");
-				final Properties properties = new Properties();
-				properties.loadFromXML(in);
-				Assert.assertTrue(run(new URI(url), properties));
-				i++;
-			} finally {
-				if (in != null) {
-					in.close();
-				}
-			}
-		}
-	}
+    /**
+     * Run all tests cases in the folder. Test cases requires the name "test&lt;index&gt;.xml". The index starts with "1" and
+     * will be risen to the first non exists number.
+     * 
+     * @throws Exception
+     *             an error, test failed.
+     */
+    @Test
+    public final void runFolderTestCases() throws Exception {
+        int i = 1;
+        InputStream in = null;
+        while (true) {
+            try {
+                in = getClass().getResourceAsStream(testFolder + "/test" + i + ".xml");
+                if (in == null) {
+                    break; // not the best, but we need breaking the loop and
+                           // closing the stream
+                }
+                LOG.info("run " + "test" + i + ".xml");
+                final Properties properties = new Properties();
+                properties.loadFromXML(in);
+                Assert.assertTrue(run(new URI(url), properties));
+                i++;
+            } finally {
+                if (in != null) {
+                    in.close();
+                }
+            }
+        }
+    }
 
 	/**
 	 * Run a test.
