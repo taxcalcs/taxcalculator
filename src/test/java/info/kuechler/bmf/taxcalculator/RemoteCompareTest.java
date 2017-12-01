@@ -91,7 +91,8 @@ public class RemoteCompareTest {
 				{ getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig" },
 
 				{ getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big" },
-				{ getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big" }
+				{ getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big" },
+				// FIXME needs 2018 api { getUrl(0, 2018), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2018Big" }
 				//
 		});
 	}

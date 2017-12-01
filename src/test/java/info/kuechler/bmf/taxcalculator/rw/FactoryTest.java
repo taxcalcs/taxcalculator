@@ -119,6 +119,9 @@ public class FactoryTest {
 
 		Assert.assertEquals("2017", factory.getYearKey(0, 2017));
 		Assert.assertEquals("2017", factory.getYearKey(12, 2017));
+		
+		Assert.assertEquals("2018", factory.getYearKey(0, 2018));
+		Assert.assertEquals("2018", factory.getYearKey(12, 2018));
 	}
 
 	/**
