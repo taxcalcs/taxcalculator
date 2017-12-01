@@ -10,11 +10,24 @@
 	<xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" />
 	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
 	
+	<xsl:include href="accessBuilder.xsl"/>
+	
 	<!-- root node -->
-	<xsl:template match="/PAP">
+	<xsl:template match="/PAP">/*
+*/
 package info.kuechler.bmf.taxcalculator;
 
+import static info.kuechler.bmf.taxcalculator.AccessorImpl.newMap;
+
 import java.math.BigDecimal;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.function.ObjDoubleConsumer;
+import java.util.function.ObjIntConsumer;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+
 import javax.annotation.Generated;
 
 /**
@@ -22,13 +35,15 @@ import javax.annotation.Generated;
  * 
  * Generiert aus Pseudocode von: &lt;a href="https://www.bmf-steuerrechner.de"&gt;bmf-steuerrechner&lt;/a&gt;
  */
+@SuppressWarnings("unused")
 @Generated(value="info.kuechler.bmf.taxcalculator", date="<xsl:value-of select="date:date-time()"/>", comments="Generated from pseudo code https://www.bmf-steuerrechner.de")
-public class <xsl:value-of select="./@name" /> {
+public class <xsl:value-of select="./@name" /> implements Calculator&lt;<xsl:value-of select="./@name" />&gt; {
 		<xsl:apply-templates select="./VARIABLES" />
 		<xsl:apply-templates select="./CONSTANTS" />
 		<xsl:apply-templates select="./METHODS" />
 		<xsl:call-template name="inputGetterAndSetter"/>
 		<xsl:call-template name="outputGetter"/>
+		<xsl:call-template name="genericAccessor"/>
 }
 	</xsl:template>
 
@@ -96,4 +111,22 @@ public class <xsl:value-of select="./@name" /> {
     	}
     </xsl:template>
 
+	<xsl:template name="genericAccessor">
+		/**
+		 * {@link Accessor} for access fields by {@link String} key.
+		 *
+		 * @since 2018.0.0
+		 */
+		private final Accessor&lt;String, <xsl:value-of select="./@name" />&gt; accessor = AccessorBuilder.build(this);
+			
+		/**
+	     * {@inheritDoc}
+	     */
+		@Override
+		public Accessor&lt;String, <xsl:value-of select="./@name" />&gt; getAccessor() {
+			return accessor;
+		}
+		
+		<xsl:call-template name="accessBuilder" />
+	</xsl:template>
 </xsl:stylesheet>

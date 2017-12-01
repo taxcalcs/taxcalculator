@@ -5,9 +5,23 @@ import java.util.Locale;
 
 /**
  * Helper class for getter, setter and methods.
+ * 
+ * @deprecated will be removed in 2019 version
  */
+@Deprecated
 public class SetterGetterUtil {
+	
+	/**
+	 * Method prefix for setter methods.
+	 */
+    public static final String METHOD_PREFIX_SET = "set";
+    
     /**
+     * Method prefix for getter methods.
+     */
+    public static final String METHOD_PREFIX_GET = "get";
+
+	/**
      * Returns if the method from the search type.
      * 
      * @param methodPrefix
@@ -54,13 +68,28 @@ public class SetterGetterUtil {
     }
 
     /**
+	 * Convert a property to a property name. The first letter will be convert
+	 * in a upper case.
+	 * 
+	 * @param key
+	 *            the input property name
+	 * @return the converted property.
+	 * @deprecated typing error, use {@link #toCaseInsensitiveProperty(String)},
+	 *             will be removed in version 2019
+	 */
+    @Deprecated
+    public static String toCaseInsensiviteProperty(final String key) {
+        return toCaseInsensitiveProperty(key);
+    }
+    
+    /**
      * Convert a property to a property name. The first letter will be convert in a upper case.
      * 
      * @param key
      *            the input property name
      * @return the converted property.
      */
-    public static String toCaseInsensiviteProperty(final String key) {
+    public static String toCaseInsensitiveProperty(final String key) {
         return key.toUpperCase(Locale.ENGLISH);
     }
 
@@ -72,7 +101,7 @@ public class SetterGetterUtil {
      * @return the setter name
      */
     public static String createSetterName(String property) {
-        return "set" + toProperty(property);
+        return METHOD_PREFIX_SET + toProperty(property);
     }
 
     /**
@@ -83,7 +112,7 @@ public class SetterGetterUtil {
      * @return the getter name
      */
     public static String createGetterName(String property) {
-        return "get" + toProperty(property);
+        return METHOD_PREFIX_GET + toProperty(property);
     }
     
     /**

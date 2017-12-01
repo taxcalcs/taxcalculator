@@ -1,62 +1,79 @@
 package info.kuechler.bmf.taxcalculator.rw;
 
-import static info.kuechler.bmf.taxcalculator.rw.SetterGetterUtil.toCaseInsensiviteProperty;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Map;
 
+import info.kuechler.bmf.taxcalculator.Calculator;
+
 /**
- * Class to read values in tax calculator classes.
- * 
+ * Reader to read values from {@link Calculator} class.
  * <p>
- * Create the calculate method from {@link Writer}.
+ * Fix key type is {@link String}.
  * </p>
- * 
- * @see Writer#calculate()
  */
-public class Reader {
-    private final Object object;
-    private final Map<String /* property with upper cases */, Method> getter;
+public interface Reader {
 
-    /**
-     * Constructor.
-     * 
-     * @param getter
-     *            the map with getter methods.
-     * @param object
-     *            the object for manipulation.
-     */
-    Reader(final Map<String, Method> getter, Object object) {
-        this.getter = getter;
-        this.object = object;
-    }
+	/**
+	 * Reads a value. Can be {@link Integer}, {@link Double} or
+	 * {@link BigDecimal}.
+	 * 
+	 * @param key
+	 *            the property name, is case insensitive
+	 * @param <V>
+	 *            Type of the result object
+	 * @return the value
+	 * @throws ReadWriteException
+	 *             Error while read the value.
+	 * @see #getAll(Iterable)
+	 */
+	<V> V get(String key) throws ReadWriteException;
 
-    /**
-     * Reads a value.
-     * 
-     * @param key
-     *            the property name, is case insensitive
-     * @param <T>
-     *            Type of the result object
-     * @return the value
-     * @throws ReadWriteException
-     *             Error while read the values.
-     */
-    public <T> T get(final String key) throws ReadWriteException {
-        final Method method = getter.get(toCaseInsensiviteProperty(key));
-        if (method == null) {
-            throw new ReadWriteException("Getter for property not found: " + key);
-        }
-        try {
-            @SuppressWarnings("unchecked")
-            final T invoke = (T) method.invoke(object);
-            return invoke;
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new ReadWriteException("Cannot read property: " + key, e);
-        } catch (ClassCastException e) {
-            throw new ReadWriteException(
-                    "Cannot cast property: " + key + ". Maybe wrong type: should: " + method.getReturnType(), e);
-        }
-    }
+	/**
+	 * Reads a {@link BigDecimal}.
+	 * 
+	 * @param key
+	 *            the property name, is case insensitive
+	 * @return the value
+	 * @throws ReadWriteException
+	 *             Error while read the value.
+	 * @since 2018.0.0
+	 */
+	BigDecimal getBigDecimal(String key) throws ReadWriteException;
+
+	/**
+	 * Reads a int.
+	 * 
+	 * @param key
+	 *            the property name, is case insensitive
+	 * @return the value
+	 * @throws ReadWriteException
+	 *             Error while read the value.
+	 * @since 2018.0.0
+	 */
+	int getInt(String key) throws ReadWriteException;
+
+	/**
+	 * Reads a double.
+	 * 
+	 * @param key
+	 *            the property name, is case insensitive
+	 * @return the value
+	 * @throws ReadWriteException
+	 *             Error while read the value.
+	 * @since 2018.0.0
+	 */
+	double getDouble(String key) throws ReadWriteException;
+
+	/**
+	 * Read values and returns the results as a {@link Map}. Values can be
+	 * {@link Integer}, {@link Double} or {@link BigDecimal}.
+	 * 
+	 * @param keys
+	 *            the property names, is case insensitive
+	 * @return a {@link Map} with values.
+	 * @throws ReadWriteException
+	 *             Error while read the values.
+	 * @since 2018.0.0
+	 */
+	Map<String, Number> getAll(Iterable<String> keys) throws ReadWriteException;
 }

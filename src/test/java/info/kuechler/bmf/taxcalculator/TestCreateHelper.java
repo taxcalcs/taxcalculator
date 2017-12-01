@@ -23,74 +23,74 @@ import org.junit.Test;
 
 /**
  * 
- * Helper to create test CSV.
- *
+ * Helper to create test CSV. For manual usage. All methods annotated with
+ * {@link Ignore}.
  */
 public class TestCreateHelper {
-    private static final NumberFormat NUM_FORMAT = DecimalFormat.getInstance(Locale.GERMANY);
+	private static final NumberFormat NUM_FORMAT = DecimalFormat.getInstance(Locale.GERMANY);
 
-    @Ignore("for conversion only")
-    @Test
-    public final void toTable() throws IOException, ParseException {
-        final int size = 7;
-        int no = 0;
-        try (final InputStreamReader in = new InputStreamReader(
-                getClass().getResourceAsStream("/info/kuechler/bmf/taxcalculator/toconvert.csv"),
-                StandardCharsets.UTF_8);
-                final CSVParser parser = new CSVParser(in, FORMAT);
-                final CSVPrinter print = new CSVPrinter(System.out, FORMAT);) {
-            for (final CSVRecord record : parser) {
-                for (final String value : record) {
-                    print.print(convert(value));
-                    if (++no % size == 0) {
-                        print.println();
-                    }
-                }
-            }
-        }
-        Assert.assertTrue(no > 0);
-    }
+	@Ignore("for conversion only")
+	@Test
+	public final void toTable() throws IOException, ParseException {
+		final int size = 7;
+		int no = 0;
+		try (final InputStreamReader in = new InputStreamReader(
+				getClass().getResourceAsStream("/info/kuechler/bmf/taxcalculator/toconvert.csv"),
+				StandardCharsets.UTF_8);
+				final CSVParser parser = new CSVParser(in, FORMAT);
+				final CSVPrinter print = new CSVPrinter(System.out, FORMAT);) {
+			for (final CSVRecord record : parser) {
+				for (final String value : record) {
+					print.print(convert(value));
+					if (++no % size == 0) {
+						print.println();
+					}
+				}
+			}
+		}
+		Assert.assertTrue(no > 0);
+	}
 
-    private Object convert(String value) throws ParseException {
-        final String newValue = value.trim();
-        if (isGermanInt(newValue)) {
-            return new BigDecimal(NUM_FORMAT.parse(newValue).intValue());
-        }
-        return newValue;
-    }
+	private Object convert(String value) throws ParseException {
+		final String newValue = value.trim();
+		if (isGermanInt(newValue)) {
+			return new BigDecimal(NUM_FORMAT.parse(newValue).intValue());
+		}
+		return newValue;
+	}
 
-    private boolean isGermanInt(String value) {
-        // simple test
-        return Pattern.matches("[\\d.]+", value);
-    }
+	private boolean isGermanInt(String value) {
+		// simple test
+		return Pattern.matches("[\\d.]+", value);
+	}
 
-    @Ignore("for conversion only")
-    @Test
-    public final void transpose() throws IOException {
-        final List<String[]> data = new ArrayList<>();
-        int size = Integer.MAX_VALUE;
+	@Ignore("for conversion only")
+	@Test
+	public final void transpose() throws IOException {
+		final List<String[]> data = new ArrayList<>();
+		int size = Integer.MAX_VALUE;
 
-        try (final InputStreamReader in = new InputStreamReader(
-                getClass().getResourceAsStream("/info/kuechler/bmf/taxcalculator/2016/general.csv"),
-                StandardCharsets.UTF_8); final CSVParser parser = new CSVParser(in, FORMAT);) {
-            for (final CSVRecord record : parser) {
-                size = Math.min(size, record.size());
-                final String[] line = new String[record.size()];
-                for (int i = 0; i < record.size(); i++) {
-                    line[i] = record.get(i);
-                }
-                data.add(line);
-            }
-        }
+		try (final InputStreamReader in = new InputStreamReader(
+				getClass().getResourceAsStream("/info/kuechler/bmf/taxcalculator/2016/general.csv"),
+				StandardCharsets.UTF_8); final CSVParser parser = new CSVParser(in, FORMAT);) {
+			for (final CSVRecord record : parser) {
+				size = Math.min(size, record.size());
+				final String[] line = new String[record.size()];
+				for (int i = 0; i < record.size(); i++) {
+					line[i] = record.get(i);
+				}
+				data.add(line);
+			}
+		}
 
-        try (final CSVPrinter print = new CSVPrinter(System.out, FORMAT);) {
-            for (int i = 0; i < size; i++) {
-                for (final String[] d : data) {
-                    print.print(d[i]);
-                }
-                print.println();
-            }
-        }
-        Assert.assertTrue(size > 0);
-    }
+		try (final CSVPrinter print = new CSVPrinter(System.out, FORMAT);) {
+			for (int i = 0; i < size; i++) {
+				for (final String[] d : data) {
+					print.print(d[i]);
+				}
+				print.println();
+			}
+		}
+		Assert.assertTrue(size > 0);
+	}
 }

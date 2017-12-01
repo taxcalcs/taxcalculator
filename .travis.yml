@@ -1,7 +1,11 @@
 ---
+dist: trusty
+sudo: false
+
 language: java
 jdk:
-  - openjdk7
-  - oraclejdk7
   - oraclejdk8
+  - openjdk8
+  - oraclejdk9
+
 script: mvn clean install
