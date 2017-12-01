@@ -2,7 +2,6 @@
 
 ```diff
 - The 2018 version will be changed to Java 8. 
-- If this is a problem for your project, please add a comment to Ticket #20.
 ```
 
 Generated code for german tax from https://www.bmf-steuerrechner.de/
@@ -21,7 +20,7 @@ You can download it from maven central repository:
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
-    <version>2017.0.0</version>
+    <version>2018.0.0</version>
 </dependency>
 ```
 
