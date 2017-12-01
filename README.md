@@ -31,55 +31,36 @@ Versions are backwards compatible. You can use the latest version and can use th
 ### With Reader / Writer
 
 ```java
-final TaxCalculatorFactory factory = new TaxCalculatorFactory();
-final Writer writer = factory.create(factory.getYearKey(0, 2017));
-writer.setAllToZero();
+Writer writer = TaxCalculatorFactory.createWithWriter(0, 2018);
 // 1. monthly payment
 // 2. tax class
 // 3. income in cent
 writer.set("LZZ", 2).set("STKL", 1).set("RE4", new BigDecimal("223456"));
 // 4. a half child :)
 // 5. additional med insurance [percent]
-writer.set("ZKF", new BigDecimal("0.5")).set("KVZ", new BigDecimal("1.10"));
 // 6. pensions fund: east germany
-writer.set("KRV", 1);
+final Map<String, Object> parameter = new HashMap<>();
+parameter.put("ZKF", 0.5);
+parameter.put("KVZ", 1.10);
+parameter.put("KRV", 1);
+writer.setAll(parameter); // with setAll the correct type is detected
 
-final Reader reader = writer.calculate();
+// calculate result and return a Reader to read values
+Reader reader = writer.calculate();
 
-final BigDecimal lst = reader.get("LSTLZZ");
-final BigDecimal soli = reader.get("SOLZLZZ");
+BigDecimal lst = reader.get("LSTLZZ");
+BigDecimal soli = reader.get("SOLZLZZ");
+
+Assert.assertEquals(23850, lst.longValue());
+Assert.assertEquals(861, soli.longValue());
 
 System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
 ```
 
-### Direct with generated classes
+### With Accessor / Direct with generated classes
 
-```java
-Lohnsteuer2017Big tax = new Lohnsteuer2017Big();
-        
-tax.setLZZ(2); // monthly payment
-tax.setSTKL(1); // tax class
-tax.setRE4(new BigDecimal("223456")); // income in cent
-tax.setLZZFREIB(BigDecimal.ZERO); // Freibeträge
-tax.setPVS(0); // not in saxony
-tax.setPVZ(0); // Additional care insurance for employee: birth > 1940, older than 23, no kids
-tax.setR(0); // no church
-tax.setZKF(new BigDecimal("0.5")); // a half child :)
-tax.setKVZ(new BigDecimal("1.10")); // additional med insurance [percent]
-tax.setKRV(1); // pensions fund: east germany
-  
-tax.setVBEZ(BigDecimal.ZERO);
-tax.setLZZHINZU(BigDecimal.ZERO);
-tax.setSONSTB(BigDecimal.ZERO);
-tax.setVKAPA(BigDecimal.ZERO);
-tax.setVMT(BigDecimal.ZERO);
-        
-tax.calculate();
-        
-System.out.println("Lohnsteuer: " + tax.getLSTLZZ().divide(new BigDecimal("100")) + " EUR");
-System.out.println("Soli: " + tax.getSOLZLZZ().divide(new BigDecimal("100")) + " EUR");
-```
+Both variants can found in this [Test](https://github.com/admiralsmaster/taxcalculator/blob/development/src/test/java/info/kuechler/bmf/taxcalculator/DocumentationExampleTest.java)
 
 ## License
 
