@@ -6,11 +6,12 @@
 
 Generated code for german tax from https://www.bmf-steuerrechner.de/
 
-Project: http://admiralsmaster.github.io/taxcalculator/
-
+Project: http://admiralsmaster.github.io/taxcalculator/  
 Javadoc: http://admiralsmaster.github.io/taxcalculator/apidocs/
 
-For an API to use the test interfaces see [taxapi](https://github.com/admiralsmaster/taxapi/).
+JDK 9 module name: *info.kuechler.bmf.taxcalculator*
+
+For an API to use the test interfaces at the BMF see [taxapi](https://github.com/admiralsmaster/taxapi/).
 
 ## Usage
 
