@@ -24,8 +24,7 @@ import info.kuechler.bmf.taxcalculator.Calculator;
  *     System.out.println("LSTLZZ " + output.get("LSTLZZ"));<br>
  * </code>
  */
-@SuppressWarnings("deprecation")
-public class TaxCalculatorFactory extends AbstractReadWriteFactory {
+public class TaxCalculatorFactory {
 
 	/**
 	 * Instance for static methods usage.
@@ -210,9 +209,10 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *             error during create a {@link Writer}
 	 * @see Writer#setAllToZero()
 	 */
-	public Writer create(final String yearKey) throws ReadWriteException {
-		return super.create(yearKey);
-	}
+	public <T extends Calculator<T>> Writer create(final String yearKey) throws ReadWriteException {
+        final T calculator = createCalculator(yearKey);
+        return new WriterImpl<>(calculator);
+    }
 
 	/**
 	 * Get all input fields from a {@link Calculator} class. Returns a
@@ -229,7 +229,7 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *             class cannot detect
 	 */
 	public Set<String> getInputs(final String yearKey) throws ReadWriteException {
-		return super.getInputs(yearKey);
+	    return getInputsWithType(yearKey).keySet();
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * @since 2016.2.0
 	 */
 	public Map<String, Class<?>> getInputsWithType(final String yearKey) throws ReadWriteException {
-		return super.getInputsWithType(yearKey);
+	    return createAccessor(yearKey).getInputsWithType();
 	}
 
 	/**
@@ -270,9 +270,9 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * @throws ReadWriteException
 	 *             class cannot detect
 	 */
-	public Set<String> getOutputs(final String yearKey) throws ReadWriteException {
-		return super.getOutputs(yearKey);
-	}
+    public Set<String> getOutputs(final String yearKey) throws ReadWriteException {
+        return getOutputsWithType(yearKey).keySet();
+    }
 
 	/**
 	 * Get all output fields from a {@link Calculator} class. The type can be
@@ -294,9 +294,9 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 *             class cannot detect
 	 * @since 2016.2.0
 	 */
-	public Map<String, Class<?>> getOutputsWithType(final String yearKey) throws ReadWriteException {
-		return super.getOutputsWithType(yearKey);
-	}
+    public Map<String, Class<?>> getOutputsWithType(final String yearKey) throws ReadWriteException {
+        return createAccessor(yearKey).getOutputsWithType();
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -307,7 +307,6 @@ public class TaxCalculatorFactory extends AbstractReadWriteFactory {
 	 * </p>
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	protected <T extends Calculator<T>> Class<T> getCalculatorClass(final String yearKey)
 			throws ClassNotFoundException {
 		return (Class<T>) Class.forName("info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big");
