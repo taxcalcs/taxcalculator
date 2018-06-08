@@ -21,4 +21,4 @@ build:
 test:
   stage: test
   script:
-- mvn $MAVEN_CLI_OPTS test
+    - mvn $MAVEN_CLI_OPTS test
