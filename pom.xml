@@ -521,10 +521,10 @@
 
 	<profiles>
 		<profile>
-			<!-- profile for jdk9 -->
-			<id>jdk9</id>
+			<!-- profile for jdk9 and later -->
+			<id>jdk9plus</id>
 			<activation>
-				<jdk>9</jdk>
+				<jdk>!8</jdk>
 			</activation>
 			<build>
 				<plugins>
