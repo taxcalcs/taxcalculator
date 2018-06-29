@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2018.0.0</version>
+	<version>2019.0.0-SNAPSHOT</version>
 	<name>TaxCalculator</name>
 	
 	<!-- 
@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.4</version>
+			<version>4.5.5</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>info.kuechler.bmf.taxapi</groupId>
 			<artifactId>taxapi</artifactId>
-			<version>2018.0.0</version>
+			<version>2018.1.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -138,14 +138,14 @@
 			<!-- log4j-2 adapter -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.10.0</version>
+			<version>2.11.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 impl -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.10.0</version>
+			<version>2.11.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -186,7 +186,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>2.0.0</version>
 				<executions>
 					<execution>
 						<id>download-2018</id>
@@ -196,7 +196,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2018.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2018.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2018Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -208,7 +208,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2017.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2017.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2017Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -220,7 +220,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2016.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2016.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2016Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -232,7 +232,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2015Dezember.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2015Dezember.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2015DezemberBig.xml</toFile>
 						</configuration>
 					</execution>
@@ -244,7 +244,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2015BisNovember.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2015BisNovember.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2015Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -256,7 +256,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2014.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2014.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2014Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -268,7 +268,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2013_2.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2013.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2013Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -280,7 +280,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2012.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2012.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2012Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -292,7 +292,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2011Dezember.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2011Dezember.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2011DecemberBig.xml</toFile>
 						</configuration>
 					</execution>
@@ -304,7 +304,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2011BisNovember.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2011BisNovember.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2011NovemberBig.xml</toFile>
 						</configuration>
 					</execution>
@@ -316,7 +316,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2010Big.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2010Big.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2010Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -328,7 +328,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2009Big.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2009Big.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2009Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -340,7 +340,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2008Big.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2008Big.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2008Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -352,7 +352,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2007Big.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2007Big.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2007Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -364,7 +364,7 @@
 						</goals>
 						<configuration>
 							<url>${file.host}</url>
-							<fromFile>pruefdaten/Lohnsteuer2006Big.xml</fromFile>
+							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2006Big.xml.xhtml</fromFile>
 							<toFile>${file.download.target}/Lohnsteuer2006Big.xml</toFile>
 						</configuration>
 					</execution>
@@ -389,7 +389,7 @@
 							<regex>false</regex>
 							<replacements>
 								<replacement>
-									<token>Lohnsteuer2011Big</token>
+									<token>Lohnsteuer2011DezBig</token>
 									<value>Lohnsteuer2011DecemberBig</value>
 								</replacement>
 							</replacements>
@@ -443,7 +443,7 @@
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
-				<version>2.7.1</version>
+				<version>2.7.2</version>
 				<executions>
 					<execution>
 						<id>format</id>
@@ -470,13 +470,13 @@
 			<plugin>
 	    			<groupId>org.apache.maven.plugins</groupId>
 	    			<artifactId>maven-site-plugin</artifactId>
-	    			<version>3.6</version>
+	    			<version>3.7</version>
 			</plugin>
 			
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.0.2</version>
+			    <version>3.1.0</version>
                 <configuration>
                    <archive>
                         <manifestEntries>
@@ -499,7 +499,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.0.0</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -531,7 +531,7 @@
 					<plugin>
 					    <groupId>org.apache.maven.plugins</groupId>
 					    <artifactId>maven-surefire-plugin</artifactId>
-					    <version>2.20.1</version>
+					    <version>2.21.0</version>
 						<executions>
 							<execution>
 								<id>default-test</id>
@@ -613,7 +613,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.4</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
