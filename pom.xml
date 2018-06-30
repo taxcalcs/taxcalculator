@@ -548,6 +548,34 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<!-- profile for jdk10 -->
+			<id>jdk10</id>
+			<activation>
+				<jdk>10</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-surefire-plugin</artifactId>
+					    <version>2.21.0</version>
+						<executions>
+							<execution>
+								<id>default-test</id>
+								<phase>test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<argLine>--add-modules java.xml.bind</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		
 		<profile>
 			<!-- profile for release, local development is faster w/o this plugins -->
