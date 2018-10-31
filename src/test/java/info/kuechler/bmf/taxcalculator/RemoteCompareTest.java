@@ -1,17 +1,17 @@
 package info.kuechler.bmf.taxcalculator;
 
 import static info.kuechler.bmf.taxapi.TaxApiFactory.getUrl;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -27,14 +27,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +52,6 @@ import info.kuechler.bmf.taxapi.Lohnsteuer;
  * </p>
  * 
  */
-@RunWith(Parameterized.class)
 public class RemoteCompareTest {
 
 	private final static Logger LOG = LoggerFactory.getLogger(RemoteCompareTest.class);
@@ -62,40 +59,30 @@ public class RemoteCompareTest {
 	private static CloseableHttpClient client;
 	private static JAXBContext context;
 
-	@Parameter(value = 0)
-	public String url;
+    static Stream<Arguments> dataProvider() {
+        return Stream.of( //
+                arguments(getUrl(0, 2006), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2006Big"),
+                arguments(getUrl(0, 2007), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2007Big"),
+                arguments(getUrl(0, 2008), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2008Big"),
+                arguments(getUrl(0, 2009), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2009Big"),
+                arguments(getUrl(0, 2010), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2010Big"),
 
-	@Parameter(value = 1)
-	public String testFolder;
+                arguments(getUrl(1, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011NovemberBig"),
+                arguments(getUrl(0, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011DecemberBig"),
 
-	@Parameter(value = 2)
-	public String className;
+                arguments(getUrl(0, 2012), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2012Big"),
+                arguments(getUrl(0, 2013), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2013Big"),
+                arguments(getUrl(0, 2014), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2014Big"),
 
-	@Parameters
-	public static Collection<String[]> data() {
-		return Arrays.asList(new String[][] { //
-				{ getUrl(0, 2006), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2006Big" },
-				{ getUrl(0, 2007), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2007Big" },
-				{ getUrl(0, 2008), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2008Big" },
-				{ getUrl(0, 2009), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2009Big" },
-				{ getUrl(0, 2010), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2010Big" },
+                arguments(getUrl(4, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015Big"),
+                arguments(getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig"),
 
-				{ getUrl(1, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011NovemberBig" },
-				{ getUrl(0, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011DecemberBig" },
-
-				{ getUrl(0, 2012), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2012Big" },
-				{ getUrl(0, 2013), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2013Big" },
-				{ getUrl(0, 2014), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2014Big" },
-
-				{ getUrl(4, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015Big" },
-				{ getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig" },
-
-				{ getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big" },
-				{ getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big" },
-				{ getUrl(0, 2018), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2018Big" }
-				//
-		});
-	}
+                arguments(getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big"),
+                arguments(getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big"),
+                arguments(getUrl(0, 2018), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2018Big")
+        //
+        );
+    }
 
 	/**
 	 * Initialize.
@@ -103,7 +90,7 @@ public class RemoteCompareTest {
 	 * @throws JAXBException
 	 *             exception during create JAXB context.
 	 */
-	@BeforeClass
+	@BeforeAll
 	public static final void init() throws JAXBException {
 		final Builder builder = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(60000);
 		final String proxy = System.getProperty("https_proxy");
@@ -122,7 +109,7 @@ public class RemoteCompareTest {
 	 * @throws IOException
 	 *             exception during close HTTP client.
 	 */
-	@AfterClass
+	@AfterAll
 	public static final void stop() throws IOException {
 		client.close();
 	}
@@ -134,7 +121,7 @@ public class RemoteCompareTest {
 	 * @return the calculator.
 	 */
 	@SuppressWarnings("unchecked")
-	private <T extends Calculator<T>> T createCalculator() throws Exception {
+	private <T extends Calculator<T>> T createCalculator(final String className) throws Exception {
 		return (T) Class.forName("info.kuechler.bmf.taxcalculator." + className).newInstance();
 	}
 
@@ -145,8 +132,10 @@ public class RemoteCompareTest {
      * @throws Exception
      *             an error, test failed.
      */
-    @Test
-    public final void runFolderTestCases() throws Exception {
+	@ParameterizedTest
+    @MethodSource("dataProvider")
+    public final void runFolderTestCases(final String url, final String testFolder, final String className)
+            throws Exception {
         int i = 1;
         InputStream in = null;
         while (true) {
@@ -159,7 +148,7 @@ public class RemoteCompareTest {
                 LOG.info("run " + "test" + i + ".xml");
                 final Properties properties = new Properties();
                 properties.loadFromXML(in);
-                Assert.assertTrue(run(new URI(url), properties));
+                Assertions.assertTrue(run(new URI(url), properties, className));
                 i++;
             } finally {
                 if (in != null) {
@@ -179,9 +168,9 @@ public class RemoteCompareTest {
 	 * @throws Exception
 	 *             an error. Test failed
 	 */
-	private boolean run(final URI baseUri, final Map<?, ?> testCase) throws Exception {
+	private boolean run(final URI baseUri, final Map<?, ?> testCase, final String className) throws Exception {
 		final Lohnsteuer result = getExpected(baseUri, testCase);
-		final Calculator<?> calc = createCalculator();
+		final Calculator<?> calc = createCalculator(className);
 		final Accessor<String, ?> accessor = calc.getAccessor();
 		final Map<String, Class<?>> types = accessor.getInputsWithType();
 
@@ -202,7 +191,7 @@ public class RemoteCompareTest {
 			if (outs.contains(elem.getName())) {
 				final Object r = accessor.get(elem.getName());
 				LOG.debug("Output " + elem.getName() + " = " + elem.getValue() + '/' + r);
-				Assert.assertEquals(r, elem.getValue());
+				Assertions.assertEquals(r, elem.getValue());
 			} else {
 				LOG.debug("Unknown result " + elem.getName() + " maybe an internal field");
 			}
@@ -245,8 +234,8 @@ public class RemoteCompareTest {
 		final HttpGet httpget = new HttpGet(uri);
 
 		final HttpResponse response = client.execute(httpget);
-		Assert.assertTrue("Method failed: " + response.getStatusLine(),
-				response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
+        Assertions.assertTrue(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK,
+                "Method failed: " + response.getStatusLine());
 
 		// BufferedReader in = new BufferedReader(new
 		// InputStreamReader(response.getEntity().getContent()));
@@ -270,11 +259,11 @@ public class RemoteCompareTest {
 
 		// Simple validation
 		for (final Eingabe resultElement : result.getEingaben()) {
-			Assert.assertTrue("State not ok " + resultElement,
-					StringUtils.equals("ok", resultElement.getStatus()) || isTestCaseId(resultElement));
+            Assertions.assertTrue(StringUtils.equals("ok", resultElement.getStatus()) || isTestCaseId(resultElement),
+                    "State not ok " + resultElement);
 		}
-		Assert.assertTrue("Need at least five input values.", result.getEingaben().size() > 5);
-		Assert.assertTrue("Need at least five output values.", result.getAusgaben().size() > 5);
+		Assertions.assertTrue(result.getEingaben().size() > 5, "Need at least five input values.");
+		Assertions.assertTrue(result.getAusgaben().size() > 5, "Need at least five output values.");
 
 		return result;
 	}

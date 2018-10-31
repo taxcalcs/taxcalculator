@@ -1,22 +1,21 @@
 package info.kuechler.bmf.taxcalculator;
 
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +28,6 @@ import info.kuechler.bmf.taxcalculator.rw.Writer;
  * Test classes with examples CSV files. Test data from
  * <a href="https://www.bmf-steuerrechner.de/interface/pap.jsp">PAP</a>
  */
-@RunWith(Parameterized.class)
 public class ExamplesCsvTest {
 	private final static Logger LOG = LoggerFactory.getLogger(ExamplesCsvTest.class);
 
@@ -94,59 +92,48 @@ public class ExamplesCsvTest {
 
 		CONF_GENERAL_PKV.configure(writer, taxClass);
 	};
-
-	@Parameter(value = 0)
-	public String testFilePath;
-
-	@Parameter(value = 1)
-	public int month;
-
-	@Parameter(value = 2)
-	public int year;
-
-	@Parameter(value = 3)
-	public WriterTaxClassConfigurer configurer;
-
-	@Parameters(name = "{index}: {1}.{2}")
-	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { //
-				{ "/info/kuechler/bmf/taxcalculator/2006/general.csv", 0, 2006, CONF_GENERAL },
-				{ "/info/kuechler/bmf/taxcalculator/2006/special.csv", 0, 2006, CONF_SPECIAL },
-				{ "/info/kuechler/bmf/taxcalculator/2007/general.csv", 0, 2007, CONF_GENERAL },
-				{ "/info/kuechler/bmf/taxcalculator/2007/special.csv", 0, 2007, CONF_SPECIAL },
-				{ "/info/kuechler/bmf/taxcalculator/2008/general.csv", 0, 2008, CONF_GENERAL },
-				{ "/info/kuechler/bmf/taxcalculator/2008/special.csv", 0, 2008, CONF_SPECIAL },
-				{ "/info/kuechler/bmf/taxcalculator/2009/general.csv", 0, 2009, CONF_GENERAL },
-				{ "/info/kuechler/bmf/taxcalculator/2009/special.csv", 0, 2009, CONF_SPECIAL },
-				{ "/info/kuechler/bmf/taxcalculator/2010/general.csv", 0, 2010, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2010/special.csv", 0, 2010, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2011/general-nov.csv", 11, 2011, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2011/special-nov.csv", 11, 2011, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2011/general-dec.csv", 0, 2011, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2011/special-dec.csv", 0, 2011, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2012/general.csv", 0, 2012, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2012/special.csv", 0, 2012, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2013/general.csv", 0, 2013, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2013/special.csv", 0, 2013, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2014/general.csv", 0, 2014, CONF_GENERAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2014/special.csv", 0, 2014, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2015/general-nov.csv", 11, 2015, CONF_GENERAL_PKV_09 },
-				{ "/info/kuechler/bmf/taxcalculator/2015/special-nov.csv", 11, 2015, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2015/general-dec.csv", 0, 2015, CONF_GENERAL_PKV_09 },
-				{ "/info/kuechler/bmf/taxcalculator/2015/special-dec.csv", 0, 2015, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2016/general.csv", 0, 2016, CONF_GENERAL_PKV_11 },
-				{ "/info/kuechler/bmf/taxcalculator/2016/special.csv", 0, 2016, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2017/general.csv", 0, 2017, CONF_GENERAL_PKV_11 },
-				{ "/info/kuechler/bmf/taxcalculator/2017/special.csv", 0, 2017, CONF_SPECIAL_PKV },
-				{ "/info/kuechler/bmf/taxcalculator/2018/general.csv", 0, 2018, CONF_GENERAL_PKV_10 },
-				{ "/info/kuechler/bmf/taxcalculator/2018/special.csv", 0, 2018, CONF_SPECIAL_PKV }
-				//
-		});
-	}
-
-	@Test
-	public final void test() throws ReadWriteException, ParseException, IOException {
-		try (final InputStreamReader in = new InputStreamReader(getClass().getResourceAsStream(testFilePath),
+	
+    static Stream<Arguments> dataProvider() {
+        return Stream.of( //
+                arguments("/info/kuechler/bmf/taxcalculator/2006/general.csv", 0, 2006, CONF_GENERAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2006/special.csv", 0, 2006, CONF_SPECIAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2007/general.csv", 0, 2007, CONF_GENERAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2007/special.csv", 0, 2007, CONF_SPECIAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2008/general.csv", 0, 2008, CONF_GENERAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2008/special.csv", 0, 2008, CONF_SPECIAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2009/general.csv", 0, 2009, CONF_GENERAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2009/special.csv", 0, 2009, CONF_SPECIAL),
+                arguments("/info/kuechler/bmf/taxcalculator/2010/general.csv", 0, 2010, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2010/special.csv", 0, 2010, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2011/general-nov.csv", 11, 2011, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2011/special-nov.csv", 11, 2011, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2011/general-dec.csv", 0, 2011, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2011/special-dec.csv", 0, 2011, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2012/general.csv", 0, 2012, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2012/special.csv", 0, 2012, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2013/general.csv", 0, 2013, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2013/special.csv", 0, 2013, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2014/general.csv", 0, 2014, CONF_GENERAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2014/special.csv", 0, 2014, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2015/general-nov.csv", 11, 2015, CONF_GENERAL_PKV_09),
+                arguments("/info/kuechler/bmf/taxcalculator/2015/special-nov.csv", 11, 2015, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2015/general-dec.csv", 0, 2015, CONF_GENERAL_PKV_09),
+                arguments("/info/kuechler/bmf/taxcalculator/2015/special-dec.csv", 0, 2015, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2016/general.csv", 0, 2016, CONF_GENERAL_PKV_11),
+                arguments("/info/kuechler/bmf/taxcalculator/2016/special.csv", 0, 2016, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2017/general.csv", 0, 2017, CONF_GENERAL_PKV_11),
+                arguments("/info/kuechler/bmf/taxcalculator/2017/special.csv", 0, 2017, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2018/general.csv", 0, 2018, CONF_GENERAL_PKV_10),
+                arguments("/info/kuechler/bmf/taxcalculator/2018/special.csv", 0, 2018, CONF_SPECIAL_PKV)
+        //
+        );
+    }
+    
+	@ParameterizedTest(name="{index} => {1}/{2}")
+	@MethodSource("dataProvider")
+    public final void test(final String testFilePath, final int month, final int year,
+            final WriterTaxClassConfigurer configurer) throws ReadWriteException, ParseException, IOException {
+    	try (final InputStreamReader in = new InputStreamReader(getClass().getResourceAsStream(testFilePath),
 				StandardCharsets.UTF_8); final CSVParser parser = new CSVParser(in, FORMAT);) {
 			int[] classes = null;
 			String name = null;
@@ -170,13 +157,13 @@ public class ExamplesCsvTest {
 
 						final Reader reader = writer.calculate();
 						final BigDecimal lst = ((BigDecimal) reader.get("LSTLZZ")).divide(new BigDecimal("100"));
-						Assert.assertEquals(name + " " + taxClass + ": " + income + " -> " + tax + " vs. " + lst, tax,
-								lst);
+                        Assertions.assertEquals(tax, lst,
+                                name + " " + taxClass + ": " + income + " -> " + tax + " vs. " + lst);
 						tests++;
 					}
 				}
 			}
-			Assert.assertTrue("No Tests", tests > 0);
+			Assertions.assertTrue(tests > 0, "No Tests");
 			LOG.debug("{}: {} tests", name, tests);
 		}
 	}

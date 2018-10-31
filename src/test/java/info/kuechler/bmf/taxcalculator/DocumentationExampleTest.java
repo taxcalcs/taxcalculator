@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import info.kuechler.bmf.taxcalculator.rw.ReadWriteException;
 import info.kuechler.bmf.taxcalculator.rw.Reader;
@@ -44,8 +44,8 @@ public class DocumentationExampleTest {
 		BigDecimal lst = reader.get("LSTLZZ");
 		BigDecimal soli = reader.get("SOLZLZZ");
 
-		Assert.assertEquals(23850, lst.longValue());
-		Assert.assertEquals(861, soli.longValue());
+		Assertions.assertEquals(23850, lst.longValue());
+		Assertions.assertEquals(861, soli.longValue());
 
 		System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
@@ -74,8 +74,8 @@ public class DocumentationExampleTest {
 		BigDecimal lst = accessor.get("LSTLZZ");
 		BigDecimal soli = accessor.get("SOLZLZZ");
 
-		Assert.assertEquals(23850, lst.longValue());
-		Assert.assertEquals(861, soli.longValue());
+		Assertions.assertEquals(23850, lst.longValue());
+		Assertions.assertEquals(861, soli.longValue());
 
 		System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
@@ -109,8 +109,8 @@ public class DocumentationExampleTest {
 
 		tax.calculate();
 
-		Assert.assertEquals(23850, tax.getLSTLZZ().longValue());
-		Assert.assertEquals(861, tax.getSOLZLZZ().longValue());
+		Assertions.assertEquals(23850, tax.getLSTLZZ().longValue());
+		Assertions.assertEquals(861, tax.getSOLZLZZ().longValue());
 
 		System.out.println("Lohnsteuer: " + tax.getLSTLZZ().divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + tax.getSOLZLZZ().divide(new BigDecimal("100")) + " EUR");
