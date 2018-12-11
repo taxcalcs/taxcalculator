@@ -40,9 +40,3 @@ build:jdk10:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS compile
-
-test:jdk10:
-  image: maven:3-jdk-10-slim
-  stage: test
-  script:
-    - mvn $MAVEN_CLI_OPTS test
