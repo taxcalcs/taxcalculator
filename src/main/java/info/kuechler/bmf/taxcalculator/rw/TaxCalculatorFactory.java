@@ -195,20 +195,21 @@ public class TaxCalculatorFactory {
 	}
 
 	/**
-	 * Create a {@link Writer}. The key is used to create a clean
-	 * {@link Calculator} instance.
-	 * <p>
-	 * Use preferably the method {@link #createWithWriter(int, int)}.
-	 * </p>
-	 * 
-	 * @param yearKey
-	 *            the key to reference the class. The method
-	 *            {@link #getCalculatorClass(String)} is called with this key.
-	 * @return a {@link Writer}
-	 * @throws ReadWriteException
-	 *             error during create a {@link Writer}
-	 * @see Writer#setAllToZero()
-	 */
+     * Create a {@link Writer}. The key is used to create a clean {@link Calculator} instance.
+     * <p>
+     * Use preferably the method {@link #createWithWriter(int, int)}.
+     * </p>
+     * 
+     * @param <T>
+     *            the Calculator type
+     * @param yearKey
+     *            the key to reference the class. The method {@link #getCalculatorClass(String)} is called with this
+     *            key.
+     * @return a {@link Writer}
+     * @throws ReadWriteException
+     *             error during create a {@link Writer}
+     * @see Writer#setAllToZero()
+     */
 	public <T extends Calculator<T>> Writer create(final String yearKey) throws ReadWriteException {
         final T calculator = createCalculator(yearKey);
         return new WriterImpl<>(calculator);
@@ -315,6 +316,8 @@ public class TaxCalculatorFactory {
 	/**
 	 * Create an instance of the calculate class.
 	 * 
+	 * @param <T>
+     *            the Calculator type
 	 * @param yearKey
 	 *            the key to reference the class
 	 * @return an instance of the class
@@ -336,6 +339,8 @@ public class TaxCalculatorFactory {
 	/**
 	 * Get an {@link Accessor} by key.
 	 * 
+	 * @param <T>
+     *            the Calculator type
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
