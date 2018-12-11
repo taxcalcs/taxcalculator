@@ -124,7 +124,9 @@ public class ExamplesCsvTest {
                 arguments("/info/kuechler/bmf/taxcalculator/2017/general.csv", 0, 2017, CONF_GENERAL_PKV_11),
                 arguments("/info/kuechler/bmf/taxcalculator/2017/special.csv", 0, 2017, CONF_SPECIAL_PKV),
                 arguments("/info/kuechler/bmf/taxcalculator/2018/general.csv", 0, 2018, CONF_GENERAL_PKV_10),
-                arguments("/info/kuechler/bmf/taxcalculator/2018/special.csv", 0, 2018, CONF_SPECIAL_PKV)
+                arguments("/info/kuechler/bmf/taxcalculator/2018/special.csv", 0, 2018, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2019/general.csv", 0, 2019, CONF_GENERAL_PKV_09),
+                arguments("/info/kuechler/bmf/taxcalculator/2019/special.csv", 0, 2019, CONF_SPECIAL_PKV)
         //
         );
     }
