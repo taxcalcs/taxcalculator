@@ -21,7 +21,7 @@ You can download it from maven central repository:
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
-    <version>2018.0.0</version>
+    <version>2019.0.0</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ Versions are backwards compatible. You can use the latest version and can use th
 ### With Reader / Writer
 
 ```java
-Writer writer = TaxCalculatorFactory.createWithWriter(0, 2018);
+Writer writer = TaxCalculatorFactory.createWithWriter(0, 2019);
 // 1. monthly payment
 // 2. tax class
 // 3. income in cent
@@ -52,8 +52,8 @@ Reader reader = writer.calculate();
 BigDecimal lst = reader.get("LSTLZZ");
 BigDecimal soli = reader.get("SOLZLZZ");
 
-Assert.assertEquals(23850, lst.longValue());
-Assert.assertEquals(861, soli.longValue());
+Assert.assertEquals(23350, lst.longValue());
+Assert.assertEquals(825, soli.longValue());
 
 System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");

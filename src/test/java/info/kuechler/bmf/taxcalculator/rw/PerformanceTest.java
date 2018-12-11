@@ -7,8 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * Test class which contains tests for performance checks.
@@ -35,8 +36,8 @@ public class PerformanceTest {
 				input.setAll(values).set("KVZ", new BigDecimal("0.90"));
 				final Reader output = input.calculate();
 
-				Assert.assertEquals(new BigDecimal("269000"), output.get("LSTLZZ"));
-				Assert.assertEquals(new BigDecimal("14795"), output.get("SOlzLZZ"));
+				Assertions.assertEquals(new BigDecimal("269000"), output.get("LSTLZZ"));
+				Assertions.assertEquals(new BigDecimal("14795"), output.get("SOlzLZZ"));
 			}
 			final long end = System.nanoTime();
 			System.out.println("Run: " + (end - start) / 1000000 + " ms");
@@ -72,8 +73,8 @@ public class PerformanceTest {
 						input.setAll(values).set("KVZ", new BigDecimal("0.90"));
 						final Reader output = input.calculate();
 
-						Assert.assertEquals(new BigDecimal("269000"), output.get("LSTLZZ"));
-						Assert.assertEquals(new BigDecimal("14795"), output.get("SOlzLZZ"));
+						Assertions.assertEquals(new BigDecimal("269000"), output.get("LSTLZZ"));
+						Assertions.assertEquals(new BigDecimal("14795"), output.get("SOlzLZZ"));
 					}
 					final long end = System.nanoTime();
 					System.out.println("Run: " + (end - start) / 1000000 + " ms");
@@ -88,7 +89,7 @@ public class PerformanceTest {
 			final long endAll = System.nanoTime();
 			System.out.println("Run all: " + (endAll - startAll) / 1000000 + " ms");
 		} catch (InterruptedException e) {
-			Assert.fail("Timeout");
+			Assertions.fail("Timeout");
 		}
 	}
 }

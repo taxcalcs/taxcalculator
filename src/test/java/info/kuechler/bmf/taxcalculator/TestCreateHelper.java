@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -29,7 +29,7 @@ import org.junit.Test;
 public class TestCreateHelper {
 	private static final NumberFormat NUM_FORMAT = DecimalFormat.getInstance(Locale.GERMANY);
 
-	@Ignore("for conversion only")
+	@Disabled("for conversion only")
 	@Test
 	public final void toTable() throws IOException, ParseException {
 		final int size = 7;
@@ -48,7 +48,7 @@ public class TestCreateHelper {
 				}
 			}
 		}
-		Assert.assertTrue(no > 0);
+		Assertions.assertTrue(no > 0);
 	}
 
 	private Object convert(String value) throws ParseException {
@@ -64,7 +64,7 @@ public class TestCreateHelper {
 		return Pattern.matches("[\\d.]+", value);
 	}
 
-	@Ignore("for conversion only")
+	@Disabled("for conversion only")
 	@Test
 	public final void transpose() throws IOException {
 		final List<String[]> data = new ArrayList<>();
@@ -91,6 +91,6 @@ public class TestCreateHelper {
 				print.println();
 			}
 		}
-		Assert.assertTrue(size > 0);
+		Assertions.assertTrue(size > 0);
 	}
 }

@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import info.kuechler.bmf.taxcalculator.rw.ReadWriteException;
 import info.kuechler.bmf.taxcalculator.rw.Reader;
@@ -24,7 +24,7 @@ public class DocumentationExampleTest {
 	 */
 	@Test
 	public final void useWriterAndReader() throws ReadWriteException {
-		Writer writer = TaxCalculatorFactory.createWithWriter(0, 2018);
+		Writer writer = TaxCalculatorFactory.createWithWriter(0, 2019);
 		// 1. monthly payment
 		// 2. tax class
 		// 3. income in cent
@@ -44,8 +44,8 @@ public class DocumentationExampleTest {
 		BigDecimal lst = reader.get("LSTLZZ");
 		BigDecimal soli = reader.get("SOLZLZZ");
 
-		Assert.assertEquals(23850, lst.longValue());
-		Assert.assertEquals(861, soli.longValue());
+		Assertions.assertEquals(23350, lst.longValue());
+		Assertions.assertEquals(825, soli.longValue());
 
 		System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
@@ -60,7 +60,7 @@ public class DocumentationExampleTest {
 	 */
 	@Test
 	public final void useAccessor() throws ReadWriteException {
-		Accessor<String, ?> accessor = TaxCalculatorFactory.createWithAccessor(0, 2018);
+		Accessor<String, ?> accessor = TaxCalculatorFactory.createWithAccessor(0, 2019);
 
 		accessor.set("LZZ", 2);
 		accessor.set("STKL", 1);
@@ -74,8 +74,8 @@ public class DocumentationExampleTest {
 		BigDecimal lst = accessor.get("LSTLZZ");
 		BigDecimal soli = accessor.get("SOLZLZZ");
 
-		Assert.assertEquals(23850, lst.longValue());
-		Assert.assertEquals(861, soli.longValue());
+		Assertions.assertEquals(23350, lst.longValue());
+		Assertions.assertEquals(825, soli.longValue());
 
 		System.out.println("Lohnsteuer: " + lst.divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
@@ -86,7 +86,7 @@ public class DocumentationExampleTest {
 	 */
 	@Test
 	public final void useGeneratedClasses() {
-		Lohnsteuer2018Big tax = new Lohnsteuer2018Big();
+		Lohnsteuer2019Big tax = new Lohnsteuer2019Big();
 
 		tax.setLZZ(2); // monthly payment
 		tax.setSTKL(1); // tax class
@@ -109,8 +109,8 @@ public class DocumentationExampleTest {
 
 		tax.calculate();
 
-		Assert.assertEquals(23850, tax.getLSTLZZ().longValue());
-		Assert.assertEquals(861, tax.getSOLZLZZ().longValue());
+		Assertions.assertEquals(23350, tax.getLSTLZZ().longValue());
+		Assertions.assertEquals(825, tax.getSOLZLZZ().longValue());
 
 		System.out.println("Lohnsteuer: " + tax.getLSTLZZ().divide(new BigDecimal("100")) + " EUR");
 		System.out.println("Soli: " + tax.getSOLZLZZ().divide(new BigDecimal("100")) + " EUR");
