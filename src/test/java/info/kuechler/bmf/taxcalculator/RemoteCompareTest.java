@@ -127,9 +127,15 @@ public class RemoteCompareTest {
 	}
 
     /**
-     * Run all tests cases in the folder. Test cases requires the name "test&lt;index&gt;.xml". The index starts with "1" and
-     * will be risen to the first non exists number.
+     * Run all tests cases in the folder. Test cases requires the name "test&lt;index&gt;.xml". The index starts with
+     * "1" and will be risen to the first non exists number.
      * 
+     * @param url
+     *            the URL for remote call
+     * @param testFolder
+     *            the folder with test data
+     * @param className
+     *            the {@link Calculator} test class
      * @throws Exception
      *             an error, test failed.
      */

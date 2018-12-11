@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * 
  * Helper to create test CSV. For manual usage. All methods annotated with
- * {@link Ignore}.
+ * {@link Disabled}.
  */
 public class TestCreateHelper {
 	private static final NumberFormat NUM_FORMAT = DecimalFormat.getInstance(Locale.GERMANY);
