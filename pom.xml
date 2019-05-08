@@ -75,9 +75,10 @@
 		<file.download.target>${project.build.directory}/download-files</file.download.target>
 		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
 		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
-		<org.junit.jupiter.version>5.3.2</org.junit.jupiter.version>
-		<org.junit.platform.version>1.3.2</org.junit.platform.version>
-		<javax.xml.bind.version>2.3.1</javax.xml.bind.version>
+		<org.junit.jupiter.version>5.4.2</org.junit.jupiter.version>
+		<org.junit.platform.version>1.4.2</org.junit.platform.version>
+		<javax.xml.bind.version>2.4.0-b180830.0359</javax.xml.bind.version>
+		<org.glassfish.jaxb.version>2.4.0-b180830.0438</org.glassfish.jaxb.version>
 		<javax.annotation.version>1.3.2</javax.annotation.version>
 	</properties>
 
@@ -111,7 +112,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.6</version>
+			<version>4.5.8</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -124,7 +125,7 @@
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
-		    <version>3.8.1</version>
+		    <version>3.9</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
@@ -145,28 +146,28 @@
 			<!-- we use slf4j -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<version>1.7.26</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- commons-logging bridge for httpclient -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.25</version>
+			<version>1.7.26</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 adapter -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.11.1</version>
+			<version>2.11.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 impl -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.11.1</version>
+			<version>2.11.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -476,7 +477,7 @@
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
-				<version>2.8.0</version>
+				<version>2.9.0</version>
 				<executions>
 					<execution>
 						<id>format</id>
@@ -509,7 +510,7 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.1.0</version>
+			    <version>3.1.1</version>
                 <configuration>
                    <archive>
                         <manifestEntries>
@@ -523,7 +524,7 @@
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-surefire-plugin</artifactId>
-			    <version>2.22.1</version>
+			    <version>2.22.2</version>
 				<executions>
 					<execution>
 						<id>default-test</id>
@@ -547,7 +548,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.1.0</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -583,7 +584,7 @@
 				<dependency>
 					<groupId>org.glassfish.jaxb</groupId>
 					<artifactId>jaxb-runtime</artifactId>
-					<version>${javax.xml.bind.version}</version>
+					<version>${org.glassfish.jaxb.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
@@ -608,7 +609,7 @@
 				<dependency>
 					<groupId>org.glassfish.jaxb</groupId>
 					<artifactId>jaxb-runtime</artifactId>
-					<version>${javax.xml.bind.version}</version>
+					<version>${org.glassfish.jaxb.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
@@ -633,7 +634,7 @@
 				<dependency>
 					<groupId>org.glassfish.jaxb</groupId>
 					<artifactId>jaxb-runtime</artifactId>
-					<version>${javax.xml.bind.version}</version>
+					<version>${org.glassfish.jaxb.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
@@ -708,7 +709,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
