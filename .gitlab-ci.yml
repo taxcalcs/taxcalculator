@@ -52,3 +52,15 @@ test:jdk11:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS test
+
+build:jdk12:
+  image: maven:3-jdk-12
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:jdk12:
+  image: maven:3-jdk-12
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test

@@ -75,8 +75,8 @@
 		<file.download.target>${project.build.directory}/download-files</file.download.target>
 		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
 		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
-		<org.junit.jupiter.version>5.4.2</org.junit.jupiter.version>
-		<org.junit.platform.version>1.4.2</org.junit.platform.version>
+		<org.junit.jupiter.version>5.5.2</org.junit.jupiter.version>
+		<org.junit.platform.version>1.5.2</org.junit.platform.version>
 		<javax.xml.bind.version>2.4.0-b180830.0359</javax.xml.bind.version>
 		<org.glassfish.jaxb.version>2.4.0-b180830.0438</org.glassfish.jaxb.version>
 		<javax.annotation.version>1.3.2</javax.annotation.version>
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.8</version>
+			<version>4.5.9</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -131,7 +131,7 @@
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-csv</artifactId>
-		    <version>1.6</version>
+		    <version>1.7</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
@@ -146,7 +146,7 @@
 			<!-- we use slf4j -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.26</version>
+			<version>1.7.28</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -160,14 +160,14 @@
 			<!-- log4j-2 adapter -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 impl -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -197,7 +197,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${project.java.version}</source>
 					<target>${project.java.version}</target>
@@ -477,7 +477,7 @@
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
-				<version>2.9.0</version>
+				<version>2.10.0</version>
 				<executions>
 					<execution>
 						<id>format</id>
@@ -504,13 +504,13 @@
 			<plugin>
 	    			<groupId>org.apache.maven.plugins</groupId>
 	    			<artifactId>maven-site-plugin</artifactId>
-	    			<version>3.7.1</version>
+	    			<version>3.8.2</version>
 			</plugin>
 			
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.1.1</version>
+			    <version>3.1.2</version>
                 <configuration>
                    <archive>
                         <manifestEntries>
@@ -548,7 +548,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -570,10 +570,10 @@
 
 	<profiles>
 		<profile>
-			<!-- profile for jdk9 -->
-			<id>jdk9</id>
+			<!-- profile for jdk9 and later -->
+			<id>jdk9plus</id>
 			<activation>
-				<jdk>9</jdk>
+				<jdk>[9,)</jdk>
 			</activation>
 			<dependencies>
 				<dependency>
@@ -594,57 +594,6 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<profile>
-			<!-- profile for jdk10 -->
-			<id>jdk10</id>
-			<activation>
-				<jdk>10</jdk>
-			</activation>
-			<dependencies>
-				<dependency>
-				    <groupId>javax.xml.bind</groupId>
-				    <artifactId>jaxb-api</artifactId>
-				    <version>${javax.xml.bind.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>jaxb-runtime</artifactId>
-					<version>${org.glassfish.jaxb.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-				    <groupId>javax.annotation</groupId>
-				    <artifactId>javax.annotation-api</artifactId>
-				    <version>${javax.annotation.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<!-- profile for jdk11 -->
-			<id>jdk11</id>
-			<activation>
-				<jdk>11</jdk>
-			</activation>
-			<dependencies>
-				<dependency>
-				    <groupId>javax.xml.bind</groupId>
-				    <artifactId>jaxb-api</artifactId>
-				    <version>${javax.xml.bind.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>jaxb-runtime</artifactId>
-					<version>${org.glassfish.jaxb.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-				    <groupId>javax.annotation</groupId>
-				    <artifactId>javax.annotation-api</artifactId>
-				    <version>${javax.annotation.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		
 		<profile>
 			<!-- profile for release, local development is faster w/o this plugins -->
 			<id>release</id>
@@ -694,7 +643,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -709,7 +658,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.1.0</version>
+						<version>3.1.1</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
