@@ -21,7 +21,7 @@ You can download it from maven central repository:
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
-    <version>2019.0.0</version>
+    <version>2020.0.0</version>
 </dependency>
 ```
 

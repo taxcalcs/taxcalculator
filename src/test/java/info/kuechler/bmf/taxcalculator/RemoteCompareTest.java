@@ -80,7 +80,8 @@ public class RemoteCompareTest {
                 arguments(getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big"),
                 arguments(getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big"),
                 arguments(getUrl(0, 2018), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2018Big"),
-                arguments(getUrl(0, 2019), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2019Big")
+                arguments(getUrl(0, 2019), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2019Big"),
+                arguments(getUrl(0, 2020), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2020Big")
         //
         );
     }
