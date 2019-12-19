@@ -93,7 +93,7 @@ public class ExamplesCsvTest {
 		CONF_GENERAL_PKV.configure(writer, taxClass);
 	};
 	
-    static Stream<Arguments> dataProvider() {
+    public static Stream<Arguments> dataProvider() {
         return Stream.of( //
                 arguments("/info/kuechler/bmf/taxcalculator/2006/general.csv", 0, 2006, CONF_GENERAL),
                 arguments("/info/kuechler/bmf/taxcalculator/2006/special.csv", 0, 2006, CONF_SPECIAL),
