@@ -1,13 +1,13 @@
-# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![pipeline status](https://gitlab.com/taxcalculator/taxcalculator/badges/master/pipeline.svg)](https://gitlab.com/taxcalculator/taxcalculator/commits/master) [![Codacy Badge](https://api.codacy.com/project/badge/grade/7170c566b7024b55ab256165c4fd4bec)](https://www.codacy.com/app/github-ariel/taxcalculator) [![Known Vulnerabilities](https://snyk.io/test/github/admiralsmaster/taxcalculator/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/admiralsmaster/taxcalculator?targetFile=pom.xml) [![version](https://maven-badges.herokuapp.com/maven-central/info.kuechler.bmf.taxcalculator/taxcalculator/badge.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22) 
+# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![Codacy Badge](https://api.codacy.com/project/badge/grade/7170c566b7024b55ab256165c4fd4bec)](https://www.codacy.com/app/github-ariel/taxcalculator) [![Known Vulnerabilities](https://snyk.io/test/github/admiralsmaster/taxcalculator/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/admiralsmaster/taxcalculator?targetFile=pom.xml) [![version](https://maven-badges.herokuapp.com/maven-central/info.kuechler.bmf.taxcalculator/taxcalculator/badge.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22) 
 
 ```diff
 - The 2018 version will be changed to Java 8. 
 ```
 
-Generated code for german tax from https://www.bmf-steuerrechner.de/
+Generated code for german tax from <https://www.bmf-steuerrechner.de/>
 
-Project: http://admiralsmaster.github.io/taxcalculator/  
-Javadoc: http://admiralsmaster.github.io/taxcalculator/apidocs/
+Project: <http://admiralsmaster.github.io/taxcalculator/>  
+Javadoc: <http://admiralsmaster.github.io/taxcalculator/apidocs/>
 
 JDK 9 module name: *info.kuechler.bmf.taxcalculator*
 
