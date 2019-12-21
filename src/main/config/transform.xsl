@@ -94,7 +94,7 @@ public class <xsl:value-of select="./@name" /> implements Calculator&lt;<xsl:val
 	 */
 	public <xsl:value-of select="./@type" /> get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />() {
 		return <xsl:value-of select="./@name" />;
-    	}
+    }
     </xsl:template>
     
     <!-- a setter method -->
@@ -107,8 +107,8 @@ public class <xsl:value-of select="./@name" /> implements Calculator&lt;<xsl:val
      * @param <xsl:value-of select="./@name" /> input value 
      */
 	public void set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />(final <xsl:value-of select="./@type" /><xsl:value-of select="' '" /><xsl:value-of select="./@name" />) {
-		this.<xsl:value-of select="./@name" />=<xsl:value-of select="./@name" />;
-    	}
+		this.<xsl:value-of select="./@name" /> = <xsl:value-of select="./@name" />;
+    }
     </xsl:template>
 
 	<xsl:template name="genericAccessor">

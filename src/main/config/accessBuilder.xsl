@@ -43,11 +43,15 @@
 		private final Map&lt;String,ToIntFunction&lt;T&gt;&gt; GETTER_INT_MAP;
 		{
 			final Map&lt;String,ToIntFunction&lt;T&gt;&gt; tmp = newMap();
+			
 			// getter from output fields
-			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="int"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="int"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			// getter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="int"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="int"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			GETTER_INT_MAP = tmp;
 		}
 		
@@ -57,11 +61,15 @@
 		private final Map&lt;String,Function&lt;T,BigDecimal&gt;&gt; GETTER_BD_MAP;
 		{
 		 	final Map&lt;String,Function&lt;T,BigDecimal&gt;&gt; tmp = newMap();
+			
 			// getter from output fields
-			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="BigDecimal"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="BigDecimal"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			// getter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="BigDecimal"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="BigDecimal"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			GETTER_BD_MAP = tmp;
 		}
 		
@@ -71,11 +79,15 @@
 		private final Map&lt;String,ToDoubleFunction&lt;T&gt;&gt; GETTER_DOUBLE_MAP;
 		{
 			final Map&lt;String,ToDoubleFunction&lt;T&gt;&gt; tmp = newMap();
+			
 			// getter from output fields
-			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="double"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT[@type="double"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			// getter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="double"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="double"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::get<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			GETTER_DOUBLE_MAP = tmp;
 		}
 		
@@ -85,9 +97,11 @@
 		private final Map&lt;String,ObjIntConsumer&lt;T&gt;&gt; SETTER_INT_MAP;
 		{
 			final Map&lt;String,ObjIntConsumer&lt;T&gt;&gt; tmp = newMap();
+			
 			// setter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="int"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="int"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			SETTER_INT_MAP = tmp;
 		}
 		
@@ -97,9 +111,11 @@
 		private final Map&lt;String,BiConsumer&lt;T,BigDecimal&gt;&gt; SETTER_BD_MAP;
 		{
 			final Map&lt;String,BiConsumer&lt;T,BigDecimal&gt;&gt; tmp = newMap();
+			
 			// setter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="BigDecimal"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="BigDecimal"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			SETTER_BD_MAP = tmp;
 		}
 		
@@ -109,9 +125,11 @@
 		private final Map&lt;String,ObjDoubleConsumer&lt;T&gt;&gt; SETTER_DOUBLE_MAP;
 		{
 			final Map&lt;String,ObjDoubleConsumer&lt;T&gt;&gt; tmp = newMap();
+			
 			// setter from input fields
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="double"]'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT[@type="double"]'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="$class" />::set<xsl:value-of select="translate(substring(./@name, 1, 1),$smallcase, $uppercase)" /><xsl:value-of select="substring(./@name, 2)" />);</xsl:for-each>
+			
 			SETTER_DOUBLE_MAP = tmp;
 		}
 		
@@ -121,8 +139,9 @@
 		private final Map&lt;String,Class&lt;?&gt;&gt; OUTPUTS;
 		{
 			final Map&lt;String,Class&lt;?&gt;&gt; tmp = newMap();
-			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="./@type" />.class);</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="./@type" />.class);</xsl:for-each>
+			
 			OUTPUTS = tmp;
 		}
 		
@@ -132,8 +151,9 @@
 		private final Map&lt;String,Class&lt;?&gt;&gt; INPUTS;
 		{
 		 	final Map&lt;String,Class&lt;?&gt;&gt; tmp = newMap();
-			<xsl:for-each select='./VARIABLES/INPUTS/INPUT'>tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="./@type" />.class);</xsl:for-each>
-			// 
+			<xsl:for-each select='./VARIABLES/INPUTS/INPUT'>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:value-of select="./@type" />.class);</xsl:for-each>
+			
 			INPUTS = tmp;
 		}
 		
@@ -143,8 +163,9 @@
 		private final Map&lt;String,String&gt; OUTPUT_TYPES;
 		{
 			final Map&lt;String,String&gt; tmp = newMap();
-			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT'>tmp.put("<xsl:value-of select="./@name" />", "<xsl:value-of select="../@type" />");</xsl:for-each>
-			//
+			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT'>
+			tmp.put("<xsl:value-of select="./@name" />", "<xsl:value-of select="../@type" />");</xsl:for-each>
+			
 			OUTPUT_TYPES = tmp;
 		}
 	}
