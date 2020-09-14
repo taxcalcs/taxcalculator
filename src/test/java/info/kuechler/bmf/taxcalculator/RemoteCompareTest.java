@@ -59,7 +59,7 @@ public class RemoteCompareTest {
 	private static CloseableHttpClient client;
 	private static JAXBContext context;
 
-    static Stream<Arguments> dataProvider() {
+    public static Stream<Arguments> dataProvider() {
         return Stream.of( //
                 arguments(getUrl(0, 2006), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2006Big"),
                 arguments(getUrl(0, 2007), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2007Big"),

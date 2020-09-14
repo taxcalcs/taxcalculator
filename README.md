@@ -4,10 +4,10 @@
 - The 2018 version will be changed to Java 8. 
 ```
 
-Generated code for german tax from https://www.bmf-steuerrechner.de/
+Generated code for german tax from <https://www.bmf-steuerrechner.de/>
 
-Project: http://admiralsmaster.github.io/taxcalculator/  
-Javadoc: http://admiralsmaster.github.io/taxcalculator/apidocs/
+Project: <http://admiralsmaster.github.io/taxcalculator/>  
+Javadoc: <http://admiralsmaster.github.io/taxcalculator/apidocs/>
 
 JDK 9 module name: *info.kuechler.bmf.taxcalculator*
 
