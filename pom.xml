@@ -12,11 +12,11 @@
 	</parent>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
-	<url>https://github.com/admiralsmaster/taxcalculator</url>
+	<url>https://github.com/taxcalcs/taxcalculator</url>
 	<inceptionYear>2015</inceptionYear>
 	<issueManagement>
 		<system>github</system>
-		<url>https://github.com/admiralsmaster/taxcalculator/issues</url>
+		<url>https://github.com/taxcalcs/taxcalculator/issues</url>
 	</issueManagement>
 	<licenses>
 		<license>
@@ -37,9 +37,9 @@
 		</contributor>
 	</contributors>
 	<scm>
-		<connection>scm:git:git://github.com/admiralsmaster/taxcalculator.git</connection>
-		<developerConnection>scm:git:ssh://github.com:admiralsmaster/taxcalculator.git</developerConnection>
-		<url>http://github.com/admiralsmaster/taxcalculator/tree/master</url>
+		<connection>scm:git:git://github.com/taxcalcs/taxcalculator.git</connection>
+		<developerConnection>scm:git:ssh://github.com:taxcalcs/taxcalculator.git</developerConnection>
+		<url>http://github.com/taxcalcs/taxcalculator/tree/master</url>
 	</scm>
 
 	<properties>
