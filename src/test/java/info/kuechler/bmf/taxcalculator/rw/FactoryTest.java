@@ -128,7 +128,10 @@ public class FactoryTest {
         
         Assertions.assertEquals("2020", factory.getYearKey(0, 2020));
         Assertions.assertEquals("2020", factory.getYearKey(12, 2020));
-	}
+     
+        Assertions.assertEquals("2021", factory.getYearKey(0, 2021));
+        Assertions.assertEquals("2021", factory.getYearKey(12, 2021));
+     }
 
 	/**
 	 * Test {@link TaxCalculatorFactory#getInputs(int, int)}.
