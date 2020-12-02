@@ -93,6 +93,13 @@ public class ExamplesCsvTest {
 		CONF_GENERAL_PKV.configure(writer, taxClass);
 	};
 	
+	private static final WriterTaxClassConfigurer CONF_GENERAL_PKV_13 = (writer, taxClass) -> {
+		// additional med insurance [percent]
+		writer.set("KVZ", new BigDecimal("1.30"));
+
+		CONF_GENERAL_PKV.configure(writer, taxClass);
+	};
+	
     public static Stream<Arguments> dataProvider() {
         return Stream.of( //
                 arguments("/info/kuechler/bmf/taxcalculator/2006/general.csv", 0, 2006, CONF_GENERAL),
@@ -128,7 +135,9 @@ public class ExamplesCsvTest {
                 arguments("/info/kuechler/bmf/taxcalculator/2019/general.csv", 0, 2019, CONF_GENERAL_PKV_09),
                 arguments("/info/kuechler/bmf/taxcalculator/2019/special.csv", 0, 2019, CONF_SPECIAL_PKV),
                 arguments("/info/kuechler/bmf/taxcalculator/2020/general.csv", 0, 2020, CONF_GENERAL_PKV_11),
-                arguments("/info/kuechler/bmf/taxcalculator/2020/special.csv", 0, 2020, CONF_SPECIAL_PKV)
+                arguments("/info/kuechler/bmf/taxcalculator/2020/special.csv", 0, 2020, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2021/general.csv", 0, 2021, CONF_GENERAL_PKV_13),
+                arguments("/info/kuechler/bmf/taxcalculator/2021/special.csv", 0, 2021, CONF_SPECIAL_PKV)
         //
         );
     }

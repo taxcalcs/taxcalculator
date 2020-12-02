@@ -3,38 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>info.kuechler.bmf.taxcalculator</groupId>
 	<artifactId>taxcalculator</artifactId>
-	<version>2020.1.0-SNAPSHOT</version>
 	<name>TaxCalculator</name>
 	
-	<!-- 
-		settings for maven central and sign:
-		
-		<settings>
-			<servers>
-				<server>
-					<id>ossrh</id>
-					<username>username</username>
-					<password>password</password>
-				</server>
-			</servers>
-			<profiles>
-				<profile>
-					<id>ossrh</id>
-					<activation>
-						<activeByDefault>true</activeByDefault>
-					</activation>
-					<properties>
-						<gpg.executable>/usr/local/bin/gpg</gpg.executable>
-						<gpg.passphrase>passphrase</gpg.passphrase>
-					</properties>
-				</profile>
-			</profiles>
-		</settings>
-
-		release into maven central:
-		mvn clean deploy -P release, <autoReleaseAfterClose> have to set to "false"
-		mvn nexus-staging:release -P release
-	 -->
+	<parent>
+		<groupId>info.kuechler.bmf</groupId>
+		<artifactId>modules</artifactId>
+		<version>2021.0.0</version>
+	</parent>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
 	<url>https://github.com/admiralsmaster/taxcalculator</url>
@@ -75,70 +50,55 @@
 		<file.download.target>${project.build.directory}/download-files</file.download.target>
 		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
 		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
-		<org.junit.jupiter.version>5.7.0</org.junit.jupiter.version>
-		<org.junit.platform.version>1.7.0</org.junit.platform.version>
-		<javax.xml.bind.version>2.4.0-b180830.0359</javax.xml.bind.version>
-		<org.glassfish.jaxb.version>2.4.0-b180830.0438</org.glassfish.jaxb.version>
-		<javax.annotation.version>1.3.2</javax.annotation.version>
+		
+		<info.kuechler.bmf.taxapi.version>${project.version}</info.kuechler.bmf.taxapi.version>
+		<info.kuechler.bmf.taxxmls.version>${project.version}</info.kuechler.bmf.taxxmls.version>
 	</properties>
 
 	<dependencies>
 
+		<dependency>
+			<groupId>info.kuechler.bmf.taxapi</groupId>
+			<artifactId>taxapi</artifactId>
+			<version>${info.kuechler.bmf.taxapi.version}</version>
+			<scope>test</scope>
+		</dependency>
+			
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>${org.junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-params</artifactId>
-		    <version>${org.junit.jupiter.version}</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${org.junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
         	<groupId>org.junit.platform</groupId>
         	<artifactId>junit-platform-launcher</artifactId>
-        	<version>${org.junit.platform.version}</version>
         	<scope>test</scope>
         </dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.12</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<!-- exclude, we use slf4j with adapter for commons logging -->
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
-		    <version>3.11</version>
 		    <scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-csv</artifactId>
-		    <version>1.8</version>
 		    <scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>info.kuechler.bmf.taxapi</groupId>
-			<artifactId>taxapi</artifactId>
-			<version>2020.0.0</version>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- logging for tests -->
@@ -146,28 +106,24 @@
 			<!-- we use slf4j -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- commons-logging bridge for httpclient -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.30</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 adapter -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.13.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- log4j-2 impl -->
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.13.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -178,7 +134,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -196,222 +151,28 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>${project.java.version}</source>
-					<target>${project.java.version}</target>
-				</configuration>
-			</plugin>
-
-			<!-- download pseudo code XMLs -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>2.0.0</version>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>download-2020</id>
+						<id>unpack</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>download-single</goal>
+							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2020.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2020Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2019</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2019.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2019Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2018</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2018.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2018Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2017</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2017.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2017Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2016</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2016.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2016Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2015-December</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2015Dezember.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2015DezemberBig.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2015-November</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2015BisNovember.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2015Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2014</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2014.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2014Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2013</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2013.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2013Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2012</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2012.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2012Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2011-December</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2011Dezember.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2011DecemberBig.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2011-November</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2011BisNovember.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2011NovemberBig.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2010</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2010Big.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2010Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2009</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2009Big.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2009Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2008</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2008Big.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2008Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2007</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2007Big.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2007Big.xml</toFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-2006</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${file.host}</url>
-							<fromFile>javax.faces.resource/daten/xmls/Lohnsteuer2006Big.xml.xhtml</fromFile>
-							<toFile>${file.download.target}/Lohnsteuer2006Big.xml</toFile>
+							<artifactItems>
+								<artifactItem>
+									<groupId>info.kuechler.bmf.taxapi</groupId>
+									<artifactId>taxxmls</artifactId>
+									<version>${info.kuechler.bmf.taxxmls.version}</version>
+									<type>jar</type>
+									<outputDirectory>${file.download.target}</outputDirectory>
+									<includes>**/*.xml</includes>
+								</artifactItem>
+							</artifactItems>
+								<excludes>**/META-INF/</excludes>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>
 				</executions>
@@ -422,7 +183,6 @@
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
-				<version>1.5.3</version>
 				<executions>
 					<execution>
 						<id>replace-2011-December</id>
@@ -465,7 +225,6 @@
 			<plugin>
 				<groupId>net.sf.xsltmp</groupId>
 				<artifactId>xslt-generator-maven-plugin</artifactId>
-				<version>1.8</version>
 				<executions>
 					<execution>
 						<id>transform</id>
@@ -489,7 +248,6 @@
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
-				<version>2.12.2</version>
 				<executions>
 					<execution>
 						<id>format</id>
@@ -505,24 +263,15 @@
 							<compilerSource>${project.java.version}</compilerSource>
 							<compilerTargetPlatform>${project.java.version}</compilerTargetPlatform>
 							<encoding>${project.build.sourceEncoding}</encoding>
-							<overrideConfigCompilerVersion>true</overrideConfigCompilerVersion>
 							<configFile>src/main/config/formatter.xml</configFile>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			
-			<!-- higher version to use maven-fluido-skin:1.6 for maven site -->
-			<plugin>
-	    			<groupId>org.apache.maven.plugins</groupId>
-	    			<artifactId>maven-site-plugin</artifactId>
-	    			<version>3.9.1</version>
-			</plugin>
-			
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.2.0</version>
                 <configuration>
                    <archive>
                         <manifestEntries>
@@ -531,188 +280,7 @@
                     </archive>
                 </configuration>
             </plugin>
-
-			<!-- surefire latest version for parameterized junit5 tests -->
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-surefire-plugin</artifactId>
-			    <version>2.22.2</version>
-				<executions>
-					<execution>
-						<id>default-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.1.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc</report>
-							<report>test-javadoc</report>
-						</reports>
-					</reportSet>
-					<reportSet>
-						<id>aggregate</id>
-						<inherited>false</inherited>
-					</reportSet>
-				</reportSets>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
-	<profiles>
-		<profile>
-			<!-- profile for jdk9 and later -->
-			<id>jdk9plus</id>
-			<activation>
-				<jdk>[9,)</jdk>
-			</activation>
-			<dependencies>
-				<dependency>
-				    <groupId>javax.xml.bind</groupId>
-				    <artifactId>jaxb-api</artifactId>
-				    <version>${javax.xml.bind.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>jaxb-runtime</artifactId>
-					<version>${org.glassfish.jaxb.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-				    <groupId>javax.annotation</groupId>
-				    <artifactId>javax.annotation-api</artifactId>
-				    <version>${javax.annotation.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<!-- profile for release, local development is faster w/o this plugins -->
-			<id>release</id>
-
-			<!-- snapshot repository for release -->
-			<distributionManagement>
-				<snapshotRepository>
-					<id>ossrh</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</snapshotRepository>
-			</distributionManagement>
-
-			<build>
-				<plugins>
-
-					<!-- right java version, no release with higher java version -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-enforcer-plugin</artifactId>
-						<version>1.4.1</version>
-						<executions>
-							<execution>
-								<id>display-info</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>display-info</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>enforce-versions</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>enforce</goal>
-								</goals>
-								<configuration>
-									<rules>
-										<requireJavaVersion>
-											<version>[1.8,1.9)</version>
-										</requireJavaVersion>
-									</rules>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- create source jar -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.2.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- create javadoc jar -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.2.0</version>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- sign files -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- plugin for release -->
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.8</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 </project>

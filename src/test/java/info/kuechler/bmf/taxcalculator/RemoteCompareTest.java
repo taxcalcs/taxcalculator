@@ -61,27 +61,8 @@ public class RemoteCompareTest {
 
     public static Stream<Arguments> dataProvider() {
         return Stream.of( //
-                arguments(getUrl(0, 2006), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2006Big"),
-                arguments(getUrl(0, 2007), "/info/kuechler/bmf/taxcalculator/2006", "Lohnsteuer2007Big"),
-                arguments(getUrl(0, 2008), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2008Big"),
-                arguments(getUrl(0, 2009), "/info/kuechler/bmf/taxcalculator/2008", "Lohnsteuer2009Big"),
-                arguments(getUrl(0, 2010), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2010Big"),
-
-                arguments(getUrl(1, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011NovemberBig"),
-                arguments(getUrl(0, 2011), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2011DecemberBig"),
-
-                arguments(getUrl(0, 2012), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2012Big"),
-                arguments(getUrl(0, 2013), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2013Big"),
-                arguments(getUrl(0, 2014), "/info/kuechler/bmf/taxcalculator/2010", "Lohnsteuer2014Big"),
-
-                arguments(getUrl(4, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015Big"),
-                arguments(getUrl(0, 2015), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2015DezemberBig"),
-
-                arguments(getUrl(0, 2016), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2016Big"),
-                arguments(getUrl(0, 2017), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2017Big"),
-                arguments(getUrl(0, 2018), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2018Big"),
-                arguments(getUrl(0, 2019), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2019Big"),
-                arguments(getUrl(0, 2020), "/info/kuechler/bmf/taxcalculator/2015", "Lohnsteuer2020Big")
+                arguments(getUrl(0, 2020), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2020Big"),
+                arguments(getUrl(0, 2021), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2021Big")
         //
         );
     }
