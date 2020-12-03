@@ -6,8 +6,8 @@
 
 Generated code for german tax from <https://www.bmf-steuerrechner.de/>
 
-Project: <http://admiralsmaster.github.io/taxcalculator/>  
-Javadoc: <http://admiralsmaster.github.io/taxcalculator/apidocs/>
+Project: <https://taxcalcs.github.io/taxcalculator/>  
+Javadoc: <https://taxcalcs.github.io/taxcalculator/apidocs/>
 
 JDK 9 module name: *info.kuechler.bmf.taxcalculator*
 
