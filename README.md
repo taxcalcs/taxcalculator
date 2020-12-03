@@ -1,4 +1,4 @@
-# taxcalculator [![Build Status](https://travis-ci.org/admiralsmaster/taxcalculator.svg?branch=master)](https://travis-ci.org/admiralsmaster/taxcalculator) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c8e32eb6fb5843749b565a27bec7f03c)](https://www.codacy.com/app/github-ariel/taxcalculator) [![Known Vulnerabilities](https://snyk.io/test/github/admiralsmaster/taxcalculator/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/admiralsmaster/taxcalculator?targetFile=pom.xml) [![version](https://maven-badges.herokuapp.com/maven-central/info.kuechler.bmf.taxcalculator/taxcalculator/badge.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22) 
+# taxcalculator [![Build Status](https://travis-ci.org/taxcalcs/taxcalculator.svg?branch=master)](https://travis-ci.org/taxcalcs/taxcalculator) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2114070fa29540bf989ccc3e862cceb5)](https://www.codacy.com/gh/taxcalcs/taxcalculator/dashboard) [![Known Vulnerabilities](https://snyk.io/test/github/taxcalcs/taxcalculator/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/taxcalcs/taxcalculator?targetFile=pom.xml) [![version](https://maven-badges.herokuapp.com/maven-central/info.kuechler.bmf.taxcalculator/taxcalculator/badge.svg)](http://search.maven.org/#search|gav|1|g%3A%22info.kuechler.bmf.taxcalculator%22%20AND%20a%3A%22taxcalculator%22) 
 
 ```diff
 - The 2018 version will be changed to Java 8. 
@@ -21,7 +21,7 @@ You can download it from maven central repository:
 <dependency>
     <groupId>info.kuechler.bmf.taxcalculator</groupId>
     <artifactId>taxcalculator</artifactId>
-    <version>2020.0.0</version>
+    <version>2021.0.0</version>
 </dependency>
 ```
 
