@@ -61,7 +61,7 @@ System.out.println("Soli: " + soli.divide(new BigDecimal("100")) + " EUR");
 
 ### With Accessor / Direct with generated classes
 
-Both variants can found in this [Test](https://github.com/admiralsmaster/taxcalculator/blob/development/src/test/java/info/kuechler/bmf/taxcalculator/DocumentationExampleTest.java)
+Both variants can found in this [Test](https://github.com/taxcalcs/taxcalculator/blob/master/src/test/java/info/kuechler/bmf/taxcalculator/DocumentationExampleTest.java)
 
 ## License
 
