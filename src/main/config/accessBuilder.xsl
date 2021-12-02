@@ -7,7 +7,7 @@
 	<xsl:template name="accessBuilder">
 		<xsl:variable name="class"><xsl:value-of select="./@name" /></xsl:variable>
 	/**
-	 * Builder to collect getters and setters to call it w/o reflection.
+	 * Builder to collect getters and setters from Calculator instances to call it w/o reflection.
 	 * Provides an {@link Accessor} to access this data.
 	 *
 	 * @see #build(<xsl:value-of select="$class" />)
@@ -92,7 +92,7 @@
 		}
 		
 		/**
-		  * Setter methods which returns int.
+		  * Setter methods which need int.
 		  */
 		private final Map&lt;String,ObjIntConsumer&lt;T&gt;&gt; SETTER_INT_MAP;
 		{
@@ -106,7 +106,7 @@
 		}
 		
 		/**
-		  * Setter methods which returns {@link BigDecimal}.
+		  * Setter methods which need {@link BigDecimal}.
 		  */
 		private final Map&lt;String,BiConsumer&lt;T,BigDecimal&gt;&gt; SETTER_BD_MAP;
 		{
@@ -120,7 +120,7 @@
 		}
 		
 		/**
-		  * Setter methods which returns double.
+		  * Setter methods which need double.
 		  */
 		private final Map&lt;String,ObjDoubleConsumer&lt;T&gt;&gt; SETTER_DOUBLE_MAP;
 		{
@@ -134,7 +134,7 @@
 		}
 		
 		/**
-		  * {@link Map} with all output fields with type.
+		  * {@link Map} with all output fields and their type.
 		  */
 		private final Map&lt;String,Class&lt;?&gt;&gt; OUTPUTS;
 		{
@@ -146,7 +146,7 @@
 		}
 		
 		/**
-		  * {@link Map} with all input fields with type.
+		  * {@link Map} with all input fields and their type.
 		  */
 		private final Map&lt;String,Class&lt;?&gt;&gt; INPUTS;
 		{
@@ -158,13 +158,13 @@
 		}
 		
 		/**
-		  * {@link Map} with output fields types ("STANDARD" or "DBA").
+		  * {@link Map} with output fields types ({@value Calculator#OUTPUT_TYPE_STANDARD} or {@value Calculator#OUTPUT_TYPE_DBA}).
 		  */
 		private final Map&lt;String,String&gt; OUTPUT_TYPES;
 		{
 			final Map&lt;String,String&gt; tmp = newMap();
 			<xsl:for-each select='./VARIABLES/OUTPUTS/OUTPUT'>
-			tmp.put("<xsl:value-of select="./@name" />", "<xsl:value-of select="../@type" />");</xsl:for-each>
+			tmp.put("<xsl:value-of select="./@name" />", <xsl:if test="../@type='STANDARD'">Calculator.OUTPUT_TYPE_STANDARD</xsl:if><xsl:if test="../@type='DBA'">Calculator.OUTPUT_TYPE_DBA</xsl:if>);</xsl:for-each>
 			
 			OUTPUT_TYPES = tmp;
 		}

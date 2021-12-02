@@ -2,6 +2,7 @@ package info.kuechler.bmf.taxcalculator.rw;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
 
 import info.kuechler.bmf.taxcalculator.Accessor;
 import info.kuechler.bmf.taxcalculator.Calculator;
@@ -26,6 +27,7 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 *            the calculate class.
 	 */
 	protected ReaderImpl(final T calculator) {
+	    Objects.requireNonNull(calculator, "Argument must not be zero");
 		this.accessor = calculator.getAccessor();
 	}
 
@@ -34,6 +36,7 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 */
 	@Override
 	public <V> V get(final String key) throws ReadWriteException {
+	    Objects.requireNonNull(key, "Argument must not be zero");
 		try {
 			return accessor.get(key);
 		} catch (IllegalArgumentException e) {
@@ -46,6 +49,7 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 */
 	@Override
 	public BigDecimal getBigDecimal(final String key) throws ReadWriteException {
+	    Objects.requireNonNull(key, "Argument must not be zero");
 		try {
 			return accessor.getBigDecimal(key);
 		} catch (IllegalArgumentException e) {
@@ -58,6 +62,7 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 */
 	@Override
 	public int getInt(final String key) throws ReadWriteException {
+	    Objects.requireNonNull(key, "Argument must not be zero");
 		try {
 			return accessor.getInt(key);
 		} catch (IllegalArgumentException e) {
@@ -70,6 +75,7 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 */
 	@Override
 	public double getDouble(final String key) throws ReadWriteException {
+	    Objects.requireNonNull(key, "Argument must not be zero");
 		try {
 			return accessor.getDouble(key);
 		} catch (IllegalArgumentException e) {
@@ -82,11 +88,10 @@ public class ReaderImpl<T extends Calculator<T>> implements Reader {
 	 */
 	@Override
 	public Map<String, Number> getAll(final Iterable<String> keys) throws ReadWriteException {
-		try {
-			final Map<String, Number> result = accessor.createValueMap();
-			for (final String key : keys) {
-				result.put(key, accessor.get(key));
-			}
+	    Objects.requireNonNull(keys, "Argument must not be zero");
+	    try {
+			final Map<String, Number> result = Accessor.newMap();
+			keys.spliterator().forEachRemaining(key -> result.put(key, accessor.get(key)));
 			return result;
 		} catch (IllegalArgumentException e) {
 			throw new ReadWriteException(e.getMessage(), e);

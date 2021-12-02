@@ -2,8 +2,8 @@ package info.kuechler.bmf.taxcalculator;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,8 +16,8 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
 /**
- * Implementation of {@link Accessor}. To handle case insensitive keys use
- * {@link #createValueMap()} for parameter {@link Map}s for constructor.
+ * Implementation of {@link Accessor}. To use case insensitive keys use
+ * {@link Accessor#newMap()} for parameter {@link Map}s for constructor.
  * 
  * @since 2018.0.0
  *
@@ -25,11 +25,6 @@ import java.util.function.ToIntFunction;
  *            the {@link Calculator} implementation
  */
 public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T> {
-
-	/**
-	 * The key {@link Comparator} to handle case insensitive keys.
-	 */
-	private static final Comparator<String> KEY_COMPARATOR = String.CASE_INSENSITIVE_ORDER;
 
 	private final Map<String, ToIntFunction<T>> getterIntMap;
 	private final Map<String, Function<T, BigDecimal>> getterBigDecimalMap;
@@ -45,7 +40,7 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T
 	private final Map<String, String> outputTypes;
 
 	/**
-	 * Constructor. Use {@link #createValueMap()} to create input maps.
+	 * Constructor. Use {@link Accessor#newMap()} to create input maps.
 	 * 
 	 * @param getterIntMap
 	 *            the map with getter functions to get {@code int} values
@@ -100,27 +95,6 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public <V> Map<String, V> createValueMap() {
-		return newMap();
-	}
-
-	/**
-	 * Creates a new {@link Map} for constructor input. Static way to use before
-	 * the constructor.
-	 * 
-	 * @param <V>
-	 *            the value type
-	 * 
-	 * @return a new created {@link Map}
-	 */
-	public static <V> Map<String, V> newMap() {
-		return new TreeMap<String, V>(KEY_COMPARATOR);
-	}
-
-	/**
 	 * Copies a {@link Map} into a new {@link Map}.
 	 * 
 	 * @param <V>
@@ -131,11 +105,12 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T
 	 * @return the new map
 	 */
 	public <V> Map<String, V> copyMap(final Map<String, V> map) {
-		if (map instanceof SortedMap) {
+	    Objects.requireNonNull(map, "Argument must not be zero");
+	    if (map instanceof SortedMap) {
 			// fast: use same Comparator and linear adding time
 			return new TreeMap<String, V>((SortedMap<String, V>) map);
 		}
-		final Map<String, V> newMap = createValueMap();
+		final Map<String, V> newMap = Accessor.newMap();
 		map.putAll(map);
 		return newMap;
 	}
@@ -145,7 +120,7 @@ public class AccessorImpl<T extends Calculator<T>> implements Accessor<String, T
 	 */
 	@Override
 	public int getInt(final String key) {
-		checkKey(key);
+	    checkKey(key);
 		return checkMapResult(getterIntMap.get(key)).applyAsInt(calculator);
 	}
 

@@ -12,6 +12,9 @@ import info.kuechler.bmf.taxcalculator.rw.Reader;
 import info.kuechler.bmf.taxcalculator.rw.TaxCalculatorFactory;
 import info.kuechler.bmf.taxcalculator.rw.Writer;
 
+/**
+ * A simple test class to represent all variants of abstraction layers.
+ */
 public class DocumentationExampleTest {
 
 	/**
@@ -53,7 +56,7 @@ public class DocumentationExampleTest {
 
 	/**
 	 * Using {@link Accessor}. {@link Accessor} is a class to access
-	 * {@link Calculator}.
+	 * {@link Calculator}. It's medium abstraction layers.
 	 * 
 	 * @throws ReadWriteException
 	 *             an error
@@ -82,7 +85,7 @@ public class DocumentationExampleTest {
 	}
 
 	/**
-	 * Using the {@link Calculator} class directly.
+	 * Using the {@link Calculator} class directly. It's low level.
 	 */
 	@Test
 	public final void useGeneratedClasses() {
@@ -91,15 +94,15 @@ public class DocumentationExampleTest {
 		tax.setLZZ(2); // monthly payment
 		tax.setSTKL(1); // tax class
 		tax.setRE4(new BigDecimal("223456")); // income in cent
-		tax.setLZZFREIB(BigDecimal.ZERO); // Freibeträge
-		tax.setPVS(0); // not in saxony
+		tax.setLZZFREIB(BigDecimal.ZERO); // Tax allowances
+		tax.setPVS(0); // not in Saxony
 		tax.setPVZ(0); // Additional care insurance for employee: birth > 1940,
 						// older than 23, no kids
 		tax.setR(0); // no church
 		tax.setZKF(new BigDecimal("0.5")); // a half child :)
 		tax.setKVZ(new BigDecimal("1.10")); // additional med insurance
 											// [percent]
-		tax.setKRV(1); // pensions fund: east germany
+		tax.setKRV(1); // pensions fund: East Germany
 
 		tax.setVBEZ(BigDecimal.ZERO);
 		tax.setLZZHINZU(BigDecimal.ZERO);

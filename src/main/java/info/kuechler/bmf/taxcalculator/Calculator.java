@@ -6,19 +6,35 @@ package info.kuechler.bmf.taxcalculator;
  * @since 2018.0.0
  */
 public interface Calculator<T extends Calculator<T>> {
+    
+    /**
+     * Output type {@value #OUTPUT_TYPE_STANDARD}
+     * 
+     * @since 2022.0.0
+     */
+    String OUTPUT_TYPE_STANDARD = "STANDARD";
+    
+    /**
+     * Output type {@value #OUTPUT_TYPE_DBA}
+     * 
+     * @since 2022.0.0
+     */
+    String OUTPUT_TYPE_DBA = "DBA";
+    
 	/**
 	 * Calculate the tax.
-	 * <p>
-	 * set all input values -&gt; {@link #calculate()} the tax -&gt; read the
-	 * output values
-	 * </p>
+	 * <ol>
+	 * <li>Set all input values</li>
+	 * <li>{@link #calculate()} the tax</li>
+	 * <li>read the output values</li>
+	 * </ol>
 	 * 
 	 * @since 2018.0.0
 	 */
 	void calculate();
 
 	/**
-	 * Gets an {@link Accessor} instance for simple use of getter and setter.
+	 * Gets an {@link Accessor} instance for simple use of getter and setter methods.
 	 * 
 	 * @return {@link Accessor}
 	 * 

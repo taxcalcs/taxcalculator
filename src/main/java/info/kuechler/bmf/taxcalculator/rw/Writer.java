@@ -7,7 +7,7 @@ import info.kuechler.bmf.taxcalculator.Accessor;
 import info.kuechler.bmf.taxcalculator.Calculator;
 
 /**
- * Writer to set values in a {@link Calculator} class.
+ * Writer to set input values to a {@link Calculator} class.
  * <p>
  * Fix key type is {@link String}.
  * </p>
@@ -31,7 +31,7 @@ public interface Writer {
 	 * </p>
 	 * 
 	 * @param key
-	 *            the property name, is case insensitive
+	 *            the property name
 	 * @param value
 	 *            the value to set.
 	 * @param <V>
@@ -39,6 +39,7 @@ public interface Writer {
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
+	 * @implNote case insensitive key
 	 */
 	<V> Writer set(String key, V value) throws ReadWriteException;
 
@@ -46,13 +47,14 @@ public interface Writer {
 	 * Set a value.
 	 * 
 	 * @param key
-	 *            the property name, is case insensitive
+	 *            the property name
 	 * @param value
 	 *            the value to set.
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 * @since 2018.0.0
+	 * @implNote case insensitive key
 	 */
 	Writer set(String key, BigDecimal value) throws ReadWriteException;
 
@@ -60,13 +62,14 @@ public interface Writer {
 	 * Set a value.
 	 * 
 	 * @param key
-	 *            the property name, is case insensitive
+	 *            the property name
 	 * @param value
 	 *            the value to set.
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 * @since 2018.0.0
+	 * @implNote case insensitive key
 	 */
 	Writer set(String key, int value) throws ReadWriteException;
 
@@ -74,13 +77,14 @@ public interface Writer {
 	 * Set a value.
 	 * 
 	 * @param key
-	 *            the property name, is case insensitive
+	 *            the property name
 	 * @param value
 	 *            the value to set.
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 * @since 2018.0.0
+	 * @implNote case insensitive key
 	 */
 	Writer set(String key, double value) throws ReadWriteException;
 

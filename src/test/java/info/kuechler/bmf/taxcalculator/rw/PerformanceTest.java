@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class which contains tests for performance checks.
+ * It's for checks during development only.
  */
 public class PerformanceTest {
 

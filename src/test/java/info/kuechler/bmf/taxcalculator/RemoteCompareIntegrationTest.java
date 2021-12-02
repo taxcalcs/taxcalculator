@@ -52,9 +52,9 @@ import info.kuechler.bmf.taxapi.Lohnsteuer;
  * </p>
  * 
  */
-public class RemoteCompareTest {
+public class RemoteCompareIntegrationTest {
 
-	private final static Logger LOG = LoggerFactory.getLogger(RemoteCompareTest.class);
+	private final static Logger LOG = LoggerFactory.getLogger(RemoteCompareIntegrationTest.class);
 
 	private static CloseableHttpClient client;
 	private static JAXBContext context;

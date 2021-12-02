@@ -17,7 +17,7 @@
 */
 package info.kuechler.bmf.taxcalculator;
 
-import static info.kuechler.bmf.taxcalculator.AccessorImpl.newMap;
+import static info.kuechler.bmf.taxcalculator.Accessor.newMap;
 
 import java.math.BigDecimal;
 import java.util.Map;

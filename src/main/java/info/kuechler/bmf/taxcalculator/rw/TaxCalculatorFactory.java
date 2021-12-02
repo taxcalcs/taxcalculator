@@ -2,13 +2,14 @@ package info.kuechler.bmf.taxcalculator.rw;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import info.kuechler.bmf.taxcalculator.Accessor;
 import info.kuechler.bmf.taxcalculator.Calculator;
 
 /**
- * Implementation for a ReadWriteFactory for the BMF tax calculator.
+ * Implementation for a read-write-factory for the BMF tax calculator.
  * <p>
  * Example: <code><br>
  *     final Writer input = TaxCalculatorFactory.create(0, 2018);<br>
@@ -32,7 +33,7 @@ public class TaxCalculatorFactory {
 	private static final TaxCalculatorFactory SINGLETON = new TaxCalculatorFactory();
 
 	/**
-	 * Creates an {@link Writer}. The {@link Writer} contains a clean
+	 * Creates a {@link Writer}. The {@link Writer} contains a clean
 	 * {@link Calculator} instance. This method set all values to her initial
 	 * values (0). There is no need to call {@link Writer#setAllToZero()} again.
 	 * 
@@ -122,12 +123,12 @@ public class TaxCalculatorFactory {
 	 *            end of year
 	 * @param year
 	 *            the year, have to be &gt;= 2006
-	 * @return a {@link Map} of output names and type. Names are case
-	 *         insensitive.
+	 * @return a {@link Map} of output names and type
 	 * @throws ReadWriteException
 	 *             year or month are out of range or calculate class cannot
 	 *             detect
 	 * @since 2018.0.0
+	 * @implNote case insensitive keys in the returned {@link Map}
 	 */
 	public static Map<String, Class<?>> getOutputs(final int month, final int year) throws ReadWriteException {
 		final TaxCalculatorFactory factory = SINGLETON;
@@ -148,11 +149,12 @@ public class TaxCalculatorFactory {
 	 *            end of year
 	 * @param year
 	 *            the year, have to be &gt;= 2006
-	 * @return {@link Map} with name and type. Names are case insensitive.
+	 * @return {@link Map} with name and type.
 	 * @throws ReadWriteException
 	 *             year or month are out of range or calculate class cannot
 	 *             detect
 	 * @since 2018.0.0
+	 * @implNote case insensitive keys in returned {@link Map}
 	 */
 	public static Map<String, Class<?>> getInputs(final int month, final int year) throws ReadWriteException {
 		final TaxCalculatorFactory factory = SINGLETON;
@@ -211,7 +213,8 @@ public class TaxCalculatorFactory {
      * @see Writer#setAllToZero()
      */
 	public <T extends Calculator<T>> Writer create(final String yearKey) throws ReadWriteException {
-        final T calculator = createCalculator(yearKey);
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
+	    final T calculator = createCalculator(yearKey);
         return new WriterImpl<>(calculator);
     }
 
@@ -225,11 +228,13 @@ public class TaxCalculatorFactory {
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
-	 * @return a {@link Set} of input names. Names are case insensitive.
+	 * @return a {@link Set} of input names
 	 * @throws ReadWriteException
 	 *             class cannot detect
+	 * @implNote case insensitive keys in returned {@link Set}
 	 */
 	public Set<String> getInputs(final String yearKey) throws ReadWriteException {
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
 	    return getInputsWithType(yearKey).keySet();
 	}
 
@@ -248,12 +253,14 @@ public class TaxCalculatorFactory {
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
-	 * @return {@link Map} with name and type. Names are case insensitive.
+	 * @return {@link Map} with name and type
 	 * @throws ReadWriteException
 	 *             class cannot detect
+	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
 	 * @since 2016.2.0
 	 */
 	public Map<String, Class<?>> getInputsWithType(final String yearKey) throws ReadWriteException {
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
 	    return createAccessor(yearKey).getInputsWithType();
 	}
 
@@ -267,11 +274,13 @@ public class TaxCalculatorFactory {
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
-	 * @return a {@link Set} of output names. Names are case insensitive.
+	 * @return a {@link Set} of output names
 	 * @throws ReadWriteException
 	 *             class cannot detect
+	 * @implNote case insensitive keys in returned {@link Set}
 	 */
     public Set<String> getOutputs(final String yearKey) throws ReadWriteException {
+        Objects.requireNonNull(yearKey, "Argument must not be zero");
         return getOutputsWithType(yearKey).keySet();
     }
 
@@ -289,13 +298,14 @@ public class TaxCalculatorFactory {
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
-	 * @return a {@link Map} of output names and type. Names are case
-	 *         insensitive.
+	 * @return a {@link Map} of output names and type
 	 * @throws ReadWriteException
 	 *             class cannot detect
+	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
 	 * @since 2016.2.0
 	 */
     public Map<String, Class<?>> getOutputsWithType(final String yearKey) throws ReadWriteException {
+        Objects.requireNonNull(yearKey, "Argument must not be zero");
         return createAccessor(yearKey).getOutputsWithType();
     }
 
@@ -310,6 +320,7 @@ public class TaxCalculatorFactory {
 	@SuppressWarnings("unchecked")
 	protected <T extends Calculator<T>> Class<T> getCalculatorClass(final String yearKey)
 			throws ClassNotFoundException {
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
 		return (Class<T>) Class.forName("info.kuechler.bmf.taxcalculator.Lohnsteuer" + yearKey + "Big");
 	}
 
@@ -326,7 +337,8 @@ public class TaxCalculatorFactory {
 	 * @since 2018.0.0
 	 */
 	protected <T extends Calculator<T>> T createCalculator(final String yearKey) throws ReadWriteException {
-		try {
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
+	    try {
 			final Class<T> clazz = getCalculatorClass(yearKey);
 			return (T) clazz.newInstance();
 		} catch (ClassNotFoundException e) {
@@ -352,7 +364,8 @@ public class TaxCalculatorFactory {
 	 */
 	protected <T extends Calculator<T>> Accessor<String, T> createAccessor(final String yearKey)
 			throws ReadWriteException {
-		final T calculator = createCalculator(yearKey);
+	    Objects.requireNonNull(yearKey, "Argument must not be zero");
+	    final T calculator = createCalculator(yearKey);
 		return calculator.getAccessor();
 	}
 }
