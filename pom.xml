@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>info.kuechler.bmf</groupId>
 		<artifactId>modules</artifactId>
-		<version>2023.0.0-SNAPSHOT</version>
+		<version>2022.0.0</version>
 	</parent>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
