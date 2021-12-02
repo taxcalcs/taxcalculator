@@ -17,6 +17,8 @@ public interface Reader {
 	 * Reads a value. Can be {@link Integer}, {@link Double} or
 	 * {@link BigDecimal}.
 	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
 	 * @param key
 	 *            the property name
 	 * @param <V>
@@ -25,38 +27,27 @@ public interface Reader {
 	 * @throws ReadWriteException
 	 *             Error while read the value.
 	 * @see #getAll(Iterable)
-	 * @implNote case insensitive key
 	 */
 	<V> V get(String key) throws ReadWriteException;
 
 	/**
 	 * Reads a {@link BigDecimal}.
 	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
 	 * @param key
 	 *            the property name
 	 * @return the value
 	 * @throws ReadWriteException
 	 *             Error while read the value.
 	 * @since 2018.0.0
-	 * @implNote case insensitive key
 	 */
 	BigDecimal getBigDecimal(String key) throws ReadWriteException;
 
 	/**
 	 * Reads an int.
 	 * 
-	 * @param key
-	 *            the property name
-	 * @return the value
-	 * @throws ReadWriteException
-	 *             Error while read the value.
-	 * @since 2018.0.0
-	 * @implNote case insensitive key
-	 */
-	int getInt(String key) throws ReadWriteException;
-
-	/**
-	 * Reads a double.
+	 * <p>implNote: case insensitive key</p>
 	 * 
 	 * @param key
 	 *            the property name
@@ -64,7 +55,20 @@ public interface Reader {
 	 * @throws ReadWriteException
 	 *             Error while read the value.
 	 * @since 2018.0.0
-	 * @implNote case insensitive key
+	 */
+	int getInt(String key) throws ReadWriteException;
+
+	/**
+	 * Reads a double.
+	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
+	 * @param key
+	 *            the property name
+	 * @return the value
+	 * @throws ReadWriteException
+	 *             Error while read the value.
+	 * @since 2018.0.0
 	 */
 	double getDouble(String key) throws ReadWriteException;
 
@@ -72,13 +76,14 @@ public interface Reader {
 	 * Read all values and returns the results as a {@link Map}. Values can be
 	 * {@link Integer}, {@link Double} or {@link BigDecimal}.
 	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
 	 * @param keys
 	 *            the property names
 	 * @return a {@link Map} with values.
 	 * @throws ReadWriteException
 	 *             Error while read the values.
 	 * @since 2018.0.0
-	 * @implNote case insensitive key
 	 */
 	Map<String, Number> getAll(Iterable<String> keys) throws ReadWriteException;
 }

@@ -242,7 +242,8 @@ public interface Accessor<K, T extends Calculator<T>> {
 	 * Get all inputs with type {@link Class}. The type can be
 	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
 	 * 
-	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
+	 * <p>implNote: the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner</p>
+	 * 
 	 * @return {@link Map}
 	 */
 	Map<K, Class<?>> getInputsWithType();
@@ -251,7 +252,8 @@ public interface Accessor<K, T extends Calculator<T>> {
 	 * Get all outputs with type. The type can be {@link BigDecimal},
 	 * {@code int.class} or {@code double.class}.
 	 * 
-	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
+	 * <p>implNote: the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner</p>
+	 * 
 	 * @return {@link Map}
 	 */
 	Map<K, Class<?>> getOutputsWithType();

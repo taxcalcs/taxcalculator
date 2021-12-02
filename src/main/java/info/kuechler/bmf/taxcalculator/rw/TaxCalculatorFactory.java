@@ -118,6 +118,8 @@ public class TaxCalculatorFactory {
 	 * Get all output fields from a {@link Calculator} class. The type can be
 	 * {@link BigDecimal}, {@code int.class} or {@code double.class}.
 	 * 
+	 * <p>implNote: case insensitive keys in the returned {@link Map}</p>
+	 * 
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
 	 *            end of year
@@ -128,7 +130,6 @@ public class TaxCalculatorFactory {
 	 *             year or month are out of range or calculate class cannot
 	 *             detect
 	 * @since 2018.0.0
-	 * @implNote case insensitive keys in the returned {@link Map}
 	 */
 	public static Map<String, Class<?>> getOutputs(final int month, final int year) throws ReadWriteException {
 		final TaxCalculatorFactory factory = SINGLETON;
@@ -143,6 +144,8 @@ public class TaxCalculatorFactory {
 	 * Get all input fields from a {@link Calculator} class with the type. The
 	 * type can be {@link BigDecimal}, {@code int.class} or
 	 * {@code double.class}.
+	 * 
+	 * <p>implNote: case insensitive keys in returned {@link Map}</p>
 	 *
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
@@ -154,7 +157,6 @@ public class TaxCalculatorFactory {
 	 *             year or month are out of range or calculate class cannot
 	 *             detect
 	 * @since 2018.0.0
-	 * @implNote case insensitive keys in returned {@link Map}
 	 */
 	public static Map<String, Class<?>> getInputs(final int month, final int year) throws ReadWriteException {
 		final TaxCalculatorFactory factory = SINGLETON;
@@ -225,13 +227,14 @@ public class TaxCalculatorFactory {
 	 * Use preferably the method {@link #getInputs(int, int)}.
 	 * </p>
 	 * 
+	 * <p>implNote case insensitive keys in returned {@link Set}</p>
+	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
 	 * @return a {@link Set} of input names
 	 * @throws ReadWriteException
 	 *             class cannot detect
-	 * @implNote case insensitive keys in returned {@link Set}
 	 */
 	public Set<String> getInputs(final String yearKey) throws ReadWriteException {
 	    Objects.requireNonNull(yearKey, "Argument must not be zero");
@@ -250,13 +253,14 @@ public class TaxCalculatorFactory {
 	 * Use preferably the method {@link #getInputs(int, int)}.
 	 * </p>
 	 * 
+	 * <p>implNote: the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner</p>
+	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
 	 * @return {@link Map} with name and type
 	 * @throws ReadWriteException
 	 *             class cannot detect
-	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
 	 * @since 2016.2.0
 	 */
 	public Map<String, Class<?>> getInputsWithType(final String yearKey) throws ReadWriteException {
@@ -271,13 +275,14 @@ public class TaxCalculatorFactory {
 	 * Use preferably the method {@link #getOutputs(int, int)}.
 	 * </p>
 	 * 
+	 * <p>implNote: case insensitive keys in returned {@link Set}</p>
+	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
 	 * @return a {@link Set} of output names
 	 * @throws ReadWriteException
 	 *             class cannot detect
-	 * @implNote case insensitive keys in returned {@link Set}
 	 */
     public Set<String> getOutputs(final String yearKey) throws ReadWriteException {
         Objects.requireNonNull(yearKey, "Argument must not be zero");
@@ -295,13 +300,14 @@ public class TaxCalculatorFactory {
 	 * Use preferably the method {@link #getOutputs(int, int)}.
 	 * </p>
 	 * 
+	 * <p>implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner</p>
+	 * 
 	 * @param yearKey
 	 *            the key to reference the class. The method
 	 *            {@link #getCalculatorClass(String)} is called with this key.
 	 * @return a {@link Map} of output names and type
 	 * @throws ReadWriteException
 	 *             class cannot detect
-	 * @implNote the map is copied before returning it, {@link Map} uses the keys in a case-insensitive manner
 	 * @since 2016.2.0
 	 */
     public Map<String, Class<?>> getOutputsWithType(final String yearKey) throws ReadWriteException {

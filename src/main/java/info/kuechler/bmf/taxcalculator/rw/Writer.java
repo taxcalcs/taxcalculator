@@ -30,6 +30,8 @@ public interface Writer {
 	 * See {@link Accessor#set(Object, Object)} for value type hints.
 	 * </p>
 	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
 	 * @param key
 	 *            the property name
 	 * @param value
@@ -39,13 +41,14 @@ public interface Writer {
 	 * @return the {@link Writer} object itself.
 	 * @throws ReadWriteException
 	 *             Error while set the values.
-	 * @implNote case insensitive key
 	 */
 	<V> Writer set(String key, V value) throws ReadWriteException;
 
 	/**
 	 * Set a value.
 	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
 	 * @param key
 	 *            the property name
 	 * @param value
@@ -54,27 +57,13 @@ public interface Writer {
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 * @since 2018.0.0
-	 * @implNote case insensitive key
 	 */
 	Writer set(String key, BigDecimal value) throws ReadWriteException;
 
 	/**
 	 * Set a value.
 	 * 
-	 * @param key
-	 *            the property name
-	 * @param value
-	 *            the value to set.
-	 * @return the {@link Writer} object itself.
-	 * @throws ReadWriteException
-	 *             Error while set the values.
-	 * @since 2018.0.0
-	 * @implNote case insensitive key
-	 */
-	Writer set(String key, int value) throws ReadWriteException;
-
-	/**
-	 * Set a value.
+	 * <p>implNote: case insensitive key</p>
 	 * 
 	 * @param key
 	 *            the property name
@@ -84,7 +73,22 @@ public interface Writer {
 	 * @throws ReadWriteException
 	 *             Error while set the values.
 	 * @since 2018.0.0
-	 * @implNote case insensitive key
+	 */
+	Writer set(String key, int value) throws ReadWriteException;
+
+	/**
+	 * Set a value.
+	 * 
+	 * <p>implNote: case insensitive key</p>
+	 * 
+	 * @param key
+	 *            the property name
+	 * @param value
+	 *            the value to set.
+	 * @return the {@link Writer} object itself.
+	 * @throws ReadWriteException
+	 *             Error while set the values.
+	 * @since 2018.0.0
 	 */
 	Writer set(String key, double value) throws ReadWriteException;
 

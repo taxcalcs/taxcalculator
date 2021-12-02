@@ -61,8 +61,8 @@ public class RemoteCompareIntegrationTest {
 
     public static Stream<Arguments> dataProvider() {
         return Stream.of( //
-                arguments(getUrl(0, 2020), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2020Big"),
-                arguments(getUrl(0, 2021), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2021Big")
+                arguments(getUrl(0, 2021), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2021Big"),
+                arguments(getUrl(0, 2022), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2022Big")
         //
         );
     }
@@ -161,6 +161,7 @@ public class RemoteCompareIntegrationTest {
 		final Lohnsteuer result = getExpected(baseUri, testCase);
 		final Calculator<?> calc = createCalculator(className);
 		final Accessor<String, ?> accessor = calc.getAccessor();
+		accessor.setAllToZero();
 		final Map<String, Class<?>> types = accessor.getInputsWithType();
 
 		// set input values
