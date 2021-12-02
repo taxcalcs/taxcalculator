@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"info.kuechler.bmf.taxcalculator"},{"l":"info.kuechler.bmf.taxcalculator.rw"}]
