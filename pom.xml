@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>info.kuechler.bmf</groupId>
 		<artifactId>modules</artifactId>
-		<version>2022.0.0</version>
+		<version>2022.0.1</version>
 	</parent>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
@@ -51,8 +51,8 @@
 		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
 		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
 		
-		<info.kuechler.bmf.taxapi.version>${project.version}</info.kuechler.bmf.taxapi.version>
-		<info.kuechler.bmf.taxxmls.version>${project.version}</info.kuechler.bmf.taxxmls.version>
+		<info.kuechler.bmf.taxapi.version>2022.0.0</info.kuechler.bmf.taxapi.version>
+		<info.kuechler.bmf.taxxmls.version>2022.0.0</info.kuechler.bmf.taxxmls.version>
 	</properties>
 
 	<dependencies>
