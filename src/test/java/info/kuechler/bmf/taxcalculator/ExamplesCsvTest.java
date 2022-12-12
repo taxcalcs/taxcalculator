@@ -138,8 +138,10 @@ public class ExamplesCsvTest {
                 arguments("/info/kuechler/bmf/taxcalculator/2020/special.csv", 0, 2020, CONF_SPECIAL_PKV),
                 arguments("/info/kuechler/bmf/taxcalculator/2021/general.csv", 0, 2021, CONF_GENERAL_PKV_13),
                 arguments("/info/kuechler/bmf/taxcalculator/2021/special.csv", 0, 2021, CONF_SPECIAL_PKV),
-                arguments("/info/kuechler/bmf/taxcalculator/2022/general.csv", 0, 2022, CONF_GENERAL_PKV_13),
-                arguments("/info/kuechler/bmf/taxcalculator/2022/special.csv", 0, 2022, CONF_SPECIAL_PKV)
+                arguments("/info/kuechler/bmf/taxcalculator/2022/general.csv", 1, 2022, CONF_GENERAL_PKV_13),
+                arguments("/info/kuechler/bmf/taxcalculator/2022/special.csv", 1, 2022, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2022/general-mai.csv", 0, 2022, CONF_GENERAL_PKV_13),
+                arguments("/info/kuechler/bmf/taxcalculator/2022/special-mai.csv", 0, 2022, CONF_SPECIAL_PKV)
         //
         );
     }

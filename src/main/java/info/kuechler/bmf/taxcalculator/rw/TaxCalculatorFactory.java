@@ -195,6 +195,9 @@ public class TaxCalculatorFactory {
 		if (year == 2015 && (month == 12 || month == 0)) {
 			return "2015Dezember";
 		}
+		if (year == 2022 && (month == 0 || month >= 5)) {
+		    return "2022Mai";
+		}
 		return Integer.toString(year);
 	}
 
