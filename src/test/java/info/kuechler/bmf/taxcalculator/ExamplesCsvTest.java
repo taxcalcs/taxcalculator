@@ -100,6 +100,13 @@ public class ExamplesCsvTest {
 		CONF_GENERAL_PKV.configure(writer, taxClass);
 	};
 	
+	private static final WriterTaxClassConfigurer CONF_GENERAL_PKV_16 = (writer, taxClass) -> {
+        // additional med insurance [percent]
+        writer.set("KVZ", new BigDecimal("1.60"));
+
+        CONF_GENERAL_PKV.configure(writer, taxClass);
+    };
+	
     public static Stream<Arguments> dataProvider() {
         return Stream.of( //
                 arguments("/info/kuechler/bmf/taxcalculator/2006/general.csv", 0, 2006, CONF_GENERAL),
@@ -141,8 +148,10 @@ public class ExamplesCsvTest {
                 arguments("/info/kuechler/bmf/taxcalculator/2022/general.csv", 1, 2022, CONF_GENERAL_PKV_13),
                 arguments("/info/kuechler/bmf/taxcalculator/2022/special.csv", 1, 2022, CONF_SPECIAL_PKV),
                 arguments("/info/kuechler/bmf/taxcalculator/2022/general-mai.csv", 0, 2022, CONF_GENERAL_PKV_13),
-                arguments("/info/kuechler/bmf/taxcalculator/2022/special-mai.csv", 0, 2022, CONF_SPECIAL_PKV)
-        //
+                arguments("/info/kuechler/bmf/taxcalculator/2022/special-mai.csv", 0, 2022, CONF_SPECIAL_PKV),
+                arguments("/info/kuechler/bmf/taxcalculator/2023/general.csv", 0, 2023, CONF_GENERAL_PKV_16),
+                arguments("/info/kuechler/bmf/taxcalculator/2023/special.csv", 0, 2023, CONF_SPECIAL_PKV)        //
+                //
         );
     }
     
