@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>info.kuechler.bmf</groupId>
 		<artifactId>modules</artifactId>
-		<version>2022.0.1</version>
+		<version>2022.2.0</version>
 	</parent>
 
 	<description>Calculate german tax with generated code from https://www.bmf-steuerrechner.de</description>
@@ -51,8 +51,8 @@
 		<project.generated.directory>${project.build.directory}/generated-classes</project.generated.directory>
 		<file.generated.target>${project.generated.directory}/${classes.package.directory}</file.generated.target>
 		
-		<info.kuechler.bmf.taxapi.version>2022.0.0</info.kuechler.bmf.taxapi.version>
-		<info.kuechler.bmf.taxxmls.version>2022.0.0</info.kuechler.bmf.taxxmls.version>
+		<info.kuechler.bmf.taxapi.version>${project.parent.version}</info.kuechler.bmf.taxapi.version>
+		<info.kuechler.bmf.taxxmls.version>${project.parent.version}</info.kuechler.bmf.taxxmls.version>
 	</properties>
 
 	<dependencies>
@@ -214,6 +214,23 @@
 								<replacement>
 									<token>Lohnsteuer2011Big</token>
 									<value>Lohnsteuer2011NovemberBig</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-2022-Mai</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${file.download.target}/Lohnsteuer2022MaiBig.xml</file>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>Lohnsteuer2022Big</token>
+									<value>Lohnsteuer2022MaiBig</value>
 								</replacement>
 							</replacements>
 						</configuration>

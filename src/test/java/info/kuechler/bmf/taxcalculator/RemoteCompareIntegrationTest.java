@@ -61,8 +61,8 @@ public class RemoteCompareIntegrationTest {
 
     public static Stream<Arguments> dataProvider() {
         return Stream.of( //
-                arguments(getUrl(0, 2021), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2021Big"),
-                arguments(getUrl(0, 2022), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2022Big")
+                //arguments(getUrl(0, 2021), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2021Big"),
+                arguments(getUrl(0, 2022), "/info/kuechler/bmf/taxcalculator/2019", "Lohnsteuer2022MaiBig")
         //
         );
     }
