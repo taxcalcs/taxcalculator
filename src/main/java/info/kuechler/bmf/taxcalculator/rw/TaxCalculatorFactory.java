@@ -175,7 +175,7 @@ public class TaxCalculatorFactory {
 	 * 
 	 * @param month
 	 *            1..12 for the month, with 0 you can choose the key from the
-	 *            end of year
+	 *            end of year, -1 are pre-releases
 	 * @param year
 	 *            the year, have to be &gt;= 2006
 	 * @return the key
@@ -183,8 +183,8 @@ public class TaxCalculatorFactory {
 	 *             if year or month are out of range
 	 */
 	public String getYearKey(final int month, final int year) {
-		if (year < 2006 || month > 12 || month < 0) {
-			throw new IllegalArgumentException("Month have to be between 0 and 12, year >= 2006");
+		if (year < 2006 || month > 12 || month < -1) {
+			throw new IllegalArgumentException("Month have to be between -1 and 12, year >= 2006");
 		}
 		if (year == 2011) {
 			if (month == 12 || month == 0) {
@@ -197,6 +197,9 @@ public class TaxCalculatorFactory {
 		}
 		if (year == 2022 && (month == 0 || month >= 5)) {
 		    return "2022Mai";
+		}
+		if (year == 2023 && month >= 0) {
+			return "2023Januar";
 		}
 		return Integer.toString(year);
 	}
